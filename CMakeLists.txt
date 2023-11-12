@@ -1,0 +1,8 @@
+set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
+cmake_minimum_required(VERSION 3.8...3.27)
+
+project("NGIN-Framework" VERSION 0.1)
+
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
