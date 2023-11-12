@@ -1,6 +1,7 @@
 #pragma once
 #include <NGIN/Defines.hpp>
 #include <NGIN/Meta/EnumTraits.hpp>
+#include <NGIN/Time/Defines.hpp>
 #include <iostream>
 namespace NGIN
 {
@@ -38,11 +39,12 @@ namespace NGIN
             CUSTOM19, ///< Custom log level 19.
         };
 
-        struct LogEntry
+        struct Entry
         {
             eLogLevel level;
             String message;
             const SourceLocation& location;
+            Time::TimePoint<Time::SteadyClock> timestamp;
         };
     }// namespace Logging
 
