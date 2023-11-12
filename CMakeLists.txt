@@ -11,8 +11,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
-option(NGIN_BUILD_TESTS "Build NGIN tests" OFF)
+option(NGIN_BUILD_TESTS "Build NGIN tests" ON)
 message(STATUS "Build NGIN tests: ${NGIN_BUILD_TESTS}")
+
+option(NGIN_BUILD_EXAMPLES "Build NGIN examples" ON)
+message(STATUS "Build NGIN examples: ${NGIN_BUILD_EXAMPLES}")
 
 option(NGIN_BUILD_SHARED "Build NGIN as a shared library" OFF)
 message(STATUS "Build NGIN as a shared library: ${NGIN_BUILD_SHARED}")
@@ -47,6 +50,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(NGIN_DEBUG)
     if (MSVC)
         add_compile_options(/Zi /Ob0 /Od)   # Debugging info, no inline expansion, no optimization
+        if(NGIN_BUILD_SHARED)
+            add_compile_options(/MDd)
+        else()
+            add_compile_options(/MTd)
+        endif()
     else ()
         add_compile_options(-g)             # Debugging info for GCC/Clang
     endif ()
@@ -77,6 +85,7 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Dist")
     endif ()
 else()
     message(WARNING "Unknown build type: ${CMAKE_BUILD_TYPE}")
+endif()
 
 if(NGIN_WARNINGS)
     if (MSVC)
@@ -86,6 +95,30 @@ if(NGIN_WARNINGS)
     endif ()
 endif()
 
+
+
+# Include Dependencies 
+include(${CMAKE_SOURCE_DIR}/CMakeDependencies.cmake)
+
+if(NGIN_BUILD_SHARED)
+    set(NGIN_BUILD_TYPE SHARED)
+else()
+    set(NGIN_BUILD_TYPE STATIC)
+endif()
+
+add_library(NGIN ${NGIN_BUILD_TYPE}
+    "src/test.cpp"
+)
+target_include_directories(NGIN PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+
+
 if (NGIN_BUILD_DOCUMENTATION)
     add_subdirectory("docs")
+endif ()
+
+if (NGIN_BUILD_EXAMPLES)
+    add_subdirectory("examples")
 endif ()
