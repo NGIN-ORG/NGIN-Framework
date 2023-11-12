@@ -32,12 +32,7 @@ message(STATUS "Enable warnings: ${NGIN_WARNINGS}")
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
-# Check if NGIN should build tests
-if (NGIN_BUILD_TESTS)
-    set(BUILD_TESTING ON CACHE BOOL "" FORCE)
-    include(CTest)
-    enable_testing()
-endif ()
+
 #Check what platform we are building on
 if (WIN32)
     add_compile_definitions(NGIN_PLATFORM_WINDOWS)
@@ -121,4 +116,12 @@ endif ()
 
 if (NGIN_BUILD_EXAMPLES)
     add_subdirectory("examples")
+endif ()
+
+# Check if NGIN should build tests
+if (NGIN_BUILD_TESTS)
+    set(BUILD_TESTING ON CACHE BOOL "" FORCE)
+    include(CTest)
+    enable_testing()
+    add_subdirectory("tests")
 endif ()
