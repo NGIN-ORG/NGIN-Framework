@@ -9,9 +9,6 @@ namespace NGIN::Logging
     class ConsoleSink : public ISink
     {
     public:
-        ConsoleSink() = default;
-        ~ConsoleSink() override = default;
-
         void Initialize() override;
 
         void Shutdown() override;
