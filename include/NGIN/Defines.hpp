@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <deque>
@@ -106,6 +107,8 @@ namespace NGIN
         return TicketPtr<T>(ptr);
     }
 
+    template<typename T, size_t N>
+    using Array = std::array<T, N>;
     template<typename T>
     using Vector = std::vector<T>;
     template<typename T>
