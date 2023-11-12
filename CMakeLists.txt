@@ -8,7 +8,84 @@ enable_language(C CXX)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+
+option(NGIN_BUILD_TESTS "Build NGIN tests" OFF)
+message(STATUS "Build NGIN tests: ${NGIN_BUILD_TESTS}")
+
+option(NGIN_BUILD_SHARED "Build NGIN as a shared library" OFF)
+message(STATUS "Build NGIN as a shared library: ${NGIN_BUILD_SHARED}")
+
+option(NGIN_BUILD_DOCUMENTATION "Build NGIN documentation" OFF)
+message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
+
+option(NGIN_BUILD_ONLY_DOCUMENTATION "Build only documentation" OFF)
+message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCS}")
+
+option(NGIN_WARNINGS, "Enable warnings" ON)
+message(STATUS "Enable warnings: ${NGIN_WARNINGS}")
+
+option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
+message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
+
+# Check if NGIN should build tests
+if (NGIN_BUILD_TESTS)
+    set(BUILD_TESTING ON CACHE BOOL "" FORCE)
+    include(CTest)
+    enable_testing()
+endif ()
+#Check what platform we are building on
+if (WIN32)
+    add_compile_definitions(NGIN_PLATFORM_WINDOWS)
+elseif (UNIX)
+    add_compile_definitions(NGIN_PLATFORM_LINUX)
+endif ()
+
+# Check the build type and add respective compile options
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(NGIN_DEBUG)
+    if (MSVC)
+        add_compile_options(/Zi /Ob0 /Od)   # Debugging info, no inline expansion, no optimization
+    else ()
+        add_compile_options(-g)             # Debugging info for GCC/Clang
+    endif ()
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(NGIN_RELEASE)
+    if (MSVC)
+        add_compile_options(/O2)
+        if(NGIN_BUILD_SHARED)
+            add_compile_options(/MD)
+        else()
+            add_compile_options(/MT)
+        endif()
+    else ()
+        add_compile_options(-O3)
+    endif ()
+
+elseif(CMAKE_BUILD_TYPE STREQUAL "Dist")
+    add_compile_definitions(NGIN_DIST)
+    if (MSVC)
+        add_compile_options(/O2)
+        if(NGIN_BUILD_SHARED)
+            add_compile_options(/MD)
+        else()
+            add_compile_options(/MT)
+        endif()
+    else ()
+        add_compile_options(-O3)
+    endif ()
+else()
+    message(WARNING "Unknown build type: ${CMAKE_BUILD_TYPE}")
+
+if(NGIN_WARNINGS)
+    if (MSVC)
+        add_compile_options(/W4)
+    else ()
+        add_compile_options(-Wall -Wextra -pedantic)
+    endif ()
+endif()
+
+if (NGIN_BUILD_DOCUMENTATION)
+    add_subdirectory("docs")
+endif ()
