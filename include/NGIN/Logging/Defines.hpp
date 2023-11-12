@@ -6,6 +6,8 @@ namespace NGIN
 {
     namespace Logging
     {
+
+
         enum class eLogLevel
         {
             Trace = 0,///< Trace-level log, usually very detailed.
@@ -35,8 +37,14 @@ namespace NGIN
             CUSTOM18, ///< Custom log level 18.
             CUSTOM19, ///< Custom log level 19.
         };
-    }// namespace Logging
 
+        struct LogEntry
+        {
+            eLogLevel level;
+            String message;
+            const SourceLocation& location;
+        };
+    }// namespace Logging
 
     template<>
     struct NGIN::Meta::EnumTraits<Logging::eLogLevel>
