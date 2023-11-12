@@ -103,6 +103,7 @@ endif()
 
 add_library(NGIN ${NGIN_BUILD_TYPE}
     "src/test.cpp"
+    "src/NGIN/Logging/Defines.cpp"
 )
 target_include_directories(NGIN PUBLIC
         ${PROJECT_SOURCE_DIR}/include
