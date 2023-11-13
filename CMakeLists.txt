@@ -88,7 +88,8 @@ endif()
 
 add_library(NGIN ${NGIN_BUILD_TYPE}
     "src/test.cpp"
-    "src/NGIN/Logging/Defines.cpp"
+    "src/NGIN/Logging/ConsoleSink.cpp"
+    "src/NGIN/Util/UUID.cpp"
 )
 target_include_directories(NGIN PUBLIC
         ${PROJECT_SOURCE_DIR}/include
