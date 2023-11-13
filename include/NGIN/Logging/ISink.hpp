@@ -15,9 +15,7 @@ namespace NGIN::Logging
 
         virtual void Shutdown() = 0;
 
-        virtual void LogHeader() = 0;
-
-        virtual void Log(Entry message) = 0;
+        virtual void LogLine(const String& message) = 0;
 
         virtual void Flush() = 0;
     };

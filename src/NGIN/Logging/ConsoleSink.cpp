@@ -11,7 +11,7 @@ namespace NGIN::Logging
 #endif
     }
 
-    void ConsoleSink::Log(Entry message)
+    void ConsoleSink::Log(const Entry& message)
     {
         SetColor(message.level);
         std::cout << message.message << "\n";

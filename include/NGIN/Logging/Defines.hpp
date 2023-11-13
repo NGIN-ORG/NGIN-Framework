@@ -43,8 +43,6 @@ namespace NGIN
         {
             eLogLevel level;
             String message;
-            const SourceLocation& location;
-            Time::TimePoint<Time::SteadyClock> timestamp;
         };
     }// namespace Logging
 
