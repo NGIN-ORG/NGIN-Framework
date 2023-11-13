@@ -2,7 +2,7 @@
 #include <NGIN/Defines.hpp>
 
 
-namespace NGIN::Meta
+namespace NGIN::Util
 {
     /// \brief A class for representing universally unique identifiers (UUIDs).
     class UUID
@@ -33,7 +33,7 @@ namespace NGIN::Meta
 
         /// \brief Implicitly converts the UUID to its underlying type.
         explicit operator IDType() const { return uuid; }
-        
+
         /// @brief Return unwrapped UUID.
         /// @return The UUID as its underlying type.
         IDType GetID() const { return uuid; }
@@ -46,4 +46,4 @@ namespace NGIN::Meta
         /// \return A random 64-bit value.
         static IDType GenerateUUID();
     };
-}
+}// namespace NGIN::Util
