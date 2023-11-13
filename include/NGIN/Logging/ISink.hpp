@@ -6,7 +6,7 @@ namespace NGIN::Logging
 {
     /// @brief Interface for a logging sink.
     /// @details A sink is a class that receives and proccesses log messages.
-    class NGIN_API ISink
+    NGIN_API class ISink
     {
     public:
         virtual ~ISink() = default;
@@ -15,7 +15,7 @@ namespace NGIN::Logging
 
         virtual void Shutdown() = 0;
 
-        virtual void LogLine(const String& message) = 0;
+        virtual void Log(eLogLevel level, const String& message) = 0;
 
         virtual void Flush() = 0;
     };
