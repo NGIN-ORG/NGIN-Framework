@@ -13,7 +13,7 @@ namespace NGIN::Logging
 
         void Shutdown() override;
 
-        void Log(Entry message) override;
+        void Log(eLogLevel level, const String& message) override;
 
         void Flush() override;
 
