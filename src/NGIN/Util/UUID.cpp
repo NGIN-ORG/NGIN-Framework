@@ -1,14 +1,16 @@
 #include <NGIN/Util/UUID.hpp>
-
+#include <iomanip>
+#include <random>
+#include <sstream>
 namespace NGIN::Util
 {
     UUID::UUID()
-            : uuid(GenerateUUID())
+        : uuid(GenerateUUID())
     {
     }
 
     UUID::UUID(IDType uuid)
-            : uuid(uuid)
+        : uuid(uuid)
     {
     }
 
@@ -19,12 +21,12 @@ namespace NGIN::Util
         return ss.str();
     }
 
-    bool UUID::operator==(const UUID& other) const
+    Bool UUID::operator==(const UUID& other) const
     {
         return uuid == other.uuid;
     }
 
-    bool UUID::operator!=(const UUID& other) const
+    Bool UUID::operator!=(const UUID& other) const
     {
         return uuid != other.uuid;
     }
@@ -36,4 +38,4 @@ namespace NGIN::Util
         thread_local std::uniform_int_distribution<IDType> distribution;
         return distribution(generator);
     }
-}
+}// namespace NGIN::Util
