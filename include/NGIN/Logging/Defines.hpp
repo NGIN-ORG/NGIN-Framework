@@ -1,5 +1,8 @@
 #pragma once
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Containers/Array.hpp>
+#include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
+
 #include <NGIN/Meta/EnumTraits.hpp>
 #include <NGIN/Time/Defines.hpp>
 #include <iostream>

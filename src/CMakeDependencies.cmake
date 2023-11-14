@@ -36,7 +36,9 @@ fetch_dependency(DYLIB "https://github.com/martin-olivier/dylib" "v2.1.0")
 set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "" FORCE)
 set(SDL_TEST OFF CACHE BOOL "" FORCE)
 set(SDL_VULKAN ON CACHE BOOL "" FORCE)
-fetch_dependency(SDL2 "https://github.com/libsdl-org/SDL" "release-2.28.1")
+set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+set(SDL_STATIC ON CACHE BOOL "" FORCE)
+fetch_dependency(SDL2 "https://github.com/libsdl-org/SDL" "release-2.28.5")
 
 # GLM
 fetch_dependency(glm "https://github.com/g-truc/glm" "0.9.9.8")

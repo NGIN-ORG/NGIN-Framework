@@ -22,16 +22,16 @@
 #define NGIN_API
 #endif
 
-#ifdef NGIN_THROW_EXCEPTIONS
+#ifdef NGIN_ENABLE_EXCEPTIONS
 
-// When NGIN_THROW_EXCEPTIONS is defined, NGIN_CHECK will simply call the function.
+// When NGIN_ENABLE_EXCEPTIONS is defined, NGIN_CHECK will simply call the function.
 // It is assumed that the function itself handles exceptions internally.
 #define NGIN_CHECK(func) \
     func
 
 #else
 
-// When NGIN_THROW_EXCEPTIONS is not defined, NGIN_CHECK will evaluate the function.
+// When NGIN_ENABLE_EXCEPTIONS is not defined, NGIN_CHECK will evaluate the function.
 // If the function returns false, it will throw a runtime_error.
 #define NGIN_CHECK(func)                                                    \
     do {                                                                    \

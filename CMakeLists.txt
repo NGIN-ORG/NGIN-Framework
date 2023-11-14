@@ -32,8 +32,14 @@ message(STATUS "NGIN strict warnings: ${NGIN_STRICT_WARNINGS}")
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
-option(NGIN_THROW_EXCEPTIONS "Throw exceptions" ON)
-message(STATUS "Throw exceptions: ${NGIN_THROW_EXCEPTIONS}")
+option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" ON)
+message(STATUS "Throw exceptions: ${NGIN_ENABLE_EXCEPTIONS}")
+
+option(NGIN_ENABLE_RTTI "Enable RTTI" OFF)
+message(STATUS "Enable RTTI: ${NGIN_ENABLE_RTTI}")
+
+option(NGIN_DEFINE_MAIN "Define main function" ON)
+message(STATUS "Define main function: ${NGIN_DEFINE_MAIN}")
 
 #Check what platform we are building on
 if (WIN32)
@@ -81,8 +87,22 @@ if(NOT NGIN_BUILD_SHARED)
     add_compile_definitions(NGIN_BUILD_STATIC)
 endif()
 
+if(NGIN_ENABLE_EXCEPTIONS)
+    add_compile_definitions(NGIN_ENABLE_EXCEPTIONS)
+endif()
+
+if(NGIN_ENABLE_RTTI)
+    add_compile_definitions(NGIN_ENABLE_RTTI)
+endif()
+
+if(NGIN_DEFINE_MAIN)
+    add_compile_definitions(NGIN_DEFINE_MAIN)
+endif()
+
+
 #Add NGIN::Framework target
 add_subdirectory(src)
+
 
 
 

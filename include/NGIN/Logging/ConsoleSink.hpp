@@ -1,6 +1,7 @@
 #pragma once
 
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
 #include <NGIN/Logging/ISink.hpp>
 #include <iostream>
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
 #include <string_view>
 #include <type_traits>
 
@@ -21,7 +21,7 @@ namespace NGIN::Meta
     /// std::cout << TypeName<Foo::Bar>::Namespace(); // Outputs: Foo
     /// std::cout << TypeName<Foo::Bar>::Full();      // Outputs: Foo::Bar
     /// @endcode
-    template <typename T>
+    template<typename T>
     struct TypeName
     {
         /// @brief Gets the compiler-specific signature for the current type.
@@ -96,4 +96,4 @@ namespace NGIN::Meta
         }
     };
 
-} // namespace NGIN::Meta
+}// namespace NGIN::Meta

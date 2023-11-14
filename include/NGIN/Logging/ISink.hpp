@@ -1,5 +1,6 @@
 #pragma once
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
 #include <NGIN/Logging/Defines.hpp>
 
 namespace NGIN::Logging

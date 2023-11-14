@@ -1,5 +1,6 @@
 #pragma once
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
 
 #include <fmt/chrono.h>
 #include <fmt/core.h>

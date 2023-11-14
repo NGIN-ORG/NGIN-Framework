@@ -1,5 +1,5 @@
 #pragma once
-#include <NGIN/Defines.hpp>
+#include <NGIN/Common/Types.hpp>
 
 
 namespace NGIN::Util

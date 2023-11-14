@@ -5,7 +5,7 @@ else()
 endif()
 
 add_library(NGIN ${NGIN_BUILD_TYPE}
-    "test.cpp"
+    "main.cpp"
     "NGIN/Logging/ConsoleSink.cpp"
     "NGIN/Util/UUID.cpp"
 )
@@ -25,6 +25,32 @@ target_link_libraries(NGIN PUBLIC
     glm
     Vulkan::Vulkan
     Vulkan::Headers
+)
+
+if(MSVC)
+    target_compile_options(NGIN PRIVATE /GR-)
+else()
+    target_compile_options(NGIN PRIVATE -fno-rtti)
+endif()
+
+if(MSVC)
+    target_compile_options(NGIN PRIVATE /EHsc-)
+else()
+    target_compile_options(NGIN PRIVATE -fno-exceptions)
+endif()
+
+# Post-build command to copy SDL2 DLLs
+add_custom_command(TARGET NGIN POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:SDL2::SDL2>
+        $<TARGET_FILE_DIR:NGIN>
+)
+
+# If SDL2main is a separate DLL, copy it as well
+add_custom_command(TARGET NGIN POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:SDL2::SDL2main>
+        $<TARGET_FILE_DIR:NGIN>
 )
 
 add_library(NGIN::Framework ALIAS NGIN)

@@ -1,5 +1,4 @@
 #pragma once
-#include <NGIN/Defines.hpp>
 
 #include <type_traits>
 

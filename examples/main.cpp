@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 
     sink.Flush();
 
-    throw std::runtime_error("Test exception");
 
     return 0;
 }
