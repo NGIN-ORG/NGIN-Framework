@@ -1,5 +1,6 @@
 #include <NGIN/Entrypoint.hpp>
 #include <NGIN/Logging/ConsoleSink.hpp>
+#include <NGIN/Util/Format.hpp>
 
 #include <iostream>
 int main(int argc, char* argv[])
@@ -13,7 +14,7 @@ int main(int argc, char* argv[])
 
     sink.Log(NGIN::Logging::eLogLevel::Warning, "Hello, World!");
     sink.Log(NGIN::Logging::eLogLevel::Error, "Hello, World!");
-    sink.Log(NGIN::Logging::eLogLevel::Critical, "Hello, World!");
+    sink.Log(NGIN::Logging::eLogLevel::Critical, "Hello, World!{}");
 
     sink.Flush();
 
