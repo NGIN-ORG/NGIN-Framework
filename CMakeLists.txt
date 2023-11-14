@@ -26,12 +26,14 @@ message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
 option(NGIN_BUILD_ONLY_DOCUMENTATION "Build only documentation" OFF)
 message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCS}")
 
-option(NGIN_WARNINGS, "Enable warnings" ON)
-message(STATUS "Enable warnings: ${NGIN_WARNINGS}")
+option(NGIN_STRICT_WARNINGS, "Enable warnings" ON)
+message(STATUS "NGIN strict warnings: ${NGIN_STRICT_WARNINGS}")
 
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
+option(NGIN_THROW_EXCEPTIONS "Throw exceptions" ON)
+message(STATUS "Throw exceptions: ${NGIN_THROW_EXCEPTIONS}")
 
 #Check what platform we are building on
 if (WIN32)
@@ -67,7 +69,7 @@ else()
     message(WARNING "Unknown build type: ${CMAKE_BUILD_TYPE}")
 endif()
 
-if(NGIN_WARNINGS)
+if(NGIN_STRICT_WARNINGS)
     if (MSVC)
         add_compile_options(/W4)
     else ()
@@ -75,25 +77,12 @@ if(NGIN_WARNINGS)
     endif ()
 endif()
 
-
-
-# Include Dependencies 
-include(${CMAKE_SOURCE_DIR}/CMakeDependencies.cmake)
-
-if(NGIN_BUILD_SHARED)
-    set(NGIN_BUILD_TYPE SHARED)
-else()
-    set(NGIN_BUILD_TYPE STATIC)
+if(NOT NGIN_BUILD_SHARED)
+    add_compile_definitions(NGIN_BUILD_STATIC)
 endif()
 
-add_library(NGIN ${NGIN_BUILD_TYPE}
-    "src/test.cpp"
-    "src/NGIN/Logging/ConsoleSink.cpp"
-    "src/NGIN/Util/UUID.cpp"
-)
-target_include_directories(NGIN PUBLIC
-        ${PROJECT_SOURCE_DIR}/include
-)
+#Add NGIN::Framework target
+add_subdirectory(src)
 
 
 
