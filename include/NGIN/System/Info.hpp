@@ -1,0 +1,34 @@
+#include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types/Primitive.hpp>
+#include <NGIN/Common/Types/String.hpp>
+
+namespace NGIN::System
+{
+
+    NGIN_API struct Info
+    {
+        String hostName = "N/A"; // Host name
+        String osName = "N/A";   // Operating System name
+        String osVersion = "N/A";// Operating System version
+
+        String architecture = "N/A";// CPU architecture, e.g., x86_64
+        String cpuModel = "N/A";    // CPU model
+        UInt32 logicalCores = 0;    // Number of physical CPUs
+        UInt32 physicalCores = 0;   // Number of cores per CPU
+
+        UInt64 totalMemMB = 0;           // Total physical RAM size
+        UInt64 availableMemMB = 0;       // Currently available physical RAM size
+        UInt64 totalVirtualMemMB = 0;    // Total virtual memory size
+        UInt64 availableVirtualMemMB = 0;// Currently available virtual memory size
+
+        F64 systemUptime = 0.;// System uptime in seconds
+
+        inline String ToString() const
+        {
+            return "HostName: " + hostName + "\n" + "OSName: " + osName + "\n" + "OSVersion: " + osVersion + "\n" + "Architecture: " + architecture + "\n" + "CPUModel: " + cpuModel + "\n" + "LogicalCores: " + std::to_string(logicalCores) + "\n" + "PhysicalCores: " + std::to_string(physicalCores) + "\n" + "TotalMemMB: " + std::to_string(totalMemMB) + "\n" + "AvailableMemMB: " + std::to_string(availableMemMB) + "\n" + "TotalVirtualMemMB: " + std::to_string(totalVirtualMemMB) + "\n" + "AvailableVirtualMemMB: " + std::to_string(availableVirtualMemMB) + "\n" + "SystemUptime: " + std::to_string(systemUptime) + "\n";
+        }
+    };
+
+    // Returns a struct containing system information
+    NGIN_API Info GetSystemInfo();
+}// namespace NGIN::System
