@@ -5,7 +5,7 @@
 
 namespace NGIN::Logging
 {
-    void ConsoleSink::Initialize()
+    Bool ConsoleSink::Initialize()
     {
 #ifdef NGIN_PLATFORM_WINDOWS
         DWORD temp;
@@ -13,6 +13,8 @@ namespace NGIN::Logging
 #else
         isTerminal = isatty(fileno(stdout));
 #endif
+
+        return isTerminal;
     }
 
     void ConsoleSink::Log(eLogLevel level, const String& message)

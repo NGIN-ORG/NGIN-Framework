@@ -12,7 +12,7 @@ namespace NGIN::Logging
     public:
         virtual ~ISink() = default;
 
-        virtual void Initialize() = 0;
+        virtual Bool Initialize() = 0;
 
         virtual void Shutdown() = 0;
 

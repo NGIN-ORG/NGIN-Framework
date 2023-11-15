@@ -10,7 +10,7 @@ namespace NGIN::Logging
     class ConsoleSink : public ISink
     {
     public:
-        void Initialize() override;
+        Bool Initialize() override;
 
         void Shutdown() override;
 

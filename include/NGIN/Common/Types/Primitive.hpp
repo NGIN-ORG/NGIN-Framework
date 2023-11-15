@@ -38,4 +38,5 @@ namespace NGIN
 
     using Bool = bool;
 
+
 }// namespace NGIN
