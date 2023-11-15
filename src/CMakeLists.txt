@@ -1,3 +1,21 @@
+set(NGIN_SYSTEM_SRC
+    
+)
+if(WIN32)
+    list(APPEND NGIN_SYSTEM_SRC "NGIN/System/Platform/Windows/Info.cpp")
+else()
+    list(APPEND NGIN_SYSTEM_SRC "NGIN/System/Platform/Unix/Info.cpp")
+endif()
+
+set(NGIN_LOGGING_SRC
+    "NGIN/Logging/ConsoleSink.cpp"
+)
+
+set(NGIN_UTIL_SRC
+    "NGIN/Util/UUID.cpp"
+)
+
+
 if(NGIN_BUILD_SHARED)
     set(NGIN_BUILD_TYPE SHARED)
 else()
@@ -6,8 +24,9 @@ endif()
 
 add_library(NGIN ${NGIN_BUILD_TYPE}
     "main.cpp"
-    "NGIN/Logging/ConsoleSink.cpp"
-    "NGIN/Util/UUID.cpp"
+    ${NGIN_SYSTEM_SRC}
+    ${NGIN_LOGGING_SRC}
+    ${NGIN_UTIL_SRC}
 )
 
 target_include_directories(NGIN
@@ -27,17 +46,27 @@ target_link_libraries(NGIN PUBLIC
     Vulkan::Headers
 )
 
-if(MSVC)
-    target_compile_options(NGIN PRIVATE /GR-)
-else()
-    target_compile_options(NGIN PRIVATE -fno-rtti)
+if(NOT NGIN_ENABLE_RTTI)
+    if(MSVC)
+        target_compile_options(NGIN PRIVATE /GR-)
+    else()
+        target_compile_options(NGIN PRIVATE -fno-rtti)
+    endif()
+endif()
+if(NOT NGIN_ENABLE_EXCEPTIONS)
+    if(MSVC)
+        target_compile_options(NGIN PRIVATE /EHsc-)
+    else()
+        target_compile_options(NGIN PRIVATE -fno-exceptions)
+    endif()
 endif()
 
-if(MSVC)
-    target_compile_options(NGIN PRIVATE /EHsc-)
-else()
-    target_compile_options(NGIN PRIVATE -fno-exceptions)
-endif()
+set_target_properties(NGIN PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    PREFIX ""
+)
 
 # Post-build command to copy SDL2 DLLs
 add_custom_command(TARGET NGIN POST_BUILD

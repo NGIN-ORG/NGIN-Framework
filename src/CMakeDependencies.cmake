@@ -1,36 +1,32 @@
 # Dependencies Configuration
 include(FetchContent)
 
+# Function to handle dependency fetching
 macro(fetch_dependency _name _repo _tag)
-    # Define the local path for the dependency
-    set(local_path "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/${_name}")
-
-    # Append the local path to the CMAKE_PREFIX_PATH if it exists and the package hasn't been found yet
-  #  if(EXISTS ${local_path} AND NOT ${_name}_FOUND)
-    #    list(APPEND CMAKE_PREFIX_PATH ${local_path})
-   # endif()
-
-    # Try to find the package
-    #find_package(${_name} QUIET)
-
-    # If the package isn't found, use FetchContent to obtain it
+    # Try to find the package locally first
+    find_package(${_name} QUIET)
+    
+    # If the package isn't found locally, use FetchContent to obtain it
     if(NOT ${_name}_FOUND)
+        # Set the directory where the dependencies will be stored
+        set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/dependencies/${_name}")
+
         FetchContent_Declare(${_name}
             GIT_REPOSITORY ${_repo}
             GIT_TAG ${_tag}
             GIT_SHALLOW TRUE
         )
         FetchContent_MakeAvailable(${_name})
+    else()
+        message(STATUS "Found ${_name} locally")
     endif()
 endmacro()
 
 
 # fmtlib
+
 set(FMT_USE_NOEXCEPT ON CACHE BOOL "" FORCE)
 fetch_dependency(fmt "https://github.com/fmtlib/fmt" "10.1.1")
-
-# DYLIB
-fetch_dependency(DYLIB "https://github.com/martin-olivier/dylib" "v2.1.0")
 
 # SDL2
 set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "" FORCE)
