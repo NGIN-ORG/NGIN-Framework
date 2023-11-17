@@ -2,16 +2,20 @@
 
 #include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types.hpp>
-#include <NGIN/Logging/Defines.hpp>
+#include <NGIN/Logging/eLogLevel.hpp>
+#include <NGIN/Util/Format.hpp>
+
+#include <source_location>
+
 namespace NGIN::Logging
 {
     /// @brief Interface for a logger.
     /// @details A logger is a class that receives log messages and sends them to sinks.
+
     class NGIN_API ILogger
     {
     public:
         virtual ~ILogger() = default;
-
         virtual void Initialize() = 0;
 
         virtual void Shutdown() = 0;
@@ -19,17 +23,17 @@ namespace NGIN::Logging
         virtual void Flush() = 0;
 
         template<typename... Args>
-        void Log(eLogLevel level, SourceLocation source, const String& message, Args&&... args);
+        void Log(eLogLevel level, const std::source_location& source, const String& message, Args&&... args);
 
     protected:
-        virtual void LogInternal(const String& message) = 0;
+        virtual void LogInternal(eLogLevel level, const std::source_location& source, const String& message) = 0;
     };
 
 
     template<typename... Args>
-    void ILogger::Log(eLogLevel level, SourceLocation source, const String& message, Args&&... args)
+    void ILogger::Log(eLogLevel level, const std::source_location& source, const String& message, Args&&... args)
     {
-        LogInternal(FormatString(message, std::forward<Args>(args)...));
+        LogInternal(level, source, Util::RuntimeFormat(message, std::forward<Args>(args)...));
     }
 
 

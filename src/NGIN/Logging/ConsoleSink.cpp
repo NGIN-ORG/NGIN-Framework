@@ -41,7 +41,7 @@ namespace NGIN::Logging
                 std::cout << "\033[90m";// Dark gray for Trace
                 break;
             case eLogLevel::Info:
-                std::cout << "\033[32m";// Green for Info
+                std::cout << "\033[37m";// Green for Info
                 break;
             case eLogLevel::Debug:
                 std::cout << "\033[36m";// Cyan for Debug

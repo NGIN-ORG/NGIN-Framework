@@ -9,6 +9,7 @@ endif()
 
 set(NGIN_LOGGING_SRC
     "NGIN/Logging/ConsoleSink.cpp"
+    "NGIN/Logging/SimpleFormatter.cpp"
 )
 
 set(NGIN_UTIL_SRC

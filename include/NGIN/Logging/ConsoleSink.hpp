@@ -1,8 +1,8 @@
 #pragma once
 
-#include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types.hpp>
 #include <NGIN/Logging/ISink.hpp>
+#include <NGIN/Logging/eLogLevel.hpp>
 #include <iostream>
 
 namespace NGIN::Logging

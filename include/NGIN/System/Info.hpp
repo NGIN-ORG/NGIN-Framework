@@ -22,11 +22,6 @@ namespace NGIN::System
         UInt64 availableVirtualMemMB = 0;// Currently available virtual memory size
 
         F64 systemUptime = 0.;// System uptime in seconds
-
-        inline String ToString() const
-        {
-            return "HostName: " + hostName + "\n" + "OSName: " + osName + "\n" + "OSVersion: " + osVersion + "\n" + "Architecture: " + architecture + "\n" + "CPUModel: " + cpuModel + "\n" + "LogicalCores: " + std::to_string(logicalCores) + "\n" + "PhysicalCores: " + std::to_string(physicalCores) + "\n" + "TotalMemMB: " + std::to_string(totalMemMB) + "\n" + "AvailableMemMB: " + std::to_string(availableMemMB) + "\n" + "TotalVirtualMemMB: " + std::to_string(totalVirtualMemMB) + "\n" + "AvailableVirtualMemMB: " + std::to_string(availableVirtualMemMB) + "\n" + "SystemUptime: " + std::to_string(systemUptime) + "\n";
-        }
     };
 
     // Returns a struct containing system information
