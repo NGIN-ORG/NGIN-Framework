@@ -16,9 +16,9 @@ namespace NGIN::Containers
 
         T Pop();
 
-        Bool IsEmpty() const { return !full && (head == tail); };
+        [[nodiscard]] Bool IsEmpty() const { return !full && (head == tail); };
 
-        Bool IsFull() const { return full; };
+        [[nodiscard]] Bool IsFull() const { return full; };
 
 
     private:
@@ -38,42 +38,41 @@ namespace NGIN::Containers
             using reference = T&;
 
             Iterator(StaticRingBuffer& buffer, Size pos, bool end = false)
-                : buffer_(buffer), pos_(pos), isEnd_(end) {}
+                : buffer(buffer), pos(pos), isEnd(end) {}
 
-            reference operator*() const { return buffer_.buffer[pos_]; }
-            pointer operator->() { return &buffer_.buffer[pos_]; }
+            reference operator*() const { return buffer.buffer[pos]; }
+            pointer operator->() { return &buffer.buffer[pos]; }
 
             // Prefix increment
             Iterator& operator++()
             {
-                pos_ = (pos_ + 1) % N;
-                if (pos_ == buffer_.tail && buffer_.full)
-                {
-                    isEnd_ = true;
-                }
+                pos = (pos + 1) % N;
+                // If we reached tail and buffer is full, we are at the end
+                if (pos == buffer.tail && buffer.full)
+                    isEnd = true;
                 return *this;
             }
 
             // Equality check
             bool operator==(const Iterator& other) const
             {
-                if (buffer_.full && pos_ == other.pos_)
-                {
-                    return isEnd_ == other.isEnd_;
-                }
-                return pos_ == other.pos_;
+                if (buffer.full && pos == other.pos)
+                    return isEnd == other.isEnd;
+                return pos == other.pos;
             }
 
             // Inequality check
             bool operator!=(const Iterator& other) const
             {
+                // Can be simplified to return (*this != other), BUT DON'T DO IT! != is not defined yet...;
                 return !(*this == other);
             }
 
         private:
-            StaticRingBuffer& buffer_;
-            Size pos_;
-            bool isEnd_;// Needed to distinguish end iterator in full buffer
+            /// @brief Reference to the buffer
+            StaticRingBuffer& buffer;
+            Size pos;
+            bool isEnd;// Needed to distinguish between end iterator in a full buffer
         };
 
         Iterator begin() { return Iterator(*this, tail); }
@@ -120,7 +119,7 @@ namespace NGIN::Containers
     {
         if (IsEmpty()) [[unlikely]]
         {
-#ifdef NGIN_ENABLE_EXCEPTIONS¨
+#ifdef NGIN_ENABLE_EXCEPTIONS
             throw NGIN::System::Exceptions::Error("Pop called on empty StaticRingBuffer.");
 #else
             /// TODO: Log error
