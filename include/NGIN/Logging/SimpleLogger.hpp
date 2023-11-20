@@ -11,9 +11,9 @@ namespace NGIN::Logging
     class SimpleLogger : public ILogger
     {
     public:
-        void Initialize();
+        void Initialize() override;
 
-        void Shutdown();
+        void Shutdown() override;
 
         void Flush() override;
 

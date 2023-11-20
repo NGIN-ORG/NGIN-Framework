@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     {
         std::cout << "Hello, World! FROM NGIN" << std::endl;
         return NGINMain(argc, argv);
-    } catch (std::exception ex)
+    } catch (const std::exception& ex)
     {
         std::cerr << "NGIN Exception: " << ex.what() << std::endl;
         return -1;

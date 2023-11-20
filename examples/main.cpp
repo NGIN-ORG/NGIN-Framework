@@ -55,8 +55,6 @@ int main(int argc, char* argv[])
     logger.Flush();
     logger.Shutdown();
 
-    NGIN::System::Info info = NGIN::System::GetSystemInfo();
-
 
     return 0;
 }

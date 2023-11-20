@@ -2,11 +2,20 @@
 #include <NGIN/Common/Types/Primitive.hpp>
 #include <NGIN/Common/Types/String.hpp>
 
+#include <NGIN/Util/ISingleton.hpp>
+
 namespace NGIN::System
 {
 
-    NGIN_API struct Info
+    NGIN_API struct Info : public Util::ISingleton<Info>
     {
+    protected:
+        friend class Util::ISingleton<Info>;
+
+        Info();
+        ~Info() override = default;
+
+    public:
         String hostName = "N/A"; // Host name
         String osName = "N/A";   // Operating System name
         String osVersion = "N/A";// Operating System version
@@ -21,9 +30,8 @@ namespace NGIN::System
         UInt64 totalVirtualMemMB = 0;    // Total virtual memory size
         UInt64 availableVirtualMemMB = 0;// Currently available virtual memory size
 
-        F64 systemUptime = 0.;// System uptime in seconds
+        F64 systemUptime = 0.0;// System uptime in seconds
     };
 
-    // Returns a struct containing system information
-    NGIN_API Info GetSystemInfo();
+
 }// namespace NGIN::System

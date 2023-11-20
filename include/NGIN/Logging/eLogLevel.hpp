@@ -42,11 +42,7 @@ namespace NGIN
             CUSTOM19, ///< Custom log level 19.
         };
 
-        struct Entry
-        {
-            eLogLevel level;
-            String message;
-        };
+
     }// namespace Logging
 
     template<>
@@ -93,7 +89,6 @@ namespace NGIN
                 }
             }
         }
-
         static constexpr Logging::eLogLevel FromString(const String& name)
         {
             if (name == "Trace") return Logging::eLogLevel::Trace;
@@ -107,7 +102,6 @@ namespace NGIN
             }
             return Logging::eLogLevel::Trace;
         }
-
         static constexpr Logging::eLogLevel minValue() { return Logging::eLogLevel::Trace; }
         static constexpr Logging::eLogLevel maxValue() { return Logging::eLogLevel::CUSTOM19; }
     };
