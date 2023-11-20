@@ -1,5 +1,5 @@
 set(NGIN_SYSTEM_SRC
-    
+    "NGIN/System/Exceptions/Error.cpp"
 )
 if(WIN32)
     list(APPEND NGIN_SYSTEM_SRC "NGIN/System/Platform/Windows/Info.cpp")
@@ -9,6 +9,7 @@ endif()
 
 set(NGIN_LOGGING_SRC
     "NGIN/Logging/ConsoleSink.cpp"
+    "NGIN/Logging/ErrorSink.cpp"
     "NGIN/Logging/SimpleFormatter.cpp"
 )
 

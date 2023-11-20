@@ -18,11 +18,7 @@ namespace NGIN::Logging
         void Flush() override;
 
         template<typename T, typename... Args>
-        SimpleLogger<Formatter>& AddSink(Args&&... args)
-        {
-            sinks.emplace_back(CreateScope<T>(std::forward<Args>(args)...));
-            return *this;
-        }
+        SimpleLogger<Formatter>& AddSink(Args&&... args);
 
     protected:
         void LogInternal(eLogLevel level, const std::source_location& source, const String& message) override;
@@ -69,5 +65,13 @@ namespace NGIN::Logging
         {
             sink->Log(level, formatter.Format(level, source, message));
         }
+    }
+
+    template<typename Formatter>
+    template<typename T, typename... Args>
+    SimpleLogger<Formatter>& SimpleLogger<Formatter>::AddSink(Args&&... args)
+    {
+        sinks.emplace_back(CreateScope<T>(std::forward<Args>(args)...));
+        return *this;
     }
 }// namespace NGIN::Logging
