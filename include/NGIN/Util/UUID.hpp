@@ -36,7 +36,7 @@ namespace NGIN::Util
 
         /// @brief Return unwrapped UUID.
         /// @return The UUID as its underlying type.
-        IDType GetID() const { return uuid; }
+        [[nodiscard]] IDType GetID() const { return uuid; }
 
     private:
         /// \brief The 64-bit representation of the UUID.
