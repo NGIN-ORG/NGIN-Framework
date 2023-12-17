@@ -1,3 +1,3 @@
 #pragma once
 
-#include <NGIN
+#include <NGIN/Logging/ILogger.hpp>
