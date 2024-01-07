@@ -1,4 +1,4 @@
-#pragma once
+#pragma onceExceptions
 #include <source_location>
 #include <stdexcept>
 #include <string>

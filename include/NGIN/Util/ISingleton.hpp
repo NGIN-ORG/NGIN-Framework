@@ -2,11 +2,14 @@
 
 namespace NGIN::Util
 {
+    /// @brief Generic singleton class.
+    /// @tparam T
     template<typename T>
     class ISingleton
     {
     public:
         /// @brief  Gets the singleton instance of the class.
+        /// NGIN::Util::ISingleton is a CRTP (Curiously Recurring Template Pattern) class.
         /// @return  The singleton instance of the class.
         static T& GetInstance()
         {

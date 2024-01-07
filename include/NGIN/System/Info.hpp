@@ -7,7 +7,9 @@
 namespace NGIN::System
 {
 
-    NGIN_API struct Info : public Util::ISingleton<Info>
+    /// @brief Provides information about the currently running system
+    /// @details This class is a singleton, and can be accessed via the GetInstance() method.
+    NGIN_API class Info : public Util::ISingleton<Info>
     {
     protected:
         friend class Util::ISingleton<Info>;

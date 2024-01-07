@@ -1,8 +1,10 @@
 #pragma once
 #include <NGIN/Common/Containers/Array.hpp>
+#include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types/Primitive.hpp>
 #include <NGIN/System/Exceptions/Error.hpp>
 #include <iterator>// For std::forward_iterator_tag
+#include <utility> // For std::forward
 
 namespace NGIN::Containers
 {
@@ -117,15 +119,8 @@ namespace NGIN::Containers
     template<typename T, Size N>
     T StaticRingBuffer<T, N>::Pop()
     {
-        if (IsEmpty()) [[unlikely]]
-        {
-#ifdef NGIN_ENABLE_EXCEPTIONS
-            throw NGIN::System::Exceptions::Error("Pop called on empty StaticRingBuffer.");
-#else
-            /// TODO: Log error
-            return T();
-#endif
-        }
+        NGIN_ASSERT(!IsEmpty(), "Cannot pop from empty buffer!");
+
         auto val = buffer[tail];
 
         full = false;

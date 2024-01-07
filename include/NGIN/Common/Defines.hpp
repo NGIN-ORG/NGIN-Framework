@@ -1,3 +1,5 @@
+#include <iostream>
+
 /**
  * @brief NGIN_API is a macro used for defining the visibility of functions and classes in the NGIN library.
  *
@@ -22,20 +24,21 @@
 #define NGIN_API
 #endif
 
-#ifdef NGIN_ENABLE_EXCEPTIONS
 
-// When NGIN_ENABLE_EXCEPTIONS is defined, NGIN_CHECK will simply call the function.
-// It is assumed that the function itself handles exceptions internally.
-#define NGIN_CHECK(func) \
-    func
+// NGIN_ERROR Macro
 
-#else
+#define NGIN_ERROR(message)                \
+    do {                                   \
+        std::cout << message << std::endl; \
+        std::abort();                      \
+    } while (false)
 
-// When NGIN_ENABLE_EXCEPTIONS is not defined, NGIN_CHECK will evaluate the function.
-// If the function returns false, it will throw a runtime_error.
-#define NGIN_CHECK(func)                                                    \
-    do {                                                                    \
-        if (!(func)) throw std::runtime_error("NGIN_CHECK failed: " #func); \
-    } while (0)
+// NGIN_ASSERT Macro
 
-#endif
+#define NGIN_ASSERT(condition, message) \
+    do {                                \
+        if (!(condition)) [[unlikely]]  \
+        {                               \
+            NGIN_ERROR(message)         \
+        }                               \
+    } while (false)
