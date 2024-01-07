@@ -17,6 +17,12 @@ set(NGIN_UTIL_SRC
     "NGIN/Util/UUID.cpp"
 )
 
+set(NGIN_PLATFORM_WINDOWS_SRC
+    "NGIN/Platform/Windows/SEH.cpp"
+)
+if(NGIN_PLATFORM_WINDOWS)
+    list(APPEND NGIN_PLATFORM_WINDOWS_SRC "NGIN/Platform/Windows/SEH.cpp")
+endif()
 
 if(NGIN_BUILD_SHARED)
     set(NGIN_BUILD_TYPE SHARED)
@@ -29,6 +35,7 @@ add_library(NGIN ${NGIN_BUILD_TYPE}
     ${NGIN_SYSTEM_SRC}
     ${NGIN_LOGGING_SRC}
     ${NGIN_UTIL_SRC}
+    ${NGIN_PLATFORM_WINDOWS_SRC}
 )
 
 target_include_directories(NGIN

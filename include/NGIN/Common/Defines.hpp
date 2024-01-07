@@ -35,10 +35,11 @@
 
 // NGIN_ASSERT Macro
 
-#define NGIN_ASSERT(condition, message) \
-    do {                                \
-        if (!(condition)) [[unlikely]]  \
-        {                               \
-            NGIN_ERROR(message)         \
-        }                               \
+#define NGIN_ASSERT(condition, message)        \
+    do {                                       \
+        if (!(condition)) [[unlikely]]         \
+        {                                      \
+            std::cout << message << std::endl; \
+            std::abort();                      \
+        }                                      \
     } while (false)

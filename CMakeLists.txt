@@ -32,7 +32,7 @@ message(STATUS "NGIN strict warnings: ${NGIN_STRICT_WARNINGS}")
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
-option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" ON)
+option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" OFF)
 message(STATUS "Throw exceptions: ${NGIN_ENABLE_EXCEPTIONS}")
 
 option(NGIN_ENABLE_RTTI "Enable RTTI" OFF)
