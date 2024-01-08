@@ -3,8 +3,13 @@
 #include <coroutine>
 namespace NGIN::Async
 {
-    struct NextTickAwaitable
+    struct TimeDelaySecondsAwaitable
     {
+        explicit TimeDelaySecondsAwaitable(Float seconds) noexcept
+            : seconds(seconds)
+        {
+        }
+
         Bool await_ready() const noexcept
         {
             return false;
@@ -12,8 +17,10 @@ namespace NGIN::Async
 
         Void await_suspend(std::coroutine_handle<> handle) const noexcept
         {
-            ///TODO: Schedule the coroutine to run on the next frame        
+            ///TODO: Schedule the coroutine 
         }
         Void await_resume() const noexcept {}
+
+        Float seconds;
     };
 }// namespace NGIN::Async
