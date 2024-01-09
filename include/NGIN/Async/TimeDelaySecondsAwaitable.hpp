@@ -5,27 +5,32 @@
 #include <iostream>
 namespace NGIN::Async
 {
-    class TimeDelaySecondsAwaitable {
+    class TimeDelaySecondsAwaitable
+    {
     public:
-        explicit TimeDelaySecondsAwaitable(int delaySeconds) : m_delaySeconds(delaySeconds) {}
+        explicit TimeDelaySecondsAwaitable(float delaySeconds)
+            : m_delaySeconds(delaySeconds) {}
 
-        bool await_ready() const noexcept {
-            std::cout << "await_ready" << std::endl;
+        // Check if the delay is already elapsed
+        bool await_ready() const
+        {
             return m_delaySeconds <= 0;
         }
 
-        void await_suspend(std::coroutine_handle<> handle) const {
-            std::cout << "await_suspend" << std::endl;
-            std::thread([handle, this] {
-                std::this_thread::sleep_for(std::chrono::seconds(m_delaySeconds));
+        // Suspend the coroutine and set a timer to resume it
+        void await_suspend(std::coroutine_handle<> handle)
+        {
+            std::thread([=]() {
+                std::this_thread::sleep_for(std::chrono::duration<float>(m_delaySeconds));
                 handle.resume();
             }).detach();
         }
 
-        void await_resume() const noexcept {std::cout << "await_resume" << std::endl;}
+        // What to do when resuming the coroutine - in this case, nothing
+        void await_resume() const {}
 
     private:
-        int m_delaySeconds;
+        float m_delaySeconds;
     };
 
 }// namespace NGIN::Async

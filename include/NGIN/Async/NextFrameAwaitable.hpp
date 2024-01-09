@@ -4,18 +4,24 @@
 #include <coroutine>
 namespace NGIN::Async
 {
-    struct NextTickAwaitable : public IAwaitable
+    struct NextTickAwaitable
     {
-        Bool await_ready() const noexcept override
+
+        explicit NextTickAwaitable(float numberOfTicks)
+            : ticksLeft(numberOfTicks) {}
+
+        UInt32 ticksLeft;
+
+        Bool await_ready() const noexcept
         {
-            return false;
+            return ticksLeft == 0;
         }
 
-        Void await_suspend(std::coroutine_handle<> handle) const noexcept override
+        Void await_suspend(std::coroutine_handle<> handle) const noexcept
         {
-            ///TODO: Schedule the coroutine to run on the next frame        
+            ///TODO: Schedule the coroutine to run on the next frame
         }
-        
-        Void await_resume() const noexcept override {}
+
+        Void await_resume() noexcept { --ticksLeft; }
     };
 }// namespace NGIN::Async

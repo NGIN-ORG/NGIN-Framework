@@ -8,18 +8,19 @@
 #include <NGIN/Util/Format.hpp>
 #include <iostream>
 #include <coroutine>
-#include <NGIN/Async/TimeDelaySecondsAwaitable.hpp>
+#include <NGIN/Async/Coroutine.hpp>
+#include <NGIN/Async/NextFrameAwaitable.hpp>
 #include <NGIN/Async/Task.hpp>
 #include <future>
 using NGIN::Containers::StaticRingBuffer;
 
-NGIN::Async::Task<int> Foo ()
+NGIN::Async::Coroutine exampleCoroutine()
 {
-    co_await NGIN::Async::TimeDelaySecondsAwaitable(5.0f);
-    std::cout << "Hello, World!" << std::endl;
-    co_return 5;
+    std::cout << "Coroutine started" << std::endl;
+    co_await NGIN::Async::NextTickAwaitable(2);
+    std::cout << "Coroutine resumed" << std::endl;
+    co_return;
 }
-
 
 
 int main(int argc, char* argv[])
@@ -65,12 +66,11 @@ int main(int argc, char* argv[])
         logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "Buffer: {}", buffer.Pop());
     }
 
-    auto a = Foo();
-    a.wait();
-    a.get();
+    auto a = exampleCoroutine();
+    a.Resume();
+
     logger.Flush();
     logger.Shutdown();
-
 
     return 0;
 }
