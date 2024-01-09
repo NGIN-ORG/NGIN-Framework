@@ -34,11 +34,7 @@ int main(int argc, char* argv[])
 #else
     std::cout
             << "Hello, World! FROM NGIN no exception" << std::endl;
-    std::thread t([]() {
-        std::cout << "Hello, World! FROM NGIN thread" << std::endl;
-        int b = 0;
-        int a = 2 / b;
-    });
+
 
     return NGINMain(argc, argv);
 #endif

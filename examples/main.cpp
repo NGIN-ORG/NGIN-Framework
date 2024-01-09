@@ -9,14 +9,18 @@
 #include <iostream>
 #include <coroutine>
 #include <NGIN/Async/TimeDelaySecondsAwaitable.hpp>
-
+#include <NGIN/Async/Task.hpp>
+#include <future>
 using NGIN::Containers::StaticRingBuffer;
 
-task<void> Foo ()
+NGIN::Async::Task<int> Foo ()
 {
-    co_await NGIN::Async::TimeDelaySecondsAwaitable(1.0f);
+    co_await NGIN::Async::TimeDelaySecondsAwaitable(5.0f);
     std::cout << "Hello, World!" << std::endl;
+    co_return 5;
 }
+
+
 
 int main(int argc, char* argv[])
 {
@@ -61,7 +65,9 @@ int main(int argc, char* argv[])
         logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "Buffer: {}", buffer.Pop());
     }
 
-
+    auto a = Foo();
+    a.wait();
+    a.get();
     logger.Flush();
     logger.Shutdown();
 
