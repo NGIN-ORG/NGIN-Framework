@@ -22,6 +22,14 @@ NGIN::Async::Coroutine exampleCoroutine()
     co_return;
 }
 
+NGIN::Async::Coroutine OtherCoroutine()
+{
+    std::cout << "Coroutine started" << std::endl;
+    co_await NGIN::Async::NextTickAwaitable(2);
+    std::cout << "Coroutine resumed" << std::endl;
+    co_return;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -30,44 +38,18 @@ int main(int argc, char* argv[])
     logger.AddSink<NGIN::Logging::ConsoleSink>();
     logger.Initialize();
     logger.Log(NGIN::Logging::eLogLevel::Trace, std::source_location::current(), "Hello, World!");
-    logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "Hello, World!");
-    logger.Log(NGIN::Logging::eLogLevel::Debug, std::source_location::current(), "Hello, World!");
-    logger.Log(NGIN::Logging::eLogLevel::Warning, std::source_location::current(), "Hello, World!");
-    logger.Log(NGIN::Logging::eLogLevel::Error, std::source_location::current(), "Hello, World!");
-    logger.Log(NGIN::Logging::eLogLevel::Critical, std::source_location::current(), "Hello, World!");
-    StaticRingBuffer<int, 10> buffer;
-    for (size_t i = 0; i < 10; i++)
-    {
-        buffer.Push(i + 1);
-    }
 
-    for (int i = 0; i < 10; i++)
-    {
-        buffer.Pop();
-    }
-
-    for (size_t i = 0; i < 5; i++)
-    {
-        buffer.Push(i + 1);
-    }
-
-
-    logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "For each");
-
-    for (int i: buffer)
-    {
-        logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "Buffer: {}", i);
-    }
-
-    logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "POP");
-
-    while (!buffer.IsEmpty())
-    {
-        logger.Log(NGIN::Logging::eLogLevel::Info, std::source_location::current(), "Buffer: {}", buffer.Pop());
-    }
 
     auto a = exampleCoroutine();
-    a.Resume();
+    auto b = OtherCoroutine();
+
+    std::cout << "is same" << (a.) << std::endl;
+
+    NGIN::Async::TickScheduler::GetInstance().Tick();
+    NGIN::Async::TickScheduler::GetInstance().Tick();
+    NGIN::Async::TickScheduler::GetInstance().Tick();
+
+    std::cout << "Coroutine done: " << a.IsDone() << std::endl;
 
     logger.Flush();
     logger.Shutdown();

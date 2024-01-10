@@ -28,6 +28,7 @@ namespace NGIN::Async
 
         bool IsDone() const { return handle.done(); }
         void Resume() const { handle.resume(); }
+        void* GetAddress() const { return handle.address(); }
 
     private:
         std::coroutine_handle<promise_type> handle;
