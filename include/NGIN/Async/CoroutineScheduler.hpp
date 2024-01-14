@@ -12,4 +12,4 @@ namespace NGIN::Async
             void ScheduleA
         }
     }
-}
+}// namespace NGIN::Async

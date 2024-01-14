@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
     auto a = exampleCoroutine();
     auto b = OtherCoroutine();
 
-    std::cout << "is same" << (a.) << std::endl;
 
     NGIN::Async::TickScheduler::GetInstance().Tick();
     NGIN::Async::TickScheduler::GetInstance().Tick();
