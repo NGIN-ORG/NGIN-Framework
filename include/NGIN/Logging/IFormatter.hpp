@@ -7,8 +7,11 @@
 
 namespace NGIN::Logging
 {
-    struct IFormatter
+    /// @brief Interface for log formatters
+    /// @todo Add documentation
+    class IFormatter
     {
+    public:
         virtual String Format(eLogLevel level, const std::source_location& source, const String& message) = 0;
     };
 }// namespace NGIN::Logging
