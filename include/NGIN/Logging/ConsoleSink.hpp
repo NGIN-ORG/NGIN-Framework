@@ -2,7 +2,7 @@
 
 #include <NGIN/Common/Types.hpp>
 #include <NGIN/Logging/ISink.hpp>
-#include <NGIN/Logging/eLogLevel.hpp>
+#include <NGIN/Logging/LogLevel.hpp>
 #include <iostream>
 
 namespace NGIN::Logging
@@ -14,14 +14,14 @@ namespace NGIN::Logging
 
         void Shutdown() override;
 
-        void Log(eLogLevel level, const String& message) override;
+        void Log(LogLevel level, const String& message) override;
 
         void Flush() override;
 
     private:
         Bool isTerminal = false;
 
-        void SetColor(eLogLevel level);
+        void SetColor(LogLevel level);
         void ResetColor();
     };
 }// namespace NGIN::Logging

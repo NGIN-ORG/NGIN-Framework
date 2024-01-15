@@ -17,7 +17,7 @@ namespace NGIN::Logging
         return isTerminal;
     }
 
-    void ConsoleSink::Log(eLogLevel level, const String& message)
+    void ConsoleSink::Log(LogLevel level, const String& message)
     {
         if (!isTerminal) [[unlikely]]
             return;
@@ -33,26 +33,26 @@ namespace NGIN::Logging
 
     void ConsoleSink::Shutdown() {}
 
-    void ConsoleSink::SetColor(eLogLevel level)
+    void ConsoleSink::SetColor(LogLevel level)
     {
         switch (level)
         {
-            case eLogLevel::Trace:
+            case LogLevel::Trace:
                 std::cout << "\033[90m";// Dark gray for Trace
                 break;
-            case eLogLevel::Info:
+            case LogLevel::Info:
                 std::cout << "\033[37m";// Green for Info
                 break;
-            case eLogLevel::Debug:
+            case LogLevel::Debug:
                 std::cout << "\033[36m";// Cyan for Debug
                 break;
-            case eLogLevel::Warning:
+            case LogLevel::Warning:
                 std::cout << "\033[93m";// Bright yellow for Warning
                 break;
-            case eLogLevel::Error:
+            case LogLevel::Error:
                 std::cout << "\033[38;5;208m";// Orange for Error
                 break;
-            case eLogLevel::Critical:
+            case LogLevel::Critical:
                 std::cout << "\033[91m";// Bright red for Critical
                 break;
             default:

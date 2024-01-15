@@ -26,13 +26,13 @@ inline const char* ExtractFileName(const char* fullPath)
 
 namespace NGIN::Logging
 {
-    String SimpleFormatter::Format(eLogLevel level, const std::source_location& source, const String& message)
+    String SimpleFormatter::Format(LogLevel level, const std::source_location& source, const String& message)
     {
         return Util::Format("{:%Y-%m-%d %H:%M:%S} | {:>20}:{:<5} | {:<8} | {}",
                             fmt::localtime(std::time(nullptr)),
                             ExtractFileName(source.file_name()),
                             source.line(),
-                            Meta::EnumTraits<eLogLevel>::ToString(level),
+                            Meta::EnumTraits<LogLevel>::ToString(level),
                             message);
     }
 }// namespace NGIN::Logging

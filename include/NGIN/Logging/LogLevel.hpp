@@ -12,7 +12,7 @@ namespace NGIN
     {
 
 
-        enum class eLogLevel
+        enum class LogLevel
         {
             Trace = 0,///< Trace-level log, usually very detailed.
             Info,     ///< Informational messages, general knowledge about system operations.
@@ -46,64 +46,64 @@ namespace NGIN
     }// namespace Logging
 
     template<>
-    struct NGIN::Meta::EnumTraits<Logging::eLogLevel>
+    struct NGIN::Meta::EnumTraits<Logging::LogLevel>
     {
-        static constexpr Array<Logging::eLogLevel, 26> values = {
-                Logging::eLogLevel::Trace, Logging::eLogLevel::Info, Logging::eLogLevel::Debug,
-                Logging::eLogLevel::Warning, Logging::eLogLevel::Error, Logging::eLogLevel::Critical,
-                Logging::eLogLevel::CUSTOM0, Logging::eLogLevel::CUSTOM1, Logging::eLogLevel::CUSTOM2,
-                Logging::eLogLevel::CUSTOM3, Logging::eLogLevel::CUSTOM4, Logging::eLogLevel::CUSTOM5,
-                Logging::eLogLevel::CUSTOM6, Logging::eLogLevel::CUSTOM7, Logging::eLogLevel::CUSTOM8,
-                Logging::eLogLevel::CUSTOM9, Logging::eLogLevel::CUSTOM10, Logging::eLogLevel::CUSTOM11,
-                Logging::eLogLevel::CUSTOM12, Logging::eLogLevel::CUSTOM13, Logging::eLogLevel::CUSTOM14,
-                Logging::eLogLevel::CUSTOM15, Logging::eLogLevel::CUSTOM16, Logging::eLogLevel::CUSTOM17,
-                Logging::eLogLevel::CUSTOM18, Logging::eLogLevel::CUSTOM19};
+        static constexpr Array<Logging::LogLevel, 26> values = {
+                Logging::LogLevel::Trace, Logging::LogLevel::Info, Logging::LogLevel::Debug,
+                Logging::LogLevel::Warning, Logging::LogLevel::Error, Logging::LogLevel::Critical,
+                Logging::LogLevel::CUSTOM0, Logging::LogLevel::CUSTOM1, Logging::LogLevel::CUSTOM2,
+                Logging::LogLevel::CUSTOM3, Logging::LogLevel::CUSTOM4, Logging::LogLevel::CUSTOM5,
+                Logging::LogLevel::CUSTOM6, Logging::LogLevel::CUSTOM7, Logging::LogLevel::CUSTOM8,
+                Logging::LogLevel::CUSTOM9, Logging::LogLevel::CUSTOM10, Logging::LogLevel::CUSTOM11,
+                Logging::LogLevel::CUSTOM12, Logging::LogLevel::CUSTOM13, Logging::LogLevel::CUSTOM14,
+                Logging::LogLevel::CUSTOM15, Logging::LogLevel::CUSTOM16, Logging::LogLevel::CUSTOM17,
+                Logging::LogLevel::CUSTOM18, Logging::LogLevel::CUSTOM19};
 
         static constexpr Size size = values.size();
 
-        static constexpr String GetName() { return "Logging::eLogLevel"; }
+        static constexpr String GetName() { return "Logging::LogLevel"; }
 
-        static constexpr String ToString(Logging::eLogLevel level)
+        static constexpr String ToString(Logging::LogLevel level)
         {
             switch (level)
             {
-                case Logging::eLogLevel::Trace:
+                case Logging::LogLevel::Trace:
                     return "Trace";
-                case Logging::eLogLevel::Info:
+                case Logging::LogLevel::Info:
                     return "Info";
-                case Logging::eLogLevel::Debug:
+                case Logging::LogLevel::Debug:
                     return "Debug";
-                case Logging::eLogLevel::Warning:
+                case Logging::LogLevel::Warning:
                     return "Warning";
-                case Logging::eLogLevel::Error:
+                case Logging::LogLevel::Error:
                     return "Error";
-                case Logging::eLogLevel::Critical:
+                case Logging::LogLevel::Critical:
                     return "Critical";
                 // Handle custom log levels
                 default: {
-                    if (level >= Logging::eLogLevel::CUSTOM0 && level <= Logging::eLogLevel::CUSTOM19)
+                    if (level >= Logging::LogLevel::CUSTOM0 && level <= Logging::LogLevel::CUSTOM19)
                     {
-                        return "CUSTOM" + std::to_string(static_cast<int>(level) - static_cast<int>(Logging::eLogLevel::CUSTOM0));
+                        return "CUSTOM" + std::to_string(static_cast<int>(level) - static_cast<int>(Logging::LogLevel::CUSTOM0));
                     }
                     return "Unknown";
                 }
             }
         }
-        static constexpr Logging::eLogLevel FromString(const String& name)
+        static constexpr Logging::LogLevel FromString(const String& name)
         {
-            if (name == "Trace") return Logging::eLogLevel::Trace;
-            if (name == "Info") return Logging::eLogLevel::Info;
+            if (name == "Trace") return Logging::LogLevel::Trace;
+            if (name == "Info") return Logging::LogLevel::Info;
             // ... similar checks for other levels ...
             if (name.find("CUSTOM") == 0 && name.length() > 6)
             {
                 int customLevel = std::stoi(name.substr(6));
                 if (customLevel >= 0 && customLevel <= 19)
-                    return static_cast<Logging::eLogLevel>(customLevel - static_cast<int>(Logging::eLogLevel::CUSTOM0));
+                    return static_cast<Logging::LogLevel>(customLevel - static_cast<int>(Logging::LogLevel::CUSTOM0));
             }
-            return Logging::eLogLevel::Trace;
+            return Logging::LogLevel::Trace;
         }
-        static constexpr Logging::eLogLevel minValue() { return Logging::eLogLevel::Trace; }
-        static constexpr Logging::eLogLevel maxValue() { return Logging::eLogLevel::CUSTOM19; }
+        static constexpr Logging::LogLevel minValue() { return Logging::LogLevel::Trace; }
+        static constexpr Logging::LogLevel maxValue() { return Logging::LogLevel::CUSTOM19; }
     };
 
 }// namespace NGIN

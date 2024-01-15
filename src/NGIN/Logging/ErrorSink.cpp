@@ -15,7 +15,7 @@ namespace NGIN::Logging
     {
     }
 
-    void ErrorSink::Log(eLogLevel level, const String& message)
+    void ErrorSink::Log(LogLevel level, const String& message)
     {
         errorLog.push_back(message);
     }

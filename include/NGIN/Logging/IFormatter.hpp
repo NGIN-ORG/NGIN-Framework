@@ -1,7 +1,7 @@
 #pragma once
 
 #include <NGIN/Common/Types/String.hpp>
-#include <NGIN/Logging/eLogLevel.hpp>
+#include <NGIN/Logging/LogLevel.hpp>
 
 #include <source_location>
 
@@ -12,6 +12,6 @@ namespace NGIN::Logging
     class IFormatter
     {
     public:
-        virtual String Format(eLogLevel level, const std::source_location& source, const String& message) = 0;
+        virtual String Format(LogLevel level, const std::source_location& source, const String& message) = 0;
     };
 }// namespace NGIN::Logging

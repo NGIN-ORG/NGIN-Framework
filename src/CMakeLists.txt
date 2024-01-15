@@ -13,6 +13,11 @@ set(NGIN_LOGGING_SRC
     "NGIN/Logging/SimpleFormatter.cpp"
 )
 
+set(NGIN_MEMORY_SRC
+    "NGIN/Memory/Mallocator.cpp"
+    "NGIN/Memory/LinearAllocator.cpp"
+)
+
 set(NGIN_UTIL_SRC
     "NGIN/Util/UUID.cpp"
 )
@@ -34,6 +39,7 @@ add_library(NGIN ${NGIN_BUILD_TYPE}
     "main.cpp"
     ${NGIN_SYSTEM_SRC}
     ${NGIN_LOGGING_SRC}
+    ${NGIN_MEMORY_SRC}
     ${NGIN_UTIL_SRC}
     ${NGIN_PLATFORM_WINDOWS_SRC}
 )

@@ -2,7 +2,7 @@
 
 #include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types.hpp>
-#include <NGIN/Logging/eLogLevel.hpp>
+#include <NGIN/Logging/LogLevel.hpp>
 #include <NGIN/Util/Format.hpp>
 
 #include <source_location>
@@ -38,15 +38,15 @@ namespace NGIN::Logging
         /// @param message Log message.
         /// @param args Additional arguments to format the message.
         template<typename... Args>
-        void Log(eLogLevel level, const std::source_location& source, const String& message, Args&&... args);
+        void Log(LogLevel level, const std::source_location& source, const String& message, Args&&... args);
 
     protected:
-        virtual void LogInternal(eLogLevel level, const std::source_location& source, const String& message) = 0;
+        virtual void LogInternal(LogLevel level, const std::source_location& source, const String& message) = 0;
     };
 
 
     template<typename... Args>
-    void ILogger::Log(eLogLevel level, const std::source_location& source, const String& message, Args&&... args)
+    void ILogger::Log(LogLevel level, const std::source_location& source, const String& message, Args&&... args)
     {
         LogInternal(level, source, Util::RuntimeFormat(message, std::forward<Args>(args)...));
     }
@@ -65,21 +65,38 @@ namespace NGIN::Logging
 
 /// @def NGIN_LOG_INFO
 /// @brief Macro for logging info messages.
-#define NGIN_LOG_INFO(logger, message, ...) logger.Log(::NGIN::Logging::eLogLevel::Info, ::std::source_location::current(), message, ##__VA_ARGS__)
+#define NGIN_LOG_INFO(logger, message, ...) logger.Log(::NGIN::Logging::LogLevel::Info, ::std::source_location::current(), message, ##__VA_ARGS__)
 
 /// @def NGIN_LOG_DEBUG
 /// @brief Macro for logging debug messages.
-#define NGIN_LOG_DEBUG(logger, message, ...) logger.Log(::NGIN::Logging::eLogLevel::Debug, ::std::source_location::current(), message, ##__VA_ARGS__)
+#define NGIN_LOG_DEBUG(logger, message, ...) logger.Log(::NGIN::Logging::LogLevel::Debug, ::std::source_location::current(), message, ##__VA_ARGS__)
+#else
+
+/// @def NGIN_LOG
+/// @brief Macro for logging messages with variable log level.
+#define NGIN_LOG(logger, level, message, ...)
+
+/// @def NGIN_LOG_TRACE
+/// @brief Macro for logging trace messages.
+#define NGIN_LOG_TRACE(logger, message, ...)
+
+/// @def NGIN_LOG_INFO
+/// @brief Macro for logging info messages.
+#define NGIN_LOG_INFO(logger, message, ...)
+
+/// @def NGIN_LOG_DEBUG
+/// @brief Macro for logging debug messages.
+#define NGIN_LOG_DEBUG(logger, message, ...)
 #endif
 
 /// @def NGIN_LOG_WARNING
 /// @brief Macro for logging warning messages.
-#define NGIN_LOG_WARNING(logger, message, ...) logger.Log(::NGIN::Logging::eLogLevel::Warning, ::std::source_location::current(), message, ##__VA_ARGS__)
+#define NGIN_LOG_WARNING(logger, message, ...) logger.Log(::NGIN::Logging::LogLevel::Warning, ::std::source_location::current(), message, ##__VA_ARGS__)
 
 /// @def NGIN_LOG_ERROR
 /// @brief Macro for logging error messages.
-#define NGIN_LOG_ERROR(logger, message, ...) logger.Log(::NGIN::Logging::eLogLevel::Error, ::std::source_location::current(), message, ##__VA_ARGS__)
+#define NGIN_LOG_ERROR(logger, message, ...) logger.Log(::NGIN::Logging::LogLevel::Error, ::std::source_location::current(), message, ##__VA_ARGS__)
 
 /// @def NGIN_LOG_CRITICAL
 /// @brief Macro for logging critical messages.
-#define NGIN_LOG_CRITICAL(logger, message, ...) logger.Log(::NGIN::Logging::eLogLevel::Critical, ::std::source_location::current(), message, ##__VA_ARGS__)
+#define NGIN_LOG_CRITICAL(logger, message, ...) logger.Log(::NGIN::Logging::LogLevel::Critical, ::std::source_location::current(), message, ##__VA_ARGS__)

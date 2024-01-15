@@ -21,7 +21,7 @@ namespace NGIN::Logging
         SimpleLogger<Formatter>& AddSink(Args&&... args);
 
     protected:
-        void LogInternal(eLogLevel level, const std::source_location& source, const String& message) override;
+        void LogInternal(LogLevel level, const std::source_location& source, const String& message) override;
 
         Formatter formatter = {};
         Vector<Scope<ISink>> sinks = {};
@@ -30,7 +30,7 @@ namespace NGIN::Logging
     template<typename Formatter>
     void SimpleLogger<Formatter>::Initialize()
     {
-        LogInternal(eLogLevel::Info, std::source_location::current(), "SimpleLogger initialized.");
+        LogInternal(LogLevel::Info, std::source_location::current(), "SimpleLogger initialized.");
         for (auto& sink: sinks)
         {
             sink->Initialize();
@@ -40,7 +40,7 @@ namespace NGIN::Logging
     template<typename Formatter>
     void SimpleLogger<Formatter>::Shutdown()
     {
-        LogInternal(eLogLevel::Info, std::source_location::current(), "SimpleLogger shutting down.");
+        LogInternal(LogLevel::Info, std::source_location::current(), "SimpleLogger shutting down.");
         Flush();
         for (auto& sink: sinks)
         {
@@ -51,7 +51,7 @@ namespace NGIN::Logging
     template<typename Formatter>
     void SimpleLogger<Formatter>::Flush()
     {
-        LogInternal(eLogLevel::Info, std::source_location::current(), "SimpleLogger flushing.");
+        LogInternal(LogLevel::Info, std::source_location::current(), "SimpleLogger flushing.");
         for (auto& sink: sinks)
         {
             sink->Flush();
@@ -59,7 +59,7 @@ namespace NGIN::Logging
     }
 
     template<typename Formatter>
-    void SimpleLogger<Formatter>::LogInternal(eLogLevel level, const std::source_location& source, const String& message)
+    void SimpleLogger<Formatter>::LogInternal(LogLevel level, const std::source_location& source, const String& message)
     {
         for (auto& sink: sinks)
         {

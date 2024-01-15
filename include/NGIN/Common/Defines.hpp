@@ -24,6 +24,8 @@
 #define NGIN_API
 #endif
 
+///@def NGIN_API
+///@brief A macro that controls the import/export of symbols in the library.
 
 // NGIN_ERROR Macro
 

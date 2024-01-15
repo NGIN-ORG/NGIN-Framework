@@ -12,6 +12,7 @@
 #include <NGIN/Async/NextFrameAwaitable.hpp>
 #include <NGIN/Async/Task.hpp>
 #include <future>
+#include <NGIN/Memory/Mallocator.hpp>
 using NGIN::Containers::StaticRingBuffer;
 
 NGIN::Async::Coroutine exampleCoroutine()
@@ -37,7 +38,7 @@ int main(int argc, char* argv[])
     Logger logger;
     logger.AddSink<NGIN::Logging::ConsoleSink>();
     logger.Initialize();
-    logger.Log(NGIN::Logging::eLogLevel::Trace, std::source_location::current(), "Hello, World!");
+    logger.Log(NGIN::Logging::LogLevel::Trace, std::source_location::current(), "Hello, World!");
 
 
     auto a = exampleCoroutine();
