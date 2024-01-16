@@ -5,3 +5,4 @@ dependencies
 .idea
 ignore
 .vscode/settings.json
+Folder.DotSettings.user

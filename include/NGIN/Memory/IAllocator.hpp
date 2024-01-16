@@ -3,6 +3,8 @@
 #include <NGIN/Common/Types/Primitive.hpp>
 #include <source_location>
 #include <NGIN/Common/Defines.hpp>
+#include <concepts>
+#include <type_traits>
 
 namespace NGIN::Memory
 {
@@ -63,4 +65,7 @@ namespace NGIN::Memory
             Deallocate(obj);
         }
     };
+
+    template<typename T>
+    concept IsAllocator = std::is_base_of_v<IAllocator, T>;
 }// namespace NGIN::Memory

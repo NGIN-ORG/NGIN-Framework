@@ -37,6 +37,8 @@ set(SDL_STATIC ON CACHE BOOL "" FORCE)
 fetch_dependency(SDL2 "https://github.com/libsdl-org/SDL" "release-2.28.5")
 
 # GLM
+set(GLM_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLM_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 fetch_dependency(glm "https://github.com/g-truc/glm" "0.9.9.8")
 
 # JSON

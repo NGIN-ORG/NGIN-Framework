@@ -56,7 +56,7 @@ target_link_libraries(NGIN PUBLIC
     fmt::fmt
     SDL2::SDL2
     SDL2::SDL2main
-    glm
+    glm::glm
     Vulkan::Vulkan
     Vulkan::Headers
 )
