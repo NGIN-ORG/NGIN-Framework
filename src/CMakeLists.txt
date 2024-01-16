@@ -22,6 +22,10 @@ set(NGIN_UTIL_SRC
     "NGIN/Util/UUID.cpp"
 )
 
+set(NGIN_MATH_SRC
+    "NGIN/Math/Vector3.cpp"    
+)
+
 set(NGIN_PLATFORM_WINDOWS_SRC
     "NGIN/Platform/Windows/SEH.cpp"
 )
@@ -41,6 +45,7 @@ add_library(NGIN ${NGIN_BUILD_TYPE}
     ${NGIN_LOGGING_SRC}
     ${NGIN_MEMORY_SRC}
     ${NGIN_UTIL_SRC}
+    ${NGIN_MATH_SRC}
     ${NGIN_PLATFORM_WINDOWS_SRC}
 )
 

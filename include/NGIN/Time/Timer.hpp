@@ -1,8 +1,9 @@
 #pragma once
 
 #include <NGIN/Common/Types/Primitive.hpp>
-#include <chrono>
+#include <NGIN/Time/Defines.hpp>
 #include <NGIN/Time/Util.hpp>
+#include <chrono>
 
 namespace NGIN::Time
 {
@@ -14,7 +15,6 @@ namespace NGIN::Time
     class Timer
     {
     public:
-
         /// @brief Resets the timer to the current time.
         inline void Reset()
         {
@@ -28,7 +28,7 @@ namespace NGIN::Time
         [[nodiscard]] inline ReturnT Elapsed() const
         {
             const auto elapsedTime = ClockType::now() - startTime;
-            const auto elapsedF64  = Duration<F64, typename DurationT::period>(elapsedTime).count();
+            const auto elapsedF64 = Duration<F64, typename DurationT::period>(elapsedTime).count();
             return static_cast<ReturnT>(elapsedF64);
         }
 
@@ -51,8 +51,8 @@ namespace NGIN::Time
         }
 
     private:
-        TimePoint<ClockType> startTime = ClockType::now();  ///< The start time of the timer.
+        TimePoint<ClockType> startTime = ClockType::now();///< The start time of the timer.
     };
 
 
-} // namespace NGIN::Time
+}// namespace NGIN::Time

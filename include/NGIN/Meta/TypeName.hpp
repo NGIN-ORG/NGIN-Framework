@@ -13,7 +13,7 @@ namespace NGIN::Meta
     /// @tparam T The type whose name is to be retrieved.
     ///
     /// @code
-    /// namsepace Foo
+    /// namespace Foo
     /// {
     ///     struct Bar{};
     /// }

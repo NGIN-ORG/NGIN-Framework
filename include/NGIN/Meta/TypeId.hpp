@@ -5,7 +5,7 @@
 namespace NGIN::Meta
 {
     using TypeIDType = UInt64;
-    /* CURRENTLY DEPRECTATED BECAUSE OF ISSUES REGARDING THE USE OF THE FUNCTION IN MULTIPLE TRANSLATION UNITS
+    /* CURRENTLY DEPRECATED BECAUSE OF ISSUES REGARDING THE USE OF THE FUNCTION IN MULTIPLE TRANSLATION UNITS
     /// @brief Resolver for generating unique Type ID.
     ///
     /// This class is used to hold the ID() function that is used
