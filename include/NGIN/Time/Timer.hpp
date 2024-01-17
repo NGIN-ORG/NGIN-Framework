@@ -28,8 +28,8 @@ namespace NGIN::Time
         [[nodiscard]] inline ReturnT Elapsed() const
         {
             const auto elapsedTime = ClockType::now() - startTime;
-            const auto elapsedF64 = Duration<F64, typename DurationT::period>(elapsedTime).count();
-            return static_cast<ReturnT>(elapsedF64);
+            const auto durationInTargetType = std::chrono::duration_cast<DurationT>(elapsedTime);
+            return static_cast<ReturnT>(durationInTargetType.count());
         }
 
         /// @brief Gets the elapsed time since the timer was started or reset.

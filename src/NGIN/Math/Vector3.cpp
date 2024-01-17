@@ -2,18 +2,18 @@
 #include <glm/glm.hpp>
 namespace NGIN::Math
 {
-
-
-    /*
-    constexpr Vector3::Vector3() noexcept
-        : x(0.0f), y(0.0f), z(0.0f)
-    {}
-    constexpr Vector3::Vector3(F32 value) noexcept
-        : x(value), y(value), z(value)
-    {}
-    constexpr Vector3::Vector3(F32 x, F32 y, F32 z) noexcept
-        : x(x), y(y), z(z)
-    {}*/
+    constexpr Vector3 FromGLM(const glm::vec3& vec)
+    {
+        return {vec.x, vec.y, vec.z};
+    }
+    inline Vector3 FromGLM(const glm::vec4& vec)
+    {
+        return {vec.x, vec.y, vec.z};
+    }
+    inline glm::vec3 ToGLM(const Vector3& vec)
+    {
+        return {vec.x, vec.y, vec.z};
+    }
 
     F32 Vector3::Length() const
     {
@@ -29,12 +29,16 @@ namespace NGIN::Math
     {
         return glm::dot(ToGLM(*this), ToGLM(other));
     }
-    /*
-    constexpr Vector3 Vector3::Cross(const Vector3& other) const
+
+    Vector3 Vector3::Cross(const Vector3& other) const
     {
-        return FromGLM(glm::cross(ToGLM(*this), ToGLM(other)));
+        return Vector3(
+                y * other.z - z * other.y,// x component
+                z * other.x - x * other.z,// y component
+                x * other.y - y * other.x // z component
+        );
     }
-    */
+
     Vector3 Vector3::operator+(const Vector3& other) const
     {
         return FromGLM(ToGLM(*this) + ToGLM(other));
@@ -121,5 +125,14 @@ namespace NGIN::Math
     {
         *this = FromGLM(ToGLM(*this) / value);
         return *this;
+    }
+
+    Vector3 Cross(const Vector3& that, const Vector3& other)
+    {
+        return Vector3(
+                that.y * other.z - that.z * other.y,// x component
+                that.z * other.x - that.x * other.z,// y component
+                that.x * other.y - that.y * other.x // z component
+        );
     }
 }// namespace NGIN::Math

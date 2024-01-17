@@ -1,5 +1,5 @@
 #pragma once
-#include "glm/glm.hpp"
+
 
 #include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types/Primitive.hpp>
@@ -15,6 +15,7 @@ namespace NGIN::Math
     {
         union
         {
+
             struct
             {
                 /// @brief The x component of the vector.
@@ -37,18 +38,6 @@ namespace NGIN::Math
             F32 components[3];
         };
 
-        constexpr Vector3 FromGLM(const glm::vec3& vec) const
-        {
-            return {vec.x, vec.y, vec.z};
-        }
-        constexpr Vector3 FromGLM(const glm::vec4& vec) const
-        {
-            return {vec.x, vec.y, vec.z};
-        }
-        constexpr glm::vec3 ToGLM(const Vector3& vec) const
-        {
-            return {vec.x, vec.y, vec.z};
-        }
 
         /// @brief Constructs a Vector3 with all components set to 0.
         constexpr Vector3() noexcept
@@ -67,8 +56,9 @@ namespace NGIN::Math
             : x(x), y(y), z(z)
         {}
 
+
         /// @brief Returns the length of the vector.
-        inline F32 Length() const;
+        F32 Length() const;
 
         /// @brief Normalizes the vector.
         Void Normalize();
@@ -79,10 +69,7 @@ namespace NGIN::Math
 
         /// @brief Returns the cross product of this vector and another.
         /// @param other The other vector.
-        constexpr Vector3 Cross(const Vector3& other) const
-        {
-            return FromGLM(glm::cross(ToGLM(*this), ToGLM(other)));
-        }
+        Vector3 Cross(const Vector3& other) const;
 
         /// @brief Addition operator overload for Vector3.
         /// @param other The other vector.
@@ -148,4 +135,7 @@ namespace NGIN::Math
         /// @param value The scalar value.
         Vector3& operator/=(const F32 value);
     };
+
+    Vector3 Cross(const Vector3& that, const Vector3& other);
+
 }// namespace NGIN::Math

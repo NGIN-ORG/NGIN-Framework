@@ -16,6 +16,7 @@
 #include <future>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <thread>
 using NGIN::Containers::StaticRingBuffer;
 
 NGIN::Async::Coroutine exampleCoroutine()
@@ -52,31 +53,39 @@ int main(int argc, char* argv[])
     NGIN::Async::TickScheduler::GetInstance().Tick();
     NGIN::Async::TickScheduler::GetInstance().Tick();
 
+    int j = 0;
+    std::cin >> j;
+
     NGIN::Time::Timer<NGIN::Time::SteadyClock> timer1 = {};
 
     glm::vec3 vec1 = {1, 2, 3};
+    vec1 += j;
     glm::vec3 vec2 = {4, 5, 6};
-    for (int i = 0; i < 10000; i++)
+    vec2 += j;
+    for (volatile int i = 0; i < 10000; i++)
     {
         volatile glm::vec3 vec3 = glm::cross(vec1, vec2);
     }
 
-    volatile int time1 = timer1.ElapsedInt<NGIN::Time::Nanoseconds>();
+    volatile auto time1 = timer1.ElapsedInt<NGIN::Time::Microseconds>();
     NGIN::Time::Timer<NGIN::Time::SteadyClock> timer2 = {};
 
     NGIN::Math::Vector3 vec11 = {1, 2, 3};
-    NGIN::Math::Vector3 vec21 = {4, 5, 6};
+    vec11 += j;
 
-    for (int i = 0; i < 10000; i++)
+    NGIN::Math::Vector3 vec21 = {4, 5, 6};
+    vec21 += j;
+
+    for (volatile int i = 0; i < 10000; i++)
     {
-        volatile NGIN::Math::Vector3 result = vec11.Cross(vec21);
+        volatile NGIN::Math::Vector3 result = NGIN::Math::Cross(vec11, vec21);
     }
 
-    volatile int time2 = timer2.ElapsedInt<NGIN::Time::Nanoseconds>();
+    volatile auto time2 = timer2.ElapsedInt<NGIN::Time::Microseconds>();
 
 
-    std::cout << "NGIN::Math::Vector3::Cross took " << time2 << " Nanoseconds" << '\n';
-    std::cout << "glm::cross took " << time1 << " Nanoseconds" << '\n';
+    std::cout << "NGIN::Math::Vector3::Cross took " << time2 << " Microseconds" << '\n';
+    std::cout << "glm::cross took " << time1 << " Microseconds" << '\n';
 
 
     std::cout
