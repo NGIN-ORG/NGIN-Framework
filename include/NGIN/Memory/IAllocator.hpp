@@ -1,9 +1,9 @@
 #pragma once
 
-#include <NGIN/Common/Types/Primitive.hpp>
-#include <source_location>
 #include <NGIN/Common/Defines.hpp>
+#include <NGIN/Common/Types/Primitive.hpp>
 #include <concepts>
+#include <source_location>
 #include <type_traits>
 
 namespace NGIN::Memory
@@ -39,7 +39,7 @@ namespace NGIN::Memory
         /// This method reserves memory for an object of type T and constructs the object in-place.
         /// \tparam T The object type to allocate and construct.
         /// \tparam Args Types of the constructor arguments.
-        /// \param loc Source location for debugging (defaults to current location).
+        /// \param location Source location for debugging (defaults to current location).
         /// \param args Arguments forwarded to T's constructor.
         /// \return Pointer to the constructed object or nullptr if allocation fails.
         template<typename T, typename... Args>
