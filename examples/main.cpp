@@ -7,6 +7,7 @@
 #include <NGIN/Logging/ConsoleSink.hpp>
 #include <NGIN/Logging/SimpleFormatter.hpp>
 #include <NGIN/Logging/SimpleLogger.hpp>
+#include <NGIN/Math/Vector2.hpp>
 #include <NGIN/Math/Vector3.hpp>
 #include <NGIN/Memory/Mallocator.hpp>
 #include <NGIN/System/Info.hpp>
@@ -59,26 +60,22 @@ int main(int argc, char* argv[])
     NGIN::Time::Timer<NGIN::Time::SteadyClock> timer1 = {};
 
     glm::vec3 vec1 = {1, 2, 3};
-    vec1 += j;
     glm::vec3 vec2 = {4, 5, 6};
-    vec2 += j;
-    for (volatile int i = 0; i < 10000; i++)
+    for (volatile int i = 0; i < 1000000; i++)
     {
-        volatile glm::vec3 vec3 = glm::cross(vec1, vec2);
+        volatile auto vec3 = glm::length(vec1);
     }
 
     volatile auto time1 = timer1.ElapsedInt<NGIN::Time::Microseconds>();
     NGIN::Time::Timer<NGIN::Time::SteadyClock> timer2 = {};
 
     NGIN::Math::Vector3 vec11 = {1, 2, 3};
-    vec11 += j;
 
     NGIN::Math::Vector3 vec21 = {4, 5, 6};
-    vec21 += j;
 
-    for (volatile int i = 0; i < 10000; i++)
+    for (volatile int i = 0; i < 1000000; i++)
     {
-        volatile NGIN::Math::Vector3 result = NGIN::Math::Cross(vec11, vec21);
+        volatile auto result = vec11.Length();
     }
 
     volatile auto time2 = timer2.ElapsedInt<NGIN::Time::Microseconds>();

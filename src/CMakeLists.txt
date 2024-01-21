@@ -23,7 +23,6 @@ set(NGIN_UTIL_SRC
 )
 
 set(NGIN_MATH_SRC
-    "NGIN/Math/Vector3.cpp"    
 )
 
 set(NGIN_PLATFORM_WINDOWS_SRC

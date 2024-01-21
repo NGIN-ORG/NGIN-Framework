@@ -3,6 +3,8 @@
 
 #include <NGIN/Common/Defines.hpp>
 #include <NGIN/Common/Types/Primitive.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 
 namespace NGIN::Math
 {
@@ -45,97 +47,198 @@ namespace NGIN::Math
         {}
         /// @brief Constructs a Vector3 with all components set to the same value.
         /// @param value The value to set all components to.
-        constexpr explicit Vector3(F32 value) noexcept
+        constexpr explicit Vector3(const F32 value) noexcept
             : x(value), y(value), z(value)
         {}
         /// @brief Constructs a Vector3 with the specified components.
         /// @param x The x component of the vector.
         /// @param y The y component of the vector.
         /// @param z The z component of the vector.
-        constexpr Vector3(F32 x, F32 y, F32 z) noexcept
+        constexpr Vector3(const F32 x, const F32 y, const F32 z) noexcept
             : x(x), y(y), z(z)
         {}
 
+        explicit constexpr Vector3(const glm::vec3& v) noexcept
+            : x(v.x), y(v.y), z(v.z)
+        {}
+
+        explicit constexpr operator glm::vec3() const
+        {
+            return {x, y, z};
+        }
+
 
         /// @brief Returns the length of the vector.
-        F32 Length() const;
+        [[nodiscard]] F32 Length() const
+        {
+            return glm::length(static_cast<glm::vec3>(*this));
+        }
+
+        [[nodiscard]] F32 LengthSquared() const
+        {
+            return glm::length2(static_cast<glm::vec3>(*this));
+        }
 
         /// @brief Normalizes the vector.
-        Void Normalize();
+        Void Normalize()
+        {
+            *this = static_cast<Vector3>(glm::normalize(static_cast<glm::vec3>(*this)));
+        }
+
+        /// @brief Returns a normalized copy of the vector.
+        [[nodiscard]] Vector3 Normalized() const
+        {
+            return static_cast<Vector3>(glm::normalize(static_cast<glm::vec3>(*this)));
+        }
 
         /// @brief Returns the dot product of this vector and another.
         /// @param other The other vector.
-        F32 Dot(const Vector3& other) const;
+        [[nodiscard]] F32 Dot(const Vector3& other) const
+        {
+            return glm::dot(static_cast<glm::vec3>(*this), static_cast<glm::vec3>(other));
+        }
 
         /// @brief Returns the cross product of this vector and another.
         /// @param other The other vector.
-        Vector3 Cross(const Vector3& other) const;
+        [[nodiscard]] Vector3 Cross(const Vector3& other) const
+        {
+            return static_cast<Vector3>(glm::cross(static_cast<glm::vec3>(*this), static_cast<glm::vec3>(other)));
+        }
 
         /// @brief Addition operator overload for Vector3.
         /// @param other The other vector.
-        Vector3 operator+(const Vector3& other) const;
+        Vector3 operator+(const Vector3& other) const
+        {
+            return {x + other.x, y + other.y, z + other.z};
+        }
 
         /// @brief Subtraction operator overload for Vector3.
         /// @param other The other vector.
-        Vector3 operator-(const Vector3& other) const;
+        Vector3 operator-(const Vector3& other) const
+        {
+            return {x - other.x, y - other.y, z - other.z};
+        }
 
         /// @brief Multiplication operator overload for Vector3.
         /// @param other The other vector.
-        Vector3 operator*(const Vector3& other) const;
+        Vector3 operator*(const Vector3& other) const
+        {
+            return {x * other.x, y * other.y, z * other.z};
+        }
 
         /// @brief Division operator overload for Vector3.
         /// @param other The other vector.
-        Vector3 operator/(const Vector3& other) const;
+        Vector3 operator/(const Vector3& other) const
+        {
+            return {x / other.x, y / other.y, z / other.z};
+        }
 
         /// @brief Addition operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3 operator+(const F32 value) const;
+        Vector3 operator+(const F32 value) const
+        {
+            return {x + value, y + value, z + value};
+        }
 
         /// @brief Subtraction operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3 operator-(const F32 value) const;
+        Vector3 operator-(const F32 value) const
+        {
+            return {x - value, y - value, z - value};
+        }
 
         /// @brief Multiplication operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3 operator*(const F32 value) const;
+        Vector3 operator*(const F32 value) const
+        {
+            return {x * value, y * value, z * value};
+        }
 
         /// @brief Division operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3 operator/(const F32 value) const;
+        Vector3 operator/(const F32 value) const
+        {
+            return {x / value, y / value, z / value};
+        }
 
         /// @brief Addition assignment operator overload for Vector3.
         /// @param other The other vector.
-        Vector3& operator+=(const Vector3& other);
+        Vector3& operator+=(const Vector3& other)
+        {
+            x += other.x;
+            y += other.y;
+            z += other.z;
+            return *this;
+        }
 
         /// @brief Subtraction assignment operator overload for Vector3.
         /// @param other The other vector.
-        Vector3& operator-=(const Vector3& other);
+        Vector3& operator-=(const Vector3& other)
+        {
+            x -= other.x;
+            y -= other.y;
+            z -= other.z;
+            return *this;
+        }
 
         /// @brief Multiplication assignment operator overload for Vector3.
         /// @param other The other vector.
-        Vector3& operator*=(const Vector3& other);
+        Vector3& operator*=(const Vector3& other)
+        {
+            x *= other.x;
+            y *= other.y;
+            z *= other.z;
+            return *this;
+        }
 
         /// @brief Division assignment operator overload for Vector3.
         /// @param other The other vector.
-        Vector3& operator/=(const Vector3& other);
+        Vector3& operator/=(const Vector3& other)
+        {
+            x /= other.x;
+            y /= other.y;
+            z /= other.z;
+            return *this;
+        }
 
         /// @brief Addition assignment operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3& operator+=(const F32 value);
+        Vector3& operator+=(const F32 value)
+        {
+            x += value;
+            y += value;
+            z += value;
+            return *this;
+        }
 
         /// @brief Subtraction assignment operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3& operator-=(const F32 value);
+        Vector3& operator-=(const F32 value)
+        {
+            x -= value;
+            y -= value;
+            z -= value;
+            return *this;
+        }
 
         /// @brief Multiplication assignment operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3& operator*=(const F32 value);
+        Vector3& operator*=(const F32 value)
+        {
+            x *= value;
+            y *= value;
+            z *= value;
+            return *this;
+        }
 
         /// @brief Division assignment operator overload for Vector3 and scalar.
         /// @param value The scalar value.
-        Vector3& operator/=(const F32 value);
+        Vector3& operator/=(const F32 value)
+        {
+            x /= value;
+            y /= value;
+            z /= value;
+            return *this;
+        }
     };
-
-    Vector3 Cross(const Vector3& that, const Vector3& other);
-
 }// namespace NGIN::Math
