@@ -1,0 +1,8 @@
+build
+dependencies
+.vs
+.vscode
+.idea
+ignore
+.vscode/settings.json
+Folder.DotSettings.user
