@@ -1,62 +1,32 @@
-set(NGIN_SYSTEM_SRC
-    "NGIN/System/Exceptions/Error.cpp"
-)
-if(WIN32)
-    list(APPEND NGIN_SYSTEM_SRC "NGIN/System/Platform/Windows/Info.cpp")
-else()
-    list(APPEND NGIN_SYSTEM_SRC "NGIN/System/Platform/Unix/Info.cpp")
-endif()
-
-set(NGIN_LOGGING_SRC
-    "NGIN/Logging/ConsoleSink.cpp"
-    "NGIN/Logging/ErrorSink.cpp"
-    "NGIN/Logging/SimpleFormatter.cpp"
-)
-
-set(NGIN_MEMORY_SRC
-    "NGIN/Memory/Mallocator.cpp"
-    "NGIN/Memory/LinearAllocator.cpp"
-)
-
-set(NGIN_UTIL_SRC
-    "NGIN/Util/UUID.cpp"
-)
-
-set(NGIN_MATH_SRC
-)
-
-set(NGIN_PLATFORM_WINDOWS_SRC
-    "NGIN/Platform/Windows/SEH.cpp"
-)
-if(NGIN_PLATFORM_WINDOWS)
-    list(APPEND NGIN_PLATFORM_WINDOWS_SRC "NGIN/Platform/Windows/SEH.cpp")
-endif()
-
 if(NGIN_BUILD_SHARED)
     set(NGIN_BUILD_TYPE SHARED)
 else()
     set(NGIN_BUILD_TYPE STATIC)
 endif()
 
-add_library(NGIN ${NGIN_BUILD_TYPE}
-    "main.cpp"
-    ${NGIN_SYSTEM_SRC}
-    ${NGIN_LOGGING_SRC}
-    ${NGIN_MEMORY_SRC}
-    ${NGIN_UTIL_SRC}
-    ${NGIN_MATH_SRC}
-    ${NGIN_PLATFORM_WINDOWS_SRC}
+add_library(NGIN ${NGIN_BUILD_TYPE})
+
+target_sources(NGIN PUBLIC 
+    FILE_SET 
+        ngin_module_interfaces 
+    TYPE 
+        CXX_MODULES
+    BASE_DIRS 
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    FILES
+        
+ "NGIN/Logging/ILogger.ixx" "NGIN/Util/Format.ixx" "NGIN/Common/Types/Primitive.ixx" "NGIN/Common/Types/String.ixx" "NGIN/Common/Types.ixx" "NGIN/Util.ixx")
+
+target_sources(NGIN PRIVATE
+    
 )
 
-target_include_directories(NGIN
-    PUBLIC 
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-        $<INSTALL_INTERFACE:include>
-)
+
+
 
 include(CMakeDependencies.cmake)
 
-target_link_libraries(NGIN PUBLIC
+target_link_libraries(NGIN PRIVATE
     fmt::fmt
     SDL2::SDL2
     SDL2::SDL2main
@@ -101,4 +71,4 @@ add_custom_command(TARGET NGIN POST_BUILD
         $<TARGET_FILE_DIR:NGIN>
 )
 
-add_library(NGIN::Framework ALIAS NGIN)
+add_library(NGIN::NGIN ALIAS NGIN)

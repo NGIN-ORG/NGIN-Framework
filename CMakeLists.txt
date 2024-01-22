@@ -1,5 +1,5 @@
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
-cmake_minimum_required(VERSION 3.8...3.27)
+cmake_minimum_required(VERSION 3.28)
 
 project("NGIN" VERSION 0.1)
 
@@ -11,10 +11,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
-option(NGIN_BUILD_TESTS "Build NGIN tests" ON)
+option(NGIN_BUILD_TESTS "Build NGIN tests" OFF)
 message(STATUS "Build NGIN tests: ${NGIN_BUILD_TESTS}")
 
 option(NGIN_BUILD_EXAMPLES "Build NGIN examples" ON)
+set(NGIN_BUILD_EXAMPLES ON)
 message(STATUS "Build NGIN examples: ${NGIN_BUILD_EXAMPLES}")
 
 option(NGIN_BUILD_SHARED "Build NGIN as a shared library" OFF)
@@ -103,21 +104,7 @@ endif()
 #Add NGIN::Framework target
 add_subdirectory(src)
 
+if(NGIN_BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
 
-
-
-if (NGIN_BUILD_DOCUMENTATION)
-    add_subdirectory("docs")
-endif ()
-
-if (NGIN_BUILD_EXAMPLES)
-    add_subdirectory("examples")
-endif ()
-
-# Check if NGIN should build tests
-if (NGIN_BUILD_TESTS)
-    set(BUILD_TESTING ON CACHE BOOL "" FORCE)
-    include(CTest)
-    enable_testing()
-    add_subdirectory("tests")
-endif ()
