@@ -15,7 +15,7 @@ target_sources(NGIN PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
     FILES
         
- "NGIN/Logging/ILogger.ixx" "NGIN/Util/Format.ixx" "NGIN/Common/Types/Primitive.ixx" "NGIN/Common/Types/String.ixx" "NGIN/Common/Types.ixx" "NGIN/Util.ixx")
+ "NGIN/Logging/ILogger.ixx" "NGIN/Util/Format.ixx" "NGIN/Common/Types/Primitive.ixx" "NGIN/Common/Types/String.ixx" "NGIN/Common/Types.ixx" "NGIN/Util.ixx" "NGIN/Common/Containers/Vector.ixx" "NGIN/Common/Containers/Array.ixx" "NGIN/Common/Containers/Deque.ixx" "NGIN/Common/Containers/Map.ixx" "NGIN/Common/Containers/UnorderedMap.ixx" "NGIN/Common/Containers.ixx" "NGIN/Common/Memory/Ref.ixx" "NGIN/Common/Memory/Scope.ixx" "NGIN/Common/Memory/Ticket.ixx" "NGIN/Common/Memory.ixx")
 
 target_sources(NGIN PRIVATE
     
@@ -37,16 +37,17 @@ target_link_libraries(NGIN PRIVATE
 
 if(NOT NGIN_ENABLE_RTTI)
     if(MSVC)
-        target_compile_options(NGIN PRIVATE /GR-)
+        target_compile_options(NGIN PUBLIC /GR-)
     else()
-        target_compile_options(NGIN PRIVATE -fno-rtti)
+        target_compile_options(NGIN PUBLIC -fno-rtti)
     endif()
 endif()
 if(NOT NGIN_ENABLE_EXCEPTIONS)
     if(MSVC)
-        target_compile_options(NGIN PRIVATE /EHsc-)
+        target_compile_options(NGIN PUBLIC /EHsc-)
+        target_compile_definitions(NGIN PUBLIC _HAS_EXCEPTIONS=0)
     else()
-        target_compile_options(NGIN PRIVATE -fno-exceptions)
+        target_compile_options(NGIN PUBLIC -fno-exceptions)
     endif()
 endif()
 
