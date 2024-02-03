@@ -1,58 +1,49 @@
 module;
 
-#include <fmt/chrono.h>
-#include <fmt/core.h>
-#include <fmt/format.h>
-
+#include <format>
+#include <string>
+#include <string_view>
 #include <utility>
-
-
-
 export module NGIN.Util:Format;
 
-export import NGIN.Common.Types;
+export import NGIN.Types;
 
-export namespace NGIN::Util
+namespace NGIN::Util
 {
-    /// @brief Formats a string at runtime using provided format arguments.
-    /// This function wraps around the `fmt::format` function from the fmt library.
-    ///
-    /// @note For compile-time string formatting, see `NGIN::Util::Format` function.
-    ///
-    /// @tparam Args Types of the arguments used for formatting.
-    /// @param message The message string to be formatted.
-    /// @param args The arguments to be substituted into the format string.
-    /// @return The formatted string.
-    ///
-    /// @code
-    ///   std::string_view msg = "Hello, {}!";
-    ///   std::string result = RuntimeFormat(msg, "World");
+    /// <summary>Formats a string at runtime using provided format arguments.</summary>
+    /// <remarks>This function wraps around the `fmt::format` function from the fmt library.</remarks>
+    /// <note>For compile-time string formatting, see `NGIN::Util::Format` function.</note>
+    /// <typeparam name="Args">Types of the arguments used for formatting.</typeparam>
+    /// <param name="message">The message string to be formatted.</param>
+    /// <param name="args">The arguments to be substituted into the format string.</param>
+    /// <returns>The formatted string.</returns>
+    /// <example>
+    ///   NGIN::StringView msg = "Hello, {}!";
+    ///   NGIN::String result = RuntimeFormat(msg, "World");
     ///   // result will be "Hello, World!"
-    /// @endcode
+    /// </example>
     export template<typename... Args>
     String RuntimeFormat(StringView message, Args&&... args)
     {
-        return fmt::format(fmt::runtime(message), std::forward<Args>(args)...);
+        return std::vformat(message, std::make_format_args(std::forward<Args>(args)...));
     }
 
-    /// @brief Formats a string at compile-time using provided format arguments.
-    /// This function wraps around the `fmt::format` function from the fmt library.
-    ///
-    /// @note For runtime string formatting, see `NGIN::Util::RuntimeFormat` function.
-    ///
-    /// @tparam Args Types of the arguments used for formatting.
-    /// @param message The format string (must be a string literal).
-    /// @param args The arguments to be substituted into the format string.
-    /// @return The formatted string.
-    /// @code
+    /// <summary>Formats a string at compile-time using provided format arguments.</summary>
+    /// <remarks>This function wraps around the `fmt::format` function from the fmt library.</remarks>
+    /// <note>For runtime string formatting, see `NGIN::Util::RuntimeFormat` function.</note>
+    /// <typeparam name="Args">Types of the arguments used for formatting.</typeparam>
+    /// <param name="message">The format string (must be a string literal).</param>
+    /// <param name="args">The arguments to be substituted into the format string.</param>
+    /// <returns>The formatted string.</returns>
+    /// <example>
     ///   constexpr const char* msg = "Hello, {}!";
-    ///   std::string result = Format(msg, "World");
+    ///   NGIN::String result = Format(msg, "World");
     ///   // result will be "Hello, World!"
-    /// @endcode
+    /// </example>
     export template<typename... Args>
-    constexpr String Format(fmt::format_string<Args...> message, Args&&... args)
+    String Format(std::format_string<Args...> message, Args&&... args)
     {
-        return fmt::format(message, std::forward<Args>(args)...);
+        return std::format(message, std::forward<Args>(args)...);
     }
 
-};// namespace NGIN::Util
+}// namespace NGIN::Util

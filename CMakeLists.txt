@@ -25,18 +25,19 @@ option(NGIN_BUILD_DOCUMENTATION "Build NGIN documentation" OFF)
 message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
 
 option(NGIN_BUILD_ONLY_DOCUMENTATION "Build only documentation" OFF)
-message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCS}")
+message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCUMENTATION}")
 
-option(NGIN_STRICT_WARNINGS, "Enable warnings" ON)
-message(STATUS "NGIN strict warnings: ${NGIN_STRICT_WARNINGS}")
+option(NGIN_STRICT_WARNINGS, "Enable warnings" OFF)
+message(STATUS "WError: ${NGIN_STRICT_WARNINGS}")
+
 
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
-option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" OFF)
+option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" ON)
 message(STATUS "Throw exceptions: ${NGIN_ENABLE_EXCEPTIONS}")
 
-option(NGIN_ENABLE_RTTI "Enable RTTI" OFF)
+option(NGIN_ENABLE_RTTI "Enable RTTI" ON)
 message(STATUS "Enable RTTI: ${NGIN_ENABLE_RTTI}")
 
 option(NGIN_DEFINE_MAIN "Define main function" ON)

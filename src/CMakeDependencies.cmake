@@ -25,8 +25,12 @@ endmacro()
 
 # fmtlib
 
-set(FMT_USE_NOEXCEPT ON CACHE BOOL "" FORCE)
-fetch_dependency(fmt "https://github.com/fmtlib/fmt" "10.1.1")
+set(FMT_USE_NOEXCEPT OFF CACHE BOOL "" FORCE)
+set(FMT_MODULE OFF CACHE BOOL "" FORCE)
+set(FMT_TEST OFF CACHE BOOL "" FORCE)
+set(FMT_ATTACH_TO_GLOBAL_MODULE OFF CACHE BOOL "" FORCE)
+set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
+fetch_dependency(fmt "https://github.com/fmtlib/fmt" "10.2.1")
 
 # SDL2
 set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "" FORCE)

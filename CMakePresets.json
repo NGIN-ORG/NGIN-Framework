@@ -1,19 +1,19 @@
 {
     "version": 3,
     "configurePresets": [
-        {
-            "name": "base",
-            "hidden": true,
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
-            }
+      {
+        "name": "base",
+        "hidden": true,
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/build/${presetName}",
+        "architecture": {
+          "value": "x64",
+          "strategy": "external"
         },
+        "cacheVariables": {
+          "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+        }
+      },
         {
             "name": "debug",
             "inherits": "base",

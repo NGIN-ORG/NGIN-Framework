@@ -6,3 +6,4 @@ dependencies
 ignore
 .vscode/settings.json
 Folder.DotSettings.user
+vc140.pdb

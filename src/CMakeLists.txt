@@ -14,8 +14,34 @@ target_sources(NGIN PUBLIC
     BASE_DIRS 
         ${CMAKE_CURRENT_SOURCE_DIR}
     FILES
-        
- "NGIN/Logging/ILogger.ixx" "NGIN/Util/Format.ixx" "NGIN/Common/Types/Primitive.ixx" "NGIN/Common/Types/String.ixx" "NGIN/Common/Types.ixx" "NGIN/Util.ixx" "NGIN/Common/Containers/Vector.ixx" "NGIN/Common/Containers/Array.ixx" "NGIN/Common/Containers/Deque.ixx" "NGIN/Common/Containers/Map.ixx" "NGIN/Common/Containers/UnorderedMap.ixx" "NGIN/Common/Containers.ixx" "NGIN/Common/Memory/Ref.ixx" "NGIN/Common/Memory/Scope.ixx" "NGIN/Common/Memory/Ticket.ixx" "NGIN/Common/Memory.ixx")
+ "NGIN/NGIN.ixx"  
+ "NGIN/Util/Format.ixx" 
+ "NGIN/Types/Primitives.ixx" 
+ "NGIN/Types/String.ixx" 
+ "NGIN/Types/Types.ixx" 
+ "NGIN/Util/Util.ixx" 
+ "NGIN/Containers/Vector.ixx" 
+ "NGIN/Containers/Array.ixx" 
+ "NGIN/Containers/Deque.ixx" 
+ "NGIN/Containers/Map.ixx" 
+ "NGIN/Containers/UnorderedMap.ixx" 
+ "NGIN/Containers/Containers.ixx" 
+ "NGIN/Memory/Ref.ixx" 
+ "NGIN/Memory/Scope.ixx" 
+ "NGIN/Memory/Ticket.ixx" 
+ "NGIN/Memory/Memory.ixx" 
+ "NGIN/Logging/LogLevel.ixx" 
+ "NGIN/Meta/EnumTraits.ixx" 
+ "NGIN/Meta/Meta.ixx" 
+ "NGIN/Logging/Logging.ixx"  
+ "NGIN/Logging/ILogger.ixx" 
+ "NGIN/Logging/IFormatter.ixx"
+ "NGIN/Logging/ISink.ixx"
+ "NGIN/Util/StringUtil.ixx"
+ "NGIN/Logging/SimpleFormatter.ixx"  
+ "NGIN/Util/TimeUtil.ixx" 
+ "NGIN/Logging/SimpleLogger.ixx" 
+ "NGIN/Logging/ConsoleSink.ixx" "NGIN/Meta/FunctionTraits.ixx" "NGIN/Meta/TypeInfo.ixx" "NGIN/Reflection/IReflectable.ixx" "NGIN/Reflection/Reflection.ixx" "NGIN/Reflection/Registry.ixx" "NGIN/Types/Optional.ixx")
 
 target_sources(NGIN PRIVATE
     
@@ -27,7 +53,6 @@ target_sources(NGIN PRIVATE
 include(CMakeDependencies.cmake)
 
 target_link_libraries(NGIN PRIVATE
-    fmt::fmt
     SDL2::SDL2
     SDL2::SDL2main
     glm::glm
@@ -44,7 +69,7 @@ if(NOT NGIN_ENABLE_RTTI)
 endif()
 if(NOT NGIN_ENABLE_EXCEPTIONS)
     if(MSVC)
-        target_compile_options(NGIN PUBLIC /EHsc-)
+        target_compile_options(NGIN PUBLIC /EHsc)
         target_compile_definitions(NGIN PUBLIC _HAS_EXCEPTIONS=0)
     else()
         target_compile_options(NGIN PUBLIC -fno-exceptions)
