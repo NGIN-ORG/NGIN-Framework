@@ -98,7 +98,7 @@ export namespace NGIN
             if (name == "Critical") return Logging::LogLevel::Critical;
             if (name.find("CUSTOM") == 0 && name.length() > 6)
             {
-                int customLevel = std::stoi(name.substr(6));
+                int customLevel = std::stoi(name.substr(6).c_str());
                 if (customLevel >= 0 && customLevel <= 19)
                     return static_cast<Logging::LogLevel>(customLevel - static_cast<int>(Logging::LogLevel::CUSTOM0));
             }

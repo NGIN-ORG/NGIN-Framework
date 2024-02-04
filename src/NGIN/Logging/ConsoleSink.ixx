@@ -32,11 +32,11 @@ namespace NGIN::Logging
     }
     void ConsoleSink::Log(LogLevel level, const String& message)
     {
-        std::cerr << message << "\n";
+        std::cout << message << "\n";
     }
 
     void ConsoleSink::Flush()
     {
-        std::cerr.flush();
+        std::cout.flush();
     }
 }// namespace NGIN::Logging

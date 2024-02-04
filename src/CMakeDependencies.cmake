@@ -23,6 +23,9 @@ macro(fetch_dependency _name _repo _tag)
 endmacro()
 
 
+
+
+
 # fmtlib
 
 set(FMT_USE_NOEXCEPT OFF CACHE BOOL "" FORCE)
@@ -31,6 +34,9 @@ set(FMT_TEST OFF CACHE BOOL "" FORCE)
 set(FMT_ATTACH_TO_GLOBAL_MODULE OFF CACHE BOOL "" FORCE)
 set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
 fetch_dependency(fmt "https://github.com/fmtlib/fmt" "10.2.1")
+
+# SIMDString
+fetch_dependency(SIMDString "https://github.com/NGIN-ORG/SIMDString" "main")
 
 # SDL2
 set(SDL_TEST_ENABLED_BY_DEFAULT OFF CACHE BOOL "" FORCE)

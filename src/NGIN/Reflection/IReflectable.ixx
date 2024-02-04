@@ -16,29 +16,5 @@ export namespace NGIN::Reflection
     };
 }
 
-module :private;
-
-static void NGIN_AUTO_REGISTRATION_FUNCTION();
-
-namespace
-{
-    struct NGIN_AUTO_REGISTRATION_STRUCT
-    {
-        NGIN_AUTO_REGISTRATION_STRUCT()
-        {
-            NGIN_AUTO_REGISTRATION_FUNCTION();
-        }
-    };
-    static NGIN_AUTO_REGISTRATION_STRUCT
-            NGIN_AUTO_REGISTRATION_STRUCT_INSTANCE = {};
-}
-    static void NGIN_AUTO_REGISTRATION_FUNCTION()
-    {
-        std::cout << "NGIN_AUTO_REGISTRATION_FUNCTION" << std::endl;
-    }
 
 
-
-
-///TODO:
-///IDEA 
