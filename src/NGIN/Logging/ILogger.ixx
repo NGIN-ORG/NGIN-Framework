@@ -1,13 +1,10 @@
-module;
-
-#include <source_location>
-#include <utility>
 
 export module NGIN.Logging:ILogger;
 
 export import NGIN.Types;
 import NGIN.Util;
 import :LogLevel;
+import std;
 
 namespace NGIN::Logging
 {

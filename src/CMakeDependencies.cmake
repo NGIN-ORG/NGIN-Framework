@@ -66,8 +66,10 @@ fetch_dependency(rapidjson "https://github.com/Tencent/rapidjson" "v1.1.0")
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt OFF CACHE BOOL "" FORCE)
 fetch_dependency(googletest "https://github.com/google/googletest" "main")
+
+fetch_dependency(ut "https://github.com/NGIN-ORG/ut" "master")
 
 # Vulkan
 message(STATUS "Checking Vulkan path: $ENV{VULKAN_SDK}")

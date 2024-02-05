@@ -1,8 +1,6 @@
-module;
-
-#include <map>
 
 export module NGIN.Containers:Map;
+import std;
 
 namespace NGIN
 {

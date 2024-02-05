@@ -1,11 +1,6 @@
-module;
-#include <source_location>
-#include <sstream>
-#include <chrono>
-#include <string>
 
 export module NGIN.Logging:SimpleFormatter;
-
+import std;
 
 
 import :IFormatter;

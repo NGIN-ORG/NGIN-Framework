@@ -1,10 +1,6 @@
-module;
-
-#include <cstddef>
-#include <cstdint>
 
 export module NGIN.Types:Primitives;
-
+import std;
 export namespace NGIN
 {
     /// TODO: Add documentation

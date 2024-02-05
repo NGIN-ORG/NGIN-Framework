@@ -1,9 +1,7 @@
-module;
 
-#include <utility>
-#include <string>
 
 export module NGIN.Logging:SimpleLogger;
+import std;
 
 import :ILogger;
 import :ISink;

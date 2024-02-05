@@ -1,11 +1,9 @@
 module;
 
-#include <string>
-#include <string_view>
-#include <iostream>
+
 export module NGIN.Types:String;
 
-
+import std;
 export namespace NGIN
 {
     using String = std::string;

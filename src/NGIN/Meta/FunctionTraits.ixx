@@ -1,10 +1,6 @@
-module;
-
-#include <type_traits>
-#include <tuple>
 
 export module NGIN.Meta:FunctionTraits;
-
+import std;
 export namespace NGIN::Meta
 {
 

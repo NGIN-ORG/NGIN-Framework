@@ -1,9 +1,6 @@
-module;
-
-#include <vector>
 
 export module NGIN.Containers:Vector;
-
+import std;
 namespace NGIN
 {
 	

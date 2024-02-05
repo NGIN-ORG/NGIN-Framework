@@ -1,10 +1,8 @@
-module;
-#include <chrono>
 
 export module NGIN.Util:TimeUtil;
 
 export import NGIN.Types;
-
+import std;
 namespace NGIN::Util
 {
     export String GetCurrentFormattedTime()

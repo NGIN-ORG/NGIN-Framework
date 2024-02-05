@@ -100,8 +100,10 @@ endif()
 if(NGIN_DEFINE_MAIN)
     add_compile_definitions(NGIN_DEFINE_MAIN)
 endif()
-
-
+add_compile_options(
+   /std:c++latest
+   /EHsc
+)
 #Add NGIN::Framework target
 add_subdirectory(src)
 
@@ -109,4 +111,5 @@ if(NGIN_BUILD_EXAMPLES)
 	add_subdirectory(examples)
 endif()
 
+enable_testing()
 add_subdirectory(tests)

@@ -1,12 +1,10 @@
-#include <gtest/gtest.h>
 
-
+import std;
+import boost.ut;
 // main function for the test program
 int main(int argc, char** argv)
 {
-    ::testing::InitGoogleTest(&argc, argv);
-    const auto result = RUN_ALL_TESTS();
-    std::cout << "Press ENTER to continue...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    return result;
+    using namespace boost::ut;
+    expect(true);
+
 }

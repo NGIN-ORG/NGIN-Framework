@@ -1,13 +1,9 @@
-module;
-
-#include <source_location>
-
 
 export module NGIN.Logging:IFormatter;
 
 export import NGIN.Types;
 import :LogLevel;
-
+import std;
 
 namespace NGIN::Logging
 {

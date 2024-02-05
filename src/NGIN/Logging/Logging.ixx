@@ -1,6 +1,3 @@
-module;
-
-#include <format>
 
 export module NGIN.Logging;
 

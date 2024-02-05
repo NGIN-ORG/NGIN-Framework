@@ -1,9 +1,7 @@
-module;
-
-#include <optional>
 
 
 export module NGIN.Types:Optional;
+import std;
 
 export namespace NGIN
 {

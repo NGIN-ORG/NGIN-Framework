@@ -1,9 +1,7 @@
-module;
 
-#include <memory>
-#include <utility>
 
 export module NGIN.Memory:Scope;
+import std;
 
 namespace NGIN
 {

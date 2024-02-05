@@ -1,8 +1,6 @@
-module;
-
-#include <unordered_map>
 
 export module NGIN.Containers:UnorderedMap;
+import std;
 
 namespace NGIN
 {

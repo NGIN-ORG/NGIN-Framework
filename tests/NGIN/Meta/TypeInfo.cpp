@@ -1,9 +1,7 @@
-#include <gtest/gtest.h>
-#include <string>
-#include <type_traits>
-
 import NGIN.Meta;
-
+import std;
+import boost.ut;
+using namespace boost::ut;
 namespace
 {
     struct TestClass
@@ -21,32 +19,35 @@ namespace
     }
 
 }
-// Test cases
-TEST(TypeInfoTest, Full)
-{
-    using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
-    auto typeName = RemoveAnonymousNamespace(TypeInfo::Full());
-    EXPECT_EQ(typeName, "TestClass");
-}
 
-TEST(TypeInfoTest, NestedClassFull)
+suite<"TypeInfo"> _ = []
 {
-    using TypeInfo = NGIN::Meta::TypeInfo<TestClass::NestedClass>;
-    auto typeName = RemoveAnonymousNamespace(TypeInfo::Full());
-    EXPECT_EQ(typeName, "TestClass::NestedClass");
-}
+       "Full"_test = []
+    {
+        using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
+        const auto typeName = RemoveAnonymousNamespace(TypeInfo::Full());
+        expect(typeName == "TestClass");
+    };
 
-TEST(TypeInfoTest, Namespace)
-{
-    using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
-    auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
-    // Assuming TestClass is not within a named namespace, otherwise change the expected string accordingly.
-    EXPECT_FALSE(namespaceName.contains("::"));
-}
+    "NestedClassFull"_test = []
+    {
+        using TypeInfo = NGIN::Meta::TypeInfo<TestClass::NestedClass>;
+           const auto typeName = RemoveAnonymousNamespace(TypeInfo::Full());
+        expect(typeName == "TestClass::NestedClass");
+    };
 
-TEST(TypeInfoTest, NestedClassNamespace)
-{
-    using TypeInfo = NGIN::Meta::TypeInfo<TestClass::NestedClass>;
-    auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
-    EXPECT_EQ(namespaceName, "TestClass");
-}
+    "Namespace"_test = []
+    {
+        using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
+        const auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
+        // Assuming TestClass is not within a named namespace, otherwise change the expected string accordingly.
+        expect(not namespaceName.contains("::"));
+    };
+
+    "NestedClassNamespace"_test = []
+    {
+        using TypeInfo = NGIN::Meta::TypeInfo<TestClass::NestedClass>;
+        const auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
+        expect(namespaceName == "TestClass");
+    };
+};

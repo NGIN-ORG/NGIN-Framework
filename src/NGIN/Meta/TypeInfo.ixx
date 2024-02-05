@@ -1,10 +1,8 @@
-module;
-
-#include <type_traits>
 
 export module NGIN.Meta:TypeInfo;
 
 export import NGIN.Types;
+import std;
 
 export namespace NGIN::Meta
 {

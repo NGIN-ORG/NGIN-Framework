@@ -1,11 +1,8 @@
-module;
-
-#include <string>
-#include <string_view>
 
 export module NGIN.Util:StringUtil;
 
 export import NGIN.Types;
+import std;
 
 namespace NGIN::Util
 {
@@ -70,6 +67,6 @@ namespace NGIN::Util
                 color_code = ANSI_RESET;
                 break;
         }
-        return String(color_code) + String(str) + "\033[0m";
+        return String(color_code) + String(str) + String("\033[0m");
     }
 }// namespace NGIN::Util

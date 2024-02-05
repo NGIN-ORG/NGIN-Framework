@@ -1,12 +1,10 @@
-module;
-
-#include <string>
 
 export module NGIN.Logging:LogLevel;
 
 export import NGIN.Meta;
 export import NGIN.Types;
 export import NGIN.Containers;
+import std;
 
 export namespace NGIN
 {
@@ -62,7 +60,7 @@ export namespace NGIN
         static constexpr StringView FullName = "NGIN::Logging::LogLevel";
 
 
-        static constexpr String ToString(const Logging::LogLevel level)
+        static constexpr StringView ToString(const Logging::LogLevel level)
         {
             switch (level)
             {
@@ -80,10 +78,6 @@ export namespace NGIN
                     return "Critical";
                 // Handle custom log levels
                 default: {
-                    if (level >= Logging::LogLevel::CUSTOM0 && level <= Logging::LogLevel::CUSTOM19)
-                    {
-                        return "CUSTOM" + std::to_string(static_cast<int>(level) - static_cast<int>(Logging::LogLevel::CUSTOM0));
-                    }
                     return "Unknown";
                 }
             }

@@ -1,12 +1,10 @@
 module;
 
-#include <format>
-#include <string>
-#include <string_view>
-#include <utility>
 export module NGIN.Util:Format;
 
 export import NGIN.Types;
+
+import std;
 
 namespace NGIN::Util
 {
@@ -23,7 +21,7 @@ namespace NGIN::Util
     ///   // result will be "Hello, World!"
     /// </example>
     export template<typename... Args>
-    String RuntimeFormat(StringView message, Args&&... args)
+    String RuntimeFormat(const String& message, Args&&... args)
     {
         return std::vformat(message, std::make_format_args(std::forward<Args>(args)...));
     }
@@ -43,7 +41,10 @@ namespace NGIN::Util
     export template<typename... Args>
     String Format(std::format_string<Args...> message, Args&&... args)
     {
-        return std::format(message, std::forward<Args>(args)...);
+        return String(std::format(message, std::forward<Args>(args)...).c_str());
     }
 
+
+
 }// namespace NGIN::Util
+

@@ -1,12 +1,10 @@
-module;
 
-#include <iostream>
 export module NGIN.Logging:ConsoleSink;
 
 export import NGIN.Types;
 import :ISink;
 import :LogLevel;
-
+import std;
 namespace NGIN::Logging
 {
     export class ConsoleSink : public ISink

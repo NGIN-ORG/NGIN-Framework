@@ -1,8 +1,6 @@
-module;
-
-#include <array>
 
 export module NGIN.Containers:Array;
+import std;
 
 namespace NGIN
 {

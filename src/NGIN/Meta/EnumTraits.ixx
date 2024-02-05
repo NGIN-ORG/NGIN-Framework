@@ -1,8 +1,10 @@
 module;
 
-#include <type_traits>
+
 
 export module NGIN.Meta:EnumTraits;
+
+import std;
 
 export namespace NGIN::Meta
 {

@@ -4,7 +4,8 @@ else()
     set(NGIN_BUILD_TYPE STATIC)
 endif()
 
-add_library(NGIN ${NGIN_BUILD_TYPE})
+add_library(NGIN ${NGIN_BUILD_TYPE}
+)
 
 target_sources(NGIN PUBLIC 
     FILE_SET 
@@ -14,6 +15,7 @@ target_sources(NGIN PUBLIC
     BASE_DIRS 
         ${CMAKE_CURRENT_SOURCE_DIR}
     FILES
+ "std.ixx"
  "NGIN/NGIN.ixx"  
  "NGIN/Util/Format.ixx" 
  "NGIN/Types/Primitives.ixx" 
@@ -58,6 +60,12 @@ target_link_libraries(NGIN PRIVATE
     glm::glm
     Vulkan::Vulkan
     Vulkan::Headers
+    SIMDString
+
+)
+
+target_link_libraries(NGIN PUBLIC
+    
 )
 
 if(NOT NGIN_ENABLE_RTTI)

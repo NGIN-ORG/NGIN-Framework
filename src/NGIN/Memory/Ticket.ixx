@@ -1,9 +1,6 @@
-module;
-
-#include <memory>
-#include <utility>
 
 export module NGIN.Memory:Ticket;
+import std;
 
 namespace NGIN
 {

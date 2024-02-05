@@ -1,10 +1,10 @@
 
-#include <iostream>
-#include <source_location>
 
 import NGIN.Logging;
 import NGIN.Reflection;
 import NGIN.Meta;
+
+import std;
 namespace 
 {
     

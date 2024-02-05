@@ -1,7 +1,6 @@
-module;
-#include <iostream>
 
 export module NGIN.Reflection:IReflectable;
+import std;
 
 export namespace NGIN::Reflection
 {
