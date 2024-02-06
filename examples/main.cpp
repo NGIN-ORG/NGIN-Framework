@@ -3,8 +3,8 @@
 import NGIN.Logging;
 import NGIN.Reflection;
 import NGIN.Meta;
+import NGIN.Time;
 
-import std;
 namespace 
 {
     
@@ -24,6 +24,14 @@ constexpr NGIN::StringView RemoveAnonymousNamespace(NGIN::StringView name)
 int main()
 {
     using namespace NGIN;
+
+    Time::Minute s = {2.5};
+    Time::Seconds d = {30};
+    Time::Minute e = s + d;
+
+    std::cout << static_cast<std::chrono::minutes>(e).count() << "Minutes" << std::endl;
+
+
 
     using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
     auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());

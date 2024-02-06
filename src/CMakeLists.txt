@@ -43,7 +43,17 @@ target_sources(NGIN PUBLIC
  "NGIN/Logging/SimpleFormatter.ixx"  
  "NGIN/Util/TimeUtil.ixx" 
  "NGIN/Logging/SimpleLogger.ixx" 
- "NGIN/Logging/ConsoleSink.ixx" "NGIN/Meta/FunctionTraits.ixx" "NGIN/Meta/TypeInfo.ixx" "NGIN/Reflection/IReflectable.ixx" "NGIN/Reflection/Reflection.ixx" "NGIN/Reflection/Registry.ixx" "NGIN/Types/Optional.ixx")
+ "NGIN/Logging/ConsoleSink.ixx" 
+ "NGIN/Meta/FunctionTraits.ixx" 
+ "NGIN/Meta/TypeInfo.ixx" 
+ "NGIN/Reflection/IReflectable.ixx" 
+ "NGIN/Reflection/Reflection.ixx" 
+ "NGIN/Reflection/Registry.ixx" 
+ "NGIN/Types/Optional.ixx" 
+ "NGIN/Time/Time.ixx" 
+ "NGIN/Time/Timer.ixx" 
+ "NGIN/Time/Seconds.ixx"
+ "NGIN/Time/Ratio.ixx")
 
 target_sources(NGIN PRIVATE
     
