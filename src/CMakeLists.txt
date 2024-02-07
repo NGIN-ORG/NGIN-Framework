@@ -52,7 +52,7 @@ target_sources(NGIN PUBLIC
  "NGIN/Types/Optional.ixx" 
  "NGIN/Time/Time.ixx" 
  "NGIN/Time/Timer.ixx" 
- "NGIN/Time/Seconds.ixx"
+ "NGIN/Time/Units.ixx"
  "NGIN/Time/Ratio.ixx")
 
 target_sources(NGIN PRIVATE

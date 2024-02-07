@@ -4,6 +4,7 @@ import NGIN.Logging;
 import NGIN.Reflection;
 import NGIN.Meta;
 import NGIN.Time;
+import NGIN.Util;
 
 namespace 
 {
@@ -25,12 +26,13 @@ int main()
 {
     using namespace NGIN;
 
-    Time::Minute s = {2.5};
-    Time::Seconds d = {30};
-    Time::Minute e = s + d;
+     Time::Microseconds ns = {2000000};
+    Time::Hours s = static_cast<Time::Hours>(ns);
+    //std::cout << s << std::endl;
 
-    std::cout << static_cast<std::chrono::minutes>(e).count() << "Minutes" << std::endl;
-
+    NGIN::String str = std::format("test {}", s);
+    std::cout << str << std::endl;
+    
 
 
     using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
