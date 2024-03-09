@@ -4,7 +4,6 @@ import std;
 export namespace NGIN
 {
     /// TODO: Add documentation
-
     using UInt64 = std::uint64_t;
     using UInt32 = std::uint32_t;
     using UInt16 = std::uint16_t;
@@ -17,8 +16,6 @@ export namespace NGIN
 
     using Byte = std::byte;
 
-    using Void = void;
-
     using F32 = float;
     using F64 = double;
 
@@ -28,6 +25,8 @@ export namespace NGIN
 
     using Char = char;
     using WChar = wchar_t;
+    using Char8 = char8_t;
+    using Char16 = char16_t;
 
     using Int = int;
     using UInt = unsigned int;
@@ -36,7 +35,6 @@ export namespace NGIN
     using ULong = unsigned long;
 
 
-    using Bool = bool;
 
 
 }// namespace NGIN

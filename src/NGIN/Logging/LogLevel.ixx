@@ -2,15 +2,16 @@
 export module NGIN.Logging:LogLevel;
 
 export import NGIN.Meta;
-export import NGIN.Types;
-export import NGIN.Containers;
+import NGIN.Types;
+import NGIN.Containers;
 import std;
 
 export namespace NGIN
 {
     namespace Logging
     {
-        enum class LogLevel {
+        enum class LogLevel
+        {
             Trace = 0,///< Trace-level log, usually very detailed.
             Info,     ///< Informational messages, general knowledge about system operations.
             Debug,    ///< Used during debugging to log additional info.
@@ -54,11 +55,7 @@ export namespace NGIN
                 Logging::LogLevel::CUSTOM15, Logging::LogLevel::CUSTOM16, Logging::LogLevel::CUSTOM17,
                 Logging::LogLevel::CUSTOM18, Logging::LogLevel::CUSTOM19};
 
-        static constexpr Size SIZE = values.size();
-
-        static constexpr StringView Name = "LogLevel";
-        static constexpr StringView FullName = "NGIN::Logging::LogLevel";
-
+        static constexpr Size size = values.size();
 
         static constexpr StringView ToString(const Logging::LogLevel level)
         {
@@ -92,8 +89,7 @@ export namespace NGIN
             if (name == "Critical") return Logging::LogLevel::Critical;
             if (name.find("CUSTOM") == 0 && name.length() > 6)
             {
-                int customLevel = std::stoi(name.substr(6).c_str());
-                if (customLevel >= 0 && customLevel <= 19)
+                if (const int customLevel = std::stoi(name.substr(6).c_str()); customLevel >= 0 && customLevel <= 19)
                     return static_cast<Logging::LogLevel>(customLevel - static_cast<int>(Logging::LogLevel::CUSTOM0));
             }
             return Logging::LogLevel::Trace;

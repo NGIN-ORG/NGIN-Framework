@@ -8,7 +8,6 @@ enable_language(C CXX)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
 option(NGIN_BUILD_TESTS "Build NGIN tests" OFF)
@@ -27,8 +26,8 @@ message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
 option(NGIN_BUILD_ONLY_DOCUMENTATION "Build only documentation" OFF)
 message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCUMENTATION}")
 
-option(NGIN_STRICT_WARNINGS, "Enable warnings" OFF)
-message(STATUS "WError: ${NGIN_STRICT_WARNINGS}")
+option(NGIN_STRICT_WARNINGS "Enable strict warnings" OFF)
+message(STATUS "Strict warnings: ${NGIN_STRICT_WARNINGS}")
 
 
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)

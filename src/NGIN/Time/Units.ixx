@@ -7,10 +7,24 @@ import :Ratio;
 
 export namespace NGIN::Time
 {
-
-    struct Nanoseconds
+    //TODO: Declare this in a separate file and create a seperate ITimeUnit interface, in order to be able to support IsTimeUnit concept
+    struct IUnit
     {
-        using RatioT = Ratio<1, 1000000000>;// 1 second = 1 second
+        virtual ~IUnit() = default;
+        using RatioT = Ratio<1, 1>;
+        static constexpr StringView symbol  = ""; 
+    };
+
+    //A concept to check if a type is a unit, i.e. it inherits from IUnit and has a value member
+    template <typename T>
+    concept IsUnit = std::is_base_of_v<IUnit, T> && requires(T t) { t.value; };
+
+
+
+    struct Nanoseconds : IUnit
+    {
+        using RatioT = Ratio<1, 1000000000>;
+        static constexpr StringView symbol = "ns";
 
         constexpr Nanoseconds(const F64 seconds)
             : value(seconds) {}
@@ -25,7 +39,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -59,6 +73,7 @@ export namespace NGIN::Time
     struct Microseconds
     {
         using RatioT = Ratio<1, 1000000>;// 1 second = 1 second
+        static constexpr StringView symbol = "us";
 
         constexpr Microseconds(const F64 seconds)
             : value(seconds) {}
@@ -73,7 +88,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -107,7 +122,7 @@ export namespace NGIN::Time
     struct Milliseconds
     {
         using RatioT = Ratio<1, 1000>;// 1 second = 1 second
-
+        static constexpr StringView symbol = "ms";
         constexpr Milliseconds(const F64 seconds)
             : value(seconds) {}
 
@@ -121,7 +136,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -155,7 +170,7 @@ export namespace NGIN::Time
     struct Seconds
     {
         using RatioT = Ratio<1, 1>;// 1 second = 1 second
-
+        static constexpr StringView symbol = "s";
         constexpr Seconds(const F64 seconds)
             : value(seconds) {}
 
@@ -169,7 +184,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -210,7 +225,7 @@ export namespace NGIN::Time
     struct Minutes
     {
         using RatioT = Ratio<60, 1>;// 1 minute = 60 seconds
-
+        static constexpr StringView symbol = "m";
         constexpr Minutes(const F64 minutes)
             : value(minutes) {}
 
@@ -224,7 +239,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -258,7 +273,7 @@ export namespace NGIN::Time
     struct Hours
     {
         using RatioT = Ratio<3600, 1>;// 1 hour = 3600 seconds
-
+        static constexpr StringView symbol = "h";
         constexpr Hours(const F64 hours)
             : value(hours) {}
 
@@ -272,7 +287,7 @@ export namespace NGIN::Time
         template<typename T>
         constexpr explicit operator T() const
         {
-            return T(value * RatioT::value / T::RatioT::template value);
+            return T(value * RatioT::value / T::RatioT::value);
         }
 
         // Constexpr arithmetic operations
@@ -304,18 +319,17 @@ export namespace NGIN::Time
     };
 }// namespace NGIN::Time
 
-export template<>
-struct std::formatter<NGIN::Time::Seconds>
+export template<NGIN::Time::IsUnit T>
+struct std::formatter<T>
 {
-
     constexpr auto parse(std::format_parse_context& ctx)
     {
         return ctx.begin();
     }
 
-    auto format(const NGIN::Time::Seconds& id, std::format_context& ctx) const
+    auto format(T& id, std::format_context& ctx) const
     {
-        return std::format_to(ctx.out(), "{}s", id.value);
+        return std::format_to(ctx.out(), "{}{}", id.value, T::symbol);
     }
 };
 

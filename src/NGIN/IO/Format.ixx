@@ -1,13 +1,15 @@
-module;
+//
+// Created by Maximiliam Berggren on 02/03/2024.
+//
 
-export module NGIN.Util:Format;
+export module NGIN.IO:Format;
 
 export import NGIN.Types;
 
 export import std;
 
 
-namespace NGIN::Util
+namespace NGIN::IO
 {
     /// <summary>Formats a string at runtime using provided format arguments.</summary>
     /// <note>For compile-time string formatting, see `NGIN::Util::Format` function.</note>
@@ -44,6 +46,4 @@ namespace NGIN::Util
     }
 
 
-
-}// namespace NGIN::Util
-
+}// namespace NGIN::IO

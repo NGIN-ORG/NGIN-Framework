@@ -1,8 +1,8 @@
 
 export module NGIN.Meta:TypeInfo;
 
+export import std;
 export import NGIN.Types;
-import std;
 
 export namespace NGIN::Meta
 {
@@ -17,7 +17,7 @@ export namespace NGIN::Meta
     /// {
     ///     struct Bar{};
     /// }
-    /// std::cout << TypeInfo<Foo::Bar>::Class();     // Outputs: Bar
+    /// std::cout << TypeInfo<Foo::Bar>::Name();      // Outputs: Bar
     /// std::cout << TypeInfo<Foo::Bar>::Namespace(); // Outputs: Foo
     /// std::cout << TypeInfo<Foo::Bar>::Full();      // Outputs: Foo::Bar
     /// @endcode
@@ -88,7 +88,7 @@ export namespace NGIN::Meta
         /// and performs string manipulation to retrieve the namespace.
         ///
         /// @return A `StringView` containing the namespace.
-        constexpr static StringView Namespace()
+        constexpr static NGIN::StringView Namespace()
         {
             const StringView fullType = Full();
             const UInt64 lastColons = fullType.rfind("::");
@@ -97,4 +97,4 @@ export namespace NGIN::Meta
             return fullType.substr(0, lastColons);
         }
     };
-}
+}// namespace NGIN::Meta

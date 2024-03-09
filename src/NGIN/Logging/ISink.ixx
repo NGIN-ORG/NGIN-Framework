@@ -14,7 +14,7 @@ namespace NGIN::Logging
 
         /// @brief Initializes the sink.
         /// @return Boolean indicating success or failure of initialization.
-        virtual Bool Initialize() = 0;
+        virtual bool Initialize() = 0;
 
         /// @brief Shuts down the sink.
 

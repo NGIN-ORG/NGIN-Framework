@@ -68,11 +68,11 @@ suite<"FunctionTraits"> _ = [] {
         expect(std::is_same_v<ArgNTypeOf<decltype(&multiTypeFunction), 2>, double*>);
     };
 
-    "FunctionNonVoidReturnType"_test = [] {
-        std::string nonVoidReturnFunction(int);
-        using Traits = NGIN::Meta::FunctionTraits<decltype(&nonVoidReturnFunction)>;
-        expect(std::is_same_v<Traits::ReturnType, std::string>);
-        expect(std::is_same_v<ArgNTypeOf<decltype(&nonVoidReturnFunction), 0>, int>);
+    "FunctionNonvoidReturnType"_test = [] {
+        int nonvoidReturnFunction(int);
+        using Traits = NGIN::Meta::FunctionTraits<decltype(&nonvoidReturnFunction)>;
+        expect(std::is_same_v<Traits::ReturnType, int>);
+        expect(std::is_same_v<ArgNTypeOf<decltype(&nonvoidReturnFunction), 0>, int>);
     };
 
     "FunctionWithRvalueReferenceArgs"_test = [] {

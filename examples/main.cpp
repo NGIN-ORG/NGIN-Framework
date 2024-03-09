@@ -1,21 +1,20 @@
-
-
+import std;
 import NGIN.Logging;
 import NGIN.Reflection;
 import NGIN.Meta;
-import NGIN.Time;
 import NGIN.Util;
+import NGIN.Units;
 
-namespace 
+namespace
 {
-    
 
-struct TestClass
-{
-    struct NestedClass
+
+    struct TestClass
     {
+        struct NestedClass
+        {
+        };
     };
-};
 }// namespace
 constexpr NGIN::StringView RemoveAnonymousNamespace(NGIN::StringView name)
 {
@@ -26,17 +25,14 @@ int main()
 {
     using namespace NGIN;
 
-     Time::Microseconds ns = {2000000};
-    Time::Hours s = static_cast<Time::Hours>(ns);
-    //std::cout << s << std::endl;
+    const Seconds SECONDS(.01);                     // 120 seconds
+    Minutes minutes = static_cast<Minutes>(SECONDS);// Convert seconds to minutes
 
-    NGIN::String str = std::format("test {}", s);
-    std::cout << str << std::endl;
-    
-
+    std::cout << "Microseconds: " << static_cast<Microseconds>(SECONDS) << std::endl;
+    std::cout << Util::RuntimeFormat("Milliseconds: {}", static_cast<Milliseconds>(SECONDS)) << std::endl;
 
     using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
-    auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
+    const auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
     std::cout << namespaceName << std::endl;
 
     std::cout << "Hello World!" << std::endl;
@@ -49,8 +45,7 @@ int main()
 
 
     logger.Log(NGIN::Logging::LogLevel::Info, "Hey gal");
-    logger.Log(NGIN::Logging::LogLevel::Debug, "Hey gal {}", 2);
 
-   // NGIN::Util::Format("test {}", 2);
+    // NGIN::Util::Format("test {}", 2);
     return 0;
 }

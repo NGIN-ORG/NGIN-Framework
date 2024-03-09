@@ -10,7 +10,7 @@ namespace NGIN::Logging
     export class ConsoleSink : public ISink
     {
     public:
-        Bool Initialize() override;
+        bool Initialize() override;
 
         void Shutdown() override;
 
@@ -20,7 +20,7 @@ namespace NGIN::Logging
 
     };
 
-    Bool ConsoleSink::Initialize()
+    bool ConsoleSink::Initialize()
     {
         return std::cout.rdbuf() != nullptr;
     }

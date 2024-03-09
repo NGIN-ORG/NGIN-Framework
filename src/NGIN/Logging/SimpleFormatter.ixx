@@ -9,14 +9,15 @@ import NGIN.Util;
 export import NGIN.Types;
 
 
-
-
 namespace NGIN::Logging
 {
+
     export class SimpleFormatter : public IFormatter
     {
     public:
-        String Format(LogLevel level, const String& message, const std::source_location& source = std::source_location::current()) override
+        String Format(LogLevel level,
+                      const String& message,
+                      const std::source_location& source = std::source_location::current()) override
         {
             String color;
             switch (level)
@@ -54,4 +55,4 @@ namespace NGIN::Logging
         }
     };
 
-}
+}// namespace NGIN::Logging
