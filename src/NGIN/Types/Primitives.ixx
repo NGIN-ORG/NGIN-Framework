@@ -1,40 +1,37 @@
 
 export module NGIN.Types:Primitives;
-import std;
-export namespace NGIN
+export import std;
+namespace NGIN
 {
     /// TODO: Add documentation
-    using UInt64 = std::uint64_t;
-    using UInt32 = std::uint32_t;
-    using UInt16 = std::uint16_t;
-    using UInt8 = std::uint8_t;
+    export using UInt64 = std::uint64_t;
+    export using UInt32 = std::uint32_t;
+    export using UInt16 = std::uint16_t;
+    export using UInt8 = std::uint8_t;
 
-    using Int64 = std::int64_t;
-    using Int32 = std::int32_t;
-    using Int16 = std::int16_t;
-    using Int8 = std::int8_t;
+    export using Int64 = std::int64_t;
+    export using Int32 = std::int32_t;
+    export using Int16 = std::int16_t;
+    export using Int8 = std::int8_t;
 
-    using Byte = std::byte;
+    export using Byte = std::byte;
 
-    using F32 = float;
-    using F64 = double;
+    export using F32 = float;
+    export using F64 = double;
 
-    using Size = std::size_t;
-    using IntPtr = std::intptr_t;
-    using UIntPtr = std::uintptr_t;
+    export using Size = std::size_t;
+    export using IntPtr = std::intptr_t;
+    export using UIntPtr = std::uintptr_t;
 
-    using Char = char;
-    using WChar = wchar_t;
-    using Char8 = char8_t;
-    using Char16 = char16_t;
+    export using Char = char;
+    export using WChar = wchar_t;
+    export using Char8 = char8_t;
+    export using Char16 = char16_t;
+    export using Char32 = char32_t;
 
-    using Int = int;
-    using UInt = unsigned int;
+    export using Int = int;
+    export using UInt = unsigned int;
 
-    using Long = long;
-    using ULong = unsigned long;
-
-
-
-
+    export using Long = long;
+    export using ULong = unsigned long;
 }// namespace NGIN

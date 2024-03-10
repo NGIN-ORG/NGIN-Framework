@@ -1,7 +1,5 @@
-
-
-
 import NGIN.Meta;
+import NGIN.Memory;
 import std;
 import boost.ut;
 using namespace boost::ut;
@@ -61,25 +59,25 @@ suite<"FunctionTraits"> _ = [] {
         struct CustomType
         {
         };
-        void multiTypeFunction(CustomType, const int&, double*);
-        using Traits = NGIN::Meta::FunctionTraits<decltype(&multiTypeFunction)>;
-        expect(std::is_same_v<ArgNTypeOf<decltype(&multiTypeFunction), 0>, CustomType>);
-        expect(std::is_same_v<ArgNTypeOf<decltype(&multiTypeFunction), 1>, const int&>);
-        expect(std::is_same_v<ArgNTypeOf<decltype(&multiTypeFunction), 2>, double*>);
+        void MultiTypeFunction(CustomType, const int&, double*);
+        using Traits = NGIN::Meta::FunctionTraits<decltype(&MultiTypeFunction)>;
+        expect(std::is_same_v<ArgNTypeOf<decltype(&MultiTypeFunction), 0>, CustomType>);
+        expect(std::is_same_v<ArgNTypeOf<decltype(&MultiTypeFunction), 1>, const int&>);
+        expect(std::is_same_v<ArgNTypeOf<decltype(&MultiTypeFunction), 2>, double*>);
     };
 
     "FunctionNonvoidReturnType"_test = [] {
-        int nonvoidReturnFunction(int);
-        using Traits = NGIN::Meta::FunctionTraits<decltype(&nonvoidReturnFunction)>;
+        int NonVoidReturnFunction(int);
+        using Traits = NGIN::Meta::FunctionTraits<decltype(&NonVoidReturnFunction)>;
         expect(std::is_same_v<Traits::ReturnType, int>);
-        expect(std::is_same_v<ArgNTypeOf<decltype(&nonvoidReturnFunction), 0>, int>);
+        expect(std::is_same_v<ArgNTypeOf<decltype(&NonVoidReturnFunction), 0>, int>);
     };
 
     "FunctionWithRvalueReferenceArgs"_test = [] {
-        void rvalueRefFunction(std::string&&);
-        using Traits = NGIN::Meta::FunctionTraits<decltype(&rvalueRefFunction)>;
-        expect(std::is_same_v<ArgNTypeOf<decltype(&rvalueRefFunction), 0>, std::string&&>);
+        void RvalueRefFunction(std::string&&);
+        using Traits = NGIN::Meta::FunctionTraits<decltype(&RvalueRefFunction)>;
+        expect(std::is_same_v<ArgNTypeOf<decltype(&RvalueRefFunction), 0>, std::string&&>);
+        expect(std::is_same_v<Traits::ReturnType, void>);
+        expect(not std::is_same_v<ArgNTypeOf<decltype(&RvalueRefFunction), 0>, std::string>) << "Rvalue reference should decay to an lvalue reference";
     };
-
-
 };

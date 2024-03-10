@@ -19,8 +19,6 @@ set(NGIN_MEMORY_FILES
         "NGIN/Memory/Ticket.ixx"
         "NGIN/Memory/IAllocator.ixx"
         "NGIN/Memory/Mallocator.ixx"
-        "NGIN/Memory/StackAllocator.ixx"
-        "NGIN/Memory/PoolAllocator.ixx"
         "NGIN/Memory/LinearAllocator.ixx"
         "NGIN/Memory/FreeListAllocator.ixx"
         "NGIN/Memory/AlignmentUtils.ixx"
@@ -67,7 +65,6 @@ set(NGIN_TYPES_FILES
         "NGIN/Types/Primitives.ixx"
         "NGIN/Types/String.ixx"
         "NGIN/Types/Types.ixx"
-        "NGIN/Types/Optional.ixx"
 )
 
 set(NGIN_LOGGING_FILES

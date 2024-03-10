@@ -1,4 +1,3 @@
-
 export module NGIN.Memory:IAllocator;
 
 export import NGIN.Types;
@@ -10,7 +9,7 @@ namespace NGIN::Memory
     {
     public:
         virtual ~IAllocator() = default;
-        virtual void* Allocate(const Size size, const Size alignment) = 0;
+        virtual void* Allocate(Size size, Size alignment) = 0;
         virtual void Deallocate(void* ptr) = 0;
         virtual void Reset() = 0;
         virtual bool Owns(const void* ptr) = 0;

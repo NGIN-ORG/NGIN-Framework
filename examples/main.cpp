@@ -4,6 +4,7 @@ import NGIN.Reflection;
 import NGIN.Meta;
 import NGIN.Util;
 import NGIN.Units;
+import NGIN.Memory;
 
 namespace
 {
@@ -24,7 +25,9 @@ constexpr NGIN::StringView RemoveAnonymousNamespace(NGIN::StringView name)
 int main()
 {
     using namespace NGIN;
-
+    NGIN::Memory::LinearAllocator allocator(1024);
+    auto ptr = allocator.Allocate(100);
+    std::cout << "Allocated: " << ptr << std::endl;
     const Seconds SECONDS(.01);                     // 120 seconds
     Minutes minutes = static_cast<Minutes>(SECONDS);// Convert seconds to minutes
 

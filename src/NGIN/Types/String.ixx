@@ -1,8 +1,8 @@
 export module NGIN.Types:String;
 
 export import std;
-export namespace NGIN
+namespace NGIN
 {
-    using String = std::string;
-    using StringView = std::string_view;
+    export using String = std::string;
+    export using StringView = std::string_view;
 }// namespace NGIN

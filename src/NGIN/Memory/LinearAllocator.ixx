@@ -5,8 +5,8 @@
 export module NGIN.Memory:LinearAllocator;
 
 export import NGIN.Types;
-export import std;
-import :IAllocator;
+export import :IAllocator;
+import std;
 import :Scope;
 import :AlignmentUtils;
 
@@ -17,8 +17,12 @@ namespace NGIN::Memory
     public:
         ~LinearAllocator() override = default;
 
-        /// @brief Constructor.
-        LinearAllocator(Size sizeInBytes = 1024);
+        /// @brief Constructs a linear allocator with a given size.
+        /// @param sizeInBytes The total size of the buffer.
+        LinearAllocator(Size sizeInBytes)
+            : buffer(new Byte[sizeInBytes]), currentPtr(buffer.get()), totalSize(sizeInBytes)
+        {
+        }
 
         /// @brief Copy constructor is deleted because LinearAllocators cannot share the owned memory.
         LinearAllocator(const LinearAllocator& other) noexcept = delete;
@@ -27,35 +31,73 @@ namespace NGIN::Memory
         LinearAllocator& operator=(const LinearAllocator& other) noexcept = delete;
 
         /// @brief Move constructor.
-        LinearAllocator(LinearAllocator&& other) noexcept;
+        LinearAllocator(LinearAllocator&& other) noexcept
+            : buffer(std::move(other.buffer)), currentPtr(other.currentPtr), totalSize(other.totalSize)
+        {
+            other.currentPtr = nullptr;
+            other.totalSize = 0;
+        }
 
         /// @brief Move assignment operator.
-        LinearAllocator& operator=(LinearAllocator&& other) noexcept;
+        LinearAllocator& operator=(LinearAllocator&& other) noexcept
+        {
+            if (this != &other)
+            {
+                buffer = std::move(other.buffer);
+                currentPtr = other.currentPtr;
+                totalSize = other.totalSize;
+                other.currentPtr = nullptr;
+                other.totalSize = 0;
+            }
+            return *this;
+        }
 
         /// @brief Allocates memory from the allocator.
         /// @details
         /// @param size The size of the memory to allocate.
         /// @param alignment The alignment of the memory to allocate.
         /// @return A pointer to the allocated memory.
-        [[nodiscard]] virtual void* Allocate(Size size, Size alignment = alignof(std::max_align_t)) override;
+        [[nodiscard]] virtual void* Allocate(Size size, Size alignment = alignof(std::max_align_t))
+        {
+            // Calculate the adjustment needed to keep the data correctly aligned.
+            const Size adjustment = AlignForwardAdjustment(currentPtr, alignment);
+
+            // If the allocator is out of memory, return nullptr.
+            if (currentPtr + size + adjustment > buffer.get() + totalSize)
+                return nullptr;
+            Byte* alignedAddress = currentPtr + adjustment;// Calculate the aligned address.
+            currentPtr = alignedAddress + size;            // Move the current pointer to the next available address.
+            return static_cast<void*>(alignedAddress);     // Return the aligned address.
+        }
 
         /// @brief This function is not supported by the linear allocator and will always throw
         /// @details Deeallocating memory from a linear allocator is not supported, because the allocator does not keep track of previous allocations.
         /// @param ptr The pointer to deallocate.
         /// @throw std::runtime_error
-        virtual void Deallocate(void* ptr) override;
+        virtual void Deallocate(void* ptr)
+        {
+            // Deallocating memory from a linear allocator is not supported.
+            throw std::runtime_error("Deallocating memory from a linear allocator is not supported.");
+        }
 
         /// @brief Resets the allocator to its initial state.
         /// @details    This function resets the current pointer to the start of the buffer.
         ///             Accessing any objects previously allocated from the allocator will be undefined behaviour
         /// @note This function does not destruct any objects allocated from the allocator.
-        virtual void Reset() override;
+        virtual void Reset()
+        {
+            currentPtr = buffer.get();
+        }
 
         /// @brief Checks if the allocator owns the given pointer.
         /// @details The allocator owns the pointer if the pointer is within the buffer.
         /// @param ptr The pointer to check.
         /// @return True if the allocator owns the pointer, otherwise false.
-        [[nodiscard]] virtual bool Owns(const void* ptr) override;
+        [[nodiscard]] virtual bool Owns(const void* ptr)
+        {
+            const Byte* const start = buffer.get();
+            return ptr >= start && ptr < start + totalSize;
+        }
 
     private:
         /// @brief The buffer owned by the allocator.
@@ -67,58 +109,6 @@ namespace NGIN::Memory
     };
 
     // Implementation
-    LinearAllocator::LinearAllocator(Size sizeInBytes)
-        : buffer(new Byte[sizeInBytes]), currentPtr(buffer.get()), totalSize(sizeInBytes)
-    {
-    }
 
-    LinearAllocator::LinearAllocator(LinearAllocator&& other) noexcept
-        : buffer(std::move(other.buffer)), currentPtr(other.currentPtr), totalSize(other.totalSize)
-    {
-        other.currentPtr = nullptr;
-        other.totalSize = 0;
-    }
 
-    LinearAllocator& LinearAllocator::operator=(LinearAllocator&& other) noexcept
-    {
-        if (this != &other)
-        {
-            buffer = std::move(other.buffer);
-            currentPtr = other.currentPtr;
-            totalSize = other.totalSize;
-            other.currentPtr = nullptr;
-            other.totalSize = 0;
-        }
-        return *this;
-    }
-
-    void* LinearAllocator::Allocate(Size size, Size alignment)
-    {
-        // Calculate the adjustment needed to keep the data correctly aligned.
-        const Size adjustment = AlignForwardAdjustment(currentPtr, alignment);
-
-        // If the allocator is out of memory, return nullptr.
-        if (currentPtr + size + adjustment > buffer.get() + totalSize)
-            return nullptr;
-        Byte* alignedAddress = currentPtr + adjustment;// Calculate the aligned address.
-        currentPtr = alignedAddress + size;            // Move the current pointer to the next available address.
-        return static_cast<void*>(alignedAddress);     // Return the aligned address.
-    }
-
-    void LinearAllocator::Deallocate(void* ptr)
-    {
-        // Deallocating memory from a linear allocator is not supported.
-        throw std::runtime_error("Deallocating memory from a linear allocator is not supported.");
-    }
-
-    void LinearAllocator::Reset()
-    {
-        currentPtr = buffer.get();
-    }
-
-    bool LinearAllocator::Owns(const void* ptr)
-    {
-        const Byte* const start = buffer.get();
-        return ptr >= start && ptr < start + totalSize;
-    }
 }// namespace NGIN::Memory

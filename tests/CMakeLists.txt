@@ -2,17 +2,24 @@
 # Define test sources
 file(GLOB_RECURSE NGIN_TEST_SOURCES "*.cpp")
 
-add_executable(NGIN_TESTS 
-"main.cpp"	
-"NGIN/Meta/FunctionTraits.cpp"
-"NGIN/Meta/TypeInfo.cpp"
+add_executable(NGIN_TESTS
+        "main.cpp"
+        "NGIN/Memory/LinearAllocator.cpp"
+        "NGIN/Meta/FunctionTraits.cpp"
+        "NGIN/Meta/TypeInfo.cpp"
+)
+
+add_executable(TE
+        "main.cpp"
+        "NGIN/Meta/FunctionTraits.cpp"
 )
 
 
 target_link_libraries(NGIN_TESTS PRIVATE Boost::ut NGIN::NGIN)
+target_link_libraries(TE PRIVATE Boost::ut NGIN::NGIN)
 
 add_test(NAME NGIN_TESTS COMMAND NGIN_TESTS)
-
+add_test(NAME TE COMMAND TE)
 #copy NGIN dll to binary dir
 #add_custom_command(TARGET NGIN_TESTS POST_BUILD
 #                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -21,7 +28,7 @@ add_test(NAME NGIN_TESTS COMMAND NGIN_TESTS)
 
 #If debug run test automatically, useful for in editor view
 #if(CMAKE_BUILD_TYPE STREQUAL "Debug")
- #   add_custom_command(TARGET NGIN_TESTS
+#   add_custom_command(TARGET NGIN_TESTS
 #                       POST_BUILD
 #                       COMMAND $<TARGET_FILE:NGIN_TESTS>)
 #endif()

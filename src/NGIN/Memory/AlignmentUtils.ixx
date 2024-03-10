@@ -5,7 +5,7 @@
 export module NGIN.Memory:AlignmentUtils;
 
 export import NGIN.Types;
-
+export import std;
 namespace NGIN::Memory
 {
     /// @brief Returns the number of bytes required to align the given pointer to the given alignment.
