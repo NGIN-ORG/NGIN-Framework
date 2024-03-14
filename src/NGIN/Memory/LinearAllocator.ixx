@@ -4,14 +4,18 @@
 
 export module NGIN.Memory:LinearAllocator;
 
-export import NGIN.Types;
 export import :IAllocator;
+export import NGIN.Types;
+
 import std;
 import :Scope;
 import :AlignmentUtils;
 
 namespace NGIN::Memory
 {
+    /// @class LinearAllocator
+    /// @brief A fast allocator that allocates memory by incrementing a pointer.
+    /// @note This allocator does not support deallocation of memory. Only resetting the allocator is supported.
     export class LinearAllocator : public IAllocator
     {
     public:
@@ -24,7 +28,7 @@ namespace NGIN::Memory
         {
         }
 
-        /// @brief Copy constructor is deleted because LinearAllocators cannot share the owned memory.
+        /// @brief Copy constructor is deleted because LinearAllocators cannot share owned memory.
         LinearAllocator(const LinearAllocator& other) noexcept = delete;
 
         /// @brief Copy assignment operator is deleted because LinearAllocators cannot share the owned memory.
@@ -52,12 +56,11 @@ namespace NGIN::Memory
             return *this;
         }
 
-        /// @brief Allocates memory from the allocator.
-        /// @details
+        /// @brief Allocates memory by incrementing a pointer.
         /// @param size The size of the memory to allocate.
         /// @param alignment The alignment of the memory to allocate.
         /// @return A pointer to the allocated memory.
-        [[nodiscard]] virtual void* Allocate(Size size, Size alignment = alignof(std::max_align_t))
+        [[nodiscard]] void* Allocate(Size size, Size alignment = alignof(std::max_align_t)) override
         {
             // Calculate the adjustment needed to keep the data correctly aligned.
             const Size adjustment = AlignForwardAdjustment(currentPtr, alignment);
@@ -67,14 +70,14 @@ namespace NGIN::Memory
                 return nullptr;
             Byte* alignedAddress = currentPtr + adjustment;// Calculate the aligned address.
             currentPtr = alignedAddress + size;            // Move the current pointer to the next available address.
-            return static_cast<void*>(alignedAddress);     // Return the aligned address.
+            return alignedAddress;     // Return the aligned address.
         }
 
         /// @brief This function is not supported by the linear allocator and will always throw
-        /// @details Deeallocating memory from a linear allocator is not supported, because the allocator does not keep track of previous allocations.
+        /// @details Deallocating memory from a linear allocator is not supported, because the allocator does not keep track of previous allocations.
         /// @param ptr The pointer to deallocate.
         /// @throw std::runtime_error
-        virtual void Deallocate(void* ptr)
+        void Deallocate(void* ptr) override
         {
             // Deallocating memory from a linear allocator is not supported.
             throw std::runtime_error("Deallocating memory from a linear allocator is not supported.");
@@ -83,8 +86,8 @@ namespace NGIN::Memory
         /// @brief Resets the allocator to its initial state.
         /// @details    This function resets the current pointer to the start of the buffer.
         ///             Accessing any objects previously allocated from the allocator will be undefined behaviour
-        /// @note This function does not destruct any objects allocated from the allocator.
-        virtual void Reset()
+        /// @note This function does not destruct any objects allocated from the allocator. @see NGIN::Memory::IAllocator::Delete
+        void Reset() override
         {
             currentPtr = buffer.get();
         }
@@ -93,7 +96,7 @@ namespace NGIN::Memory
         /// @details The allocator owns the pointer if the pointer is within the buffer.
         /// @param ptr The pointer to check.
         /// @return True if the allocator owns the pointer, otherwise false.
-        [[nodiscard]] virtual bool Owns(const void* ptr)
+        [[nodiscard]] bool Owns(const void* ptr) override
         {
             const Byte* const start = buffer.get();
             return ptr >= start && ptr < start + totalSize;
@@ -107,8 +110,5 @@ namespace NGIN::Memory
         /// @brief The size of the buffer.
         Size totalSize;
     };
-
-    // Implementation
-
 
 }// namespace NGIN::Memory

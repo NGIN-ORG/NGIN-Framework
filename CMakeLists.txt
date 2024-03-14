@@ -99,8 +99,8 @@ endif()
 if(NGIN_DEFINE_MAIN)
     add_compile_definitions(NGIN_DEFINE_MAIN)
 endif()
+
 add_compile_options(
-   /std:c++latest
    /EHsc
 )
 #Add NGIN::Framework target

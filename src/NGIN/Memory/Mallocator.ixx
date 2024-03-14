@@ -17,7 +17,7 @@ namespace NGIN::Memory
         /// @param size The size of the memory to allocate.
         /// @param alignment The alignment of the memory to allocate.
         /// @return A pointer to the allocated memory.
-        [[nodiscard]] virtual void* Allocate(const Size size, const Size alignment) override
+        [[nodiscard]] void* Allocate(const Size size, const Size alignment) override
         {
 #if defined(NGIN_PLATFORM_WINDOWS)
             return _aligned_malloc(size, alignment);
@@ -28,7 +28,7 @@ namespace NGIN::Memory
 #endif
         }
 
-        virtual void Deallocate(void* ptr) override
+        void Deallocate(void* ptr) override
         {
 #if defined(NGIN_PLATFORM_WINDOWS)
             _aligned_free(ptr);
@@ -37,7 +37,7 @@ namespace NGIN::Memory
 #endif
         }
 
-        virtual void Reset() override
+        void Reset() override
         {
             return;
         }
@@ -46,7 +46,7 @@ namespace NGIN::Memory
         /// @details The assumption is that this allocator always owns the pointer, as there is not way to know for sure.
         /// @param ptr The pointer to check.
         /// @return Always returns true.
-        [[nodiscard]] virtual bool Owns(const void* ptr) override
+        [[nodiscard]] bool Owns(const void* ptr) override
         {
             return true;
         }
