@@ -1,7 +1,7 @@
 
 export module NGIN.Meta:EnumTraits;
 
-export import std;
+import std;
 
 export namespace NGIN::Meta
 {

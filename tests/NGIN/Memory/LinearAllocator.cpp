@@ -75,6 +75,24 @@ suite<"LinearAllocatorTests"> _ = [] {
         expect(ptr2 == nullptr);
     };
 
+    "ExactSingleAllocation"_test = [] {
+        NGIN::Memory::LinearAllocator allocator(512);
+        void* ptr = allocator.Allocate(512);
+        expect(ptr != nullptr);
+        // Further allocations should fail.
+        expect(allocator.Allocate(1) == nullptr);
+    };
+
+    "ExactMultipleAllocations"_test = [] {
+        NGIN::Memory::LinearAllocator allocator(128);
+        void* ptr1 = allocator.Allocate(64, 64);
+        void* ptr2 = allocator.Allocate(64, 64);
+        expect(ptr1 != nullptr);
+        expect(ptr2 != nullptr);
+        // Further allocations should fail.
+        expect(allocator.Allocate(1) == nullptr);
+    };
+
     "PatternCheckAfterReset"_test = [] {
         NGIN::Memory::LinearAllocator allocator(1024);
         NGIN::Byte* ptr = static_cast<NGIN::Byte*>(allocator.Allocate(512));
@@ -82,5 +100,11 @@ suite<"LinearAllocatorTests"> _ = [] {
         allocator.Reset();
         NGIN::Byte* ptr2 = static_cast<NGIN::Byte*>(allocator.Allocate(512));
         expect(CheckPattern(ptr2, 512));
+    };
+
+    "LargeAlignmentRequests"_test = [] {
+        NGIN::Memory::LinearAllocator allocator(2048);
+        void* ptr = allocator.Allocate(128, 1024);// Requesting 1KB alignment.
+        expect(reinterpret_cast<NGIN::UIntPtr>(ptr) % 1024 == 0);
     };
 };

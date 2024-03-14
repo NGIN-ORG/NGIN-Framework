@@ -199,7 +199,7 @@ export namespace NGIN
 namespace std
 {
     export template<NGIN::IsTimeUnit T>
-    struct formatter<T>
+    struct formatter<T> : std::formatter<NGIN::F64>
     {
         constexpr auto parse(format_parse_context& ctx)
         {

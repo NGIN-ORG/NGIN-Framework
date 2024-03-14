@@ -2,9 +2,9 @@
 export module NGIN.Logging:LogLevel;
 
 export import NGIN.Meta;
-import NGIN.Types;
-import NGIN.Containers;
-import std;
+export import NGIN.Types;
+export import NGIN.Containers;
+export import std;
 
 export namespace NGIN
 {

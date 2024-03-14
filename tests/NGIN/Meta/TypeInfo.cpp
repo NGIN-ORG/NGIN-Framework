@@ -22,7 +22,7 @@ namespace
 
 suite<"TypeInfo"> _ = []
 {
-       "Full"_test = []
+    "Full"_test = []
     {
         using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
         const auto typeName = RemoveAnonymousNamespace(TypeInfo::Full());
