@@ -45,6 +45,8 @@ message(STATUS "Define main function: ${NGIN_DEFINE_MAIN}")
 #Check what platform we are building on
 if (WIN32)
     add_compile_definitions(NGIN_PLATFORM_WINDOWS)
+elseif (APPLE)
+	add_compile_definitions(NGIN_PLATFORM_MACOS)
 elseif (UNIX)
     add_compile_definitions(NGIN_PLATFORM_LINUX)
 endif ()

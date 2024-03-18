@@ -7,19 +7,12 @@ add_executable(NGIN_TESTS
         "NGIN/Memory/LinearAllocator.cpp"
         "NGIN/Meta/FunctionTraits.cpp"
         "NGIN/Meta/TypeInfo.cpp"
-)
-
-add_executable(TE
-        "main.cpp"
-        "NGIN/Meta/FunctionTraits.cpp"
-)
+ "NGIN/Memory/FreeListAllocator.cpp")
 
 
 target_link_libraries(NGIN_TESTS PRIVATE Boost::ut NGIN::NGIN)
-target_link_libraries(TE PRIVATE Boost::ut NGIN::NGIN)
 
 add_test(NAME NGIN_TESTS COMMAND NGIN_TESTS)
-add_test(NAME TE COMMAND TE)
 #copy NGIN dll to binary dir
 #add_custom_command(TARGET NGIN_TESTS POST_BUILD
 #                   COMMAND ${CMAKE_COMMAND} -E copy_if_different

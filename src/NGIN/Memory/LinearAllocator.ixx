@@ -1,6 +1,6 @@
-//
-// Created by Maximiliam Berggren on 03/03/2024.
-//
+module;
+#include <stdlib.h>
+
 
 export module NGIN.Memory:LinearAllocator;
 
@@ -23,9 +23,34 @@ namespace NGIN::Memory
 
         /// @brief Constructs a linear allocator with a given size.
         /// @param sizeInBytes The total size of the buffer.
+        /// @TODO Buffer should be aligned to the maximum alignment.
         LinearAllocator(Size sizeInBytes)
-            : buffer(new Byte[sizeInBytes]), currentPtr(buffer.get()), totalSize(sizeInBytes)
+            : buffer(nullptr), totalSize(sizeInBytes)
         {
+#if defined(NGIN_PLATFORM_WINDOWS)
+            void* alignedMemory = _aligned_malloc(sizeInBytes, alignof(std::max_align_t));
+#else
+            void* alignedMemory;
+            posix_memalign(&alignedMemory, alignof(std::max_align_t), sizeInBytes);
+#endif
+            // Allocate the buffer with maximum alignment
+
+            // Check if allocation was successful
+            if (!alignedMemory)
+            {
+                throw std::bad_alloc();// or handle the allocation failure appropriately
+            }
+
+
+#if defined(NGIN_PLATFORM_WINDOWS)
+            buffer.reset(static_cast<Byte*>(alignedMemory), [](Byte* ptr) { _aligned_free(ptr); });
+#else
+            buffer.reset(static_cast<Byte*>(alignedMemory), [](Byte* ptr) { free(ptr); });
+#endif
+
+            currentPtr = buffer.get();// Set currentPtr to the start of the aligned buffer
+
+            bool isAligned = (reinterpret_cast<std::uintptr_t>(currentPtr) % alignof(std::max_align_t)) == 0;
         }
 
         /// @brief Copy constructor is deleted because LinearAllocators cannot share owned memory.
@@ -57,8 +82,8 @@ namespace NGIN::Memory
         }
 
         /// @brief Allocates memory by incrementing a pointer.
-        /// @param size The size of the memory to allocate.
-        /// @param alignment The alignment of the memory to allocate.
+        /// @param size The size of the memory to allocate, in bytes.
+        /// @param alignment The alignment of the memory to allocate, in bytes.
         /// @return A pointer to the allocated memory.
         [[nodiscard]] void* Allocate(Size size, Size alignment = alignof(std::max_align_t)) override
         {
@@ -107,7 +132,7 @@ namespace NGIN::Memory
         Scope<Byte[]> buffer;
         /// @brief The current offset in the buffer.
         Byte* currentPtr;
-        /// @brief The size of the buffer.
+        /// @brief The size of the buffer, in bytes.
         Size totalSize;
     };
 

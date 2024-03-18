@@ -25,7 +25,6 @@ set(NGIN_MEMORY_FILES
 )
 
 set(NGIN_UTIL_FILES
-        "NGIN/Util/Format.ixx"
         "NGIN/Util/Util.ixx"
         "NGIN/Util/StringUtil.ixx"
         "NGIN/Util/TimeUtil.ixx"
@@ -153,6 +152,7 @@ endif ()
 if (NOT NGIN_ENABLE_RTTI)
     target_compile_options(NGIN PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/GR-> $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-rtti>)
 endif ()
+
 
 set_target_properties(NGIN PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"

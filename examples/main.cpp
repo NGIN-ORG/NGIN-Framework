@@ -1,54 +1,69 @@
-import std;
 import NGIN.Logging;
 import NGIN.Reflection;
 import NGIN.Meta;
 import NGIN.Util;
 import NGIN.Units;
 import NGIN.Memory;
+import std;
 
-namespace
+using namespace std::chrono;
+using namespace NGIN::Memory;
+
+constexpr int NUM_ALLOCATIONS = 1000000;
+constexpr NGIN::Size BLOCK_SIZE = 4;
+constexpr NGIN::Size ALIGNMENT = 4;
+
+void BenchmarkFreeListAllocator()
 {
+    FreeListAllocator allocator(1024 * 1024);// 1MB for simplicity
 
-
-    struct TestClass
+    auto start = high_resolution_clock::now();
+    for (int i = 0; i < NUM_ALLOCATIONS; ++i)
     {
-        struct NestedClass
-        {
-        };
-    };
-}// namespace
-constexpr NGIN::StringView RemoveAnonymousNamespace(NGIN::StringView name)
-{
-    const auto pos = name.find("::");
-    return (pos != NGIN::StringView::npos) ? name.substr(pos + 2) : name;
+        void* ptr = allocator.Allocate(BLOCK_SIZE, ALIGNMENT);
+        allocator.Deallocate(ptr);
+    }
+    auto end = high_resolution_clock::now();
+
+    duration<double, std::milli> duration = end - start;
+    std::cout << "FreeListAllocator: " << duration.count() << "ms\n";
 }
+
+void BenchmarkLinearAllocator()
+{
+    LinearAllocator allocator(1024 * 1024);// 1MB for simplicity
+
+    auto start = high_resolution_clock::now();
+    for (int i = 0; i < NUM_ALLOCATIONS; ++i)
+    {
+        void* ptr = allocator.Allocate(BLOCK_SIZE, ALIGNMENT);
+        allocator.Reset();// Simulate deallocation
+    }
+    auto end = high_resolution_clock::now();
+
+    duration<double, std::milli> duration = end - start;
+    std::cout << "LinearAllocator: " << duration.count() << "ms\n";
+}
+
+void BenchmarkOperatorNew()
+{
+    auto start = high_resolution_clock::now();
+    for (int i = 0; i < NUM_ALLOCATIONS; ++i)
+    {
+        void* ptr = ::operator new(BLOCK_SIZE);
+        ::operator delete(ptr);
+    }
+    auto end = high_resolution_clock::now();
+
+    duration<double, std::milli> duration = end - start;
+    std::cout << "Operator new: " << duration.count() << "ms\n";
+}
+
 int main()
 {
-    using namespace NGIN;
-    NGIN::Memory::LinearAllocator allocator(1024);
-    auto ptr = allocator.Allocate(100);
-    std::cout << "Allocated: " << ptr << std::endl;
-    const Seconds SECONDS(.01);                     // 120 seconds
-    Minutes minutes = static_cast<Minutes>(SECONDS);// Convert seconds to minutes
+    BenchmarkFreeListAllocator();
+    BenchmarkLinearAllocator();
+    BenchmarkOperatorNew();
 
-    std::cout << "Microseconds: " << static_cast<Microseconds>(SECONDS) << std::endl;
-    std::cout << Util::RuntimeFormat("Milliseconds: {}", static_cast<Milliseconds>(SECONDS)) << std::endl;
-
-    using TypeInfo = NGIN::Meta::TypeInfo<TestClass>;
-    const auto namespaceName = RemoveAnonymousNamespace(TypeInfo::Namespace());
-    std::cout << namespaceName << std::endl;
-
-    std::cout << "Hello World!" << std::endl;
-
-    NGIN::Meta::EnumTraits<Logging::LogLevel> te = {};
-    std::cout << te.ToString(Logging::LogLevel::Info) << std::endl;
-
-    Logging::SimpleLogger<Logging::SimpleFormatter> logger = {};
-    logger.AddSink<Logging::ConsoleSink>();
-
-
-    logger.Log(NGIN::Logging::LogLevel::Info, "Hey gal");
-
-    // NGIN::Util::Format("test {}", 2);
     return 0;
 }
