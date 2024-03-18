@@ -2,7 +2,7 @@
 export module NGIN.Util:StringUtil;
 
 export import NGIN.Types;
-import std;
+export import std;
 
 namespace NGIN::Util
 {
@@ -15,10 +15,10 @@ namespace NGIN::Util
     ///
     /// @param fullPath The full path string from which the file name should be extracted.
     /// @return A std::string_view pointing to the start of the file name within fullPath.
-    export constexpr StringView ExtractFileName(StringView fullPath)
+    export constexpr std::string_view ExtractFileName(std::string_view fullPath)
     {
         const auto lastSlash = fullPath.find_last_of("/\\");
-        return (lastSlash != StringView::npos) ? fullPath.substr(lastSlash + 1) : fullPath;
+        return (lastSlash != std::string_view::npos) ? fullPath.substr(lastSlash + 1) : fullPath;
     }
 
     export enum class AnsiColor {
@@ -27,46 +27,43 @@ namespace NGIN::Util
         BLUE,
         YELLOW,
         WHITE,
+        GREY,
+        CYAN,
+        MAGENTA,
         RESET
     };
 
-    export inline constexpr StringView ANSI_RED = "\033[31m";
-    export inline constexpr StringView ANSI_GREEN = "\033[32m";
-    export inline constexpr StringView ANSI_BLUE = "\033[34m";
-    export inline constexpr StringView ANSI_YELLOW = "\033[33m";
-    export inline constexpr StringView ANSI_WHITE = "\033[37m";
-    export inline constexpr StringView ANSI_RESET = "\033[0m";
-    export inline constexpr StringView ANSI_CYAN = "\033[36m";
-    export inline constexpr StringView ANSI_MAGENTA = "\033[35m";
-    export inline constexpr StringView ANSI_GREY = "\033[90m";
 
-    export String ColorString(StringView str, AnsiColor color)
+export constexpr std::string_view GetAnsiCode(AnsiColor color)
     {
-        StringView color_code;
         switch (color)
         {
             case AnsiColor::RED:
-                color_code = ANSI_RED;
-                break;
+                return "\033[31m";
             case AnsiColor::GREEN:
-                color_code = ANSI_GREEN;
-                break;
+                return "\033[32m";
             case AnsiColor::BLUE:
-                color_code = ANSI_BLUE;
-                break;
+                return "\033[34m";
             case AnsiColor::YELLOW:
-                color_code = ANSI_YELLOW;
-                break;
+                return "\033[33m";
             case AnsiColor::WHITE:
-                color_code = ANSI_WHITE;
-                break;
+                return "\033[37m";
+            case AnsiColor::GREY:
+                return "\033[90m";
+            case AnsiColor::CYAN:
+                return "\033[36m";
+            case AnsiColor::MAGENTA:
+                return "\033[35m";
             case AnsiColor::RESET:
-                color_code = ANSI_RESET;
-                break;
+                return "\033[0m";
             default:
-                color_code = ANSI_RESET;
-                break;
+                return "\033[0m";
         }
-        return String(color_code) + String(str) + String("\033[0m");
+    }
+
+    export String ColorString(std::string_view str, AnsiColor color)
+    {
+        auto colorCode = GetAnsiCode(color);
+        return std::string(colorCode) + std::string(str) + "\033[0m";
     }
 }// namespace NGIN::Util

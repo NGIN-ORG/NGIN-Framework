@@ -6,6 +6,7 @@ import std;
 import :IFormatter;
 import :LogLevel;
 import NGIN.Util;
+import NGIN.IO;
 export import NGIN.Types;
 
 
@@ -19,39 +20,38 @@ namespace NGIN::Logging
                       const String& message,
                       const std::source_location& source = std::source_location::current()) override
         {
-            String color;
+            Util::AnsiColor color;
             switch (level)
             {
                 case LogLevel::Trace:
-                    color = Util::ANSI_GREY;
+                    color = Util::AnsiColor::GREY;
                     break;
                 case LogLevel::Info:
-                    color = Util::ANSI_WHITE;
+                    color = Util::AnsiColor::WHITE;
                     break;
                 case LogLevel::Warning:
-                    color = Util::ANSI_YELLOW;
+                    color = Util::AnsiColor::YELLOW;
                     break;
                 case LogLevel::Error:
-                    color = Util::ANSI_RED;
+                    color = Util::AnsiColor::RED;
                     break;
                 case LogLevel::Critical:
-                    color = Util::ANSI_RED;
+                    color = Util::AnsiColor::RED;
                     break;
                 case LogLevel::Debug:
-                    color = Util::ANSI_CYAN;
+                    color = Util::AnsiColor::BLUE;
                     break;
                 default:
-                    color = Util::ANSI_RESET;
+                    color = Util::AnsiColor::WHITE;
                     break;
             }
             // Use the formatted time string with std::format
-            return Util::Format("{}({}) [{}:{} | {}]\n{}{}",
-                                color,
-                                Util::GetCurrentFormattedTime(),
-                                Util::ExtractFileName(source.file_name()),
-                                source.line(),
-                                Meta::EnumTraits<LogLevel>::ToString(level),
-                                message, Util::ANSI_RESET);
+            return Util::ColorString(IO::Format("[{}] [{}] [{}:{}]\n{}",
+                              Meta::EnumTraits<LogLevel>::ToString(level),
+                              Util::GetCurrentFormattedTime(),
+                              Util::ExtractFileName(source.file_name()),
+                              source.line(),
+                              message), color);
         }
     };
 
