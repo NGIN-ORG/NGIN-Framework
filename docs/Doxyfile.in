@@ -46,7 +46,7 @@ PROJECT_NUMBER         = @PROJECT_VERSION@
 
 PROJECT_BRIEF          = @PROJECT_DESCRIPTION@
 
-FULL_SIDEBAR           = YES
+FULL_SIDEBAR           = NO
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -227,7 +227,7 @@ QT_AUTOBRIEF           = YES
 # not recognized any more.
 # The default value is: NO.
 
-MULTILINE_CPP_IS_BRIEF = YES
+MULTILINE_CPP_IS_BRIEF = NO
 
 # By default Python docstrings are displayed as preformatted text and doxygen's
 # special commands cannot be used. By setting PYTHON_DOCSTRING to NO the

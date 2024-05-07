@@ -1,0 +1,64 @@
+set(NGIN_COMMON_HEADER_FILES
+        NGIN/Common/Defines.hpp
+)
+
+
+set(NGIN_REFLECTION_HEADER_FILES
+
+)
+
+set(NGIN_IO_HEADER_FILES
+
+)
+
+set(NGIN_MEMORY_HEADER_FILES
+
+)
+
+set(NGIN_UTIL_HEADER_FILES
+
+)
+
+set(NGIN_CONTAINERS_HEADER_FILES
+
+)
+
+set(NGIN_META_HEADER_FILES
+
+)
+
+set(NGIN_TIME_HEADER_FILES
+
+)
+
+set(NGIN_UNITS_HEADER_FILES
+
+)
+
+set(NGIN_TYPES_HEADER_FILES
+        NGIN/Types/Primitives.hpp
+)
+
+set(NGIN_LOGGING_HEADER_FILES
+
+)
+
+set(NGIN_MATH_HEADER_FILES
+)
+
+# Combine all module file lists
+set(NGIN_ALL_HEADER_FILES
+        ${NGIN_REFLECTION_HEADER_FILES}
+        ${NGIN_IO_HEADER_FILES}
+        ${NGIN_MEMORY_HEADER_FILES}
+        ${NGIN_UTIL_HEADER_FILES}
+        ${NGIN_CONTAINERS_HEADER_FILES}
+        ${NGIN_META_HEADER_FILES}
+        ${NGIN_TIME_HEADER_FILES}
+        ${NGIN_UNITS_HEADER_FILES}
+        ${NGIN_TYPES_HEADER_FILES}
+        ${NGIN_LOGGING_HEADER_FILES}
+        ${NGIN_MATH_HEADER_FILES}
+        # Add other module file lists here...
+)
+

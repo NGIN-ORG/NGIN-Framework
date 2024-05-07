@@ -1,5 +1,5 @@
 set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE)
-cmake_minimum_required(VERSION 3.8...3.27)
+cmake_minimum_required(VERSION 3.28)
 
 project("NGIN" VERSION 0.1)
 
@@ -8,10 +8,9 @@ enable_language(C CXX)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
-option(NGIN_BUILD_TESTS "Build NGIN tests" ON)
+option(NGIN_BUILD_TESTS "Build NGIN tests" OFF)
 message(STATUS "Build NGIN tests: ${NGIN_BUILD_TESTS}")
 
 option(NGIN_BUILD_EXAMPLES "Build NGIN examples" ON)
@@ -24,18 +23,16 @@ option(NGIN_BUILD_DOCUMENTATION "Build NGIN documentation" OFF)
 message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
 
 option(NGIN_BUILD_ONLY_DOCUMENTATION "Build only documentation" OFF)
-message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCS}")
+message(STATUS "Build only documentation: ${NGIN_BUILD_ONLY_DOCUMENTATION}")
 
-option(NGIN_STRICT_WARNINGS, "Enable warnings" ON)
-message(STATUS "NGIN strict warnings: ${NGIN_STRICT_WARNINGS}")
+option(NGIN_STRICT_WARNINGS "Enable strict warnings" OFF)
+message(STATUS "Strict warnings: ${NGIN_STRICT_WARNINGS}")
+
 
 option(NIGN_TEST_ON_BUILD "Run tests on build" OFF)
 message(STATUS "Run tests on build: ${NIGN_TEST_ON_BUILD}")
 
-option(NGIN_ENABLE_EXCEPTIONS "Throw exceptions" OFF)
-message(STATUS "Throw exceptions: ${NGIN_ENABLE_EXCEPTIONS}")
-
-option(NGIN_ENABLE_RTTI "Enable RTTI" OFF)
+option(NGIN_ENABLE_RTTI "Enable RTTI" ON)
 message(STATUS "Enable RTTI: ${NGIN_ENABLE_RTTI}")
 
 option(NGIN_DEFINE_MAIN "Define main function" ON)
@@ -44,19 +41,21 @@ message(STATUS "Define main function: ${NGIN_DEFINE_MAIN}")
 #Check what platform we are building on
 if (WIN32)
     add_compile_definitions(NGIN_PLATFORM_WINDOWS)
+elseif (APPLE)
+    add_compile_definitions(NGIN_PLATFORM_MACOS)
 elseif (UNIX)
     add_compile_definitions(NGIN_PLATFORM_LINUX)
 endif ()
 
 # Check the build type and add respective compile options
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(NGIN_DEBUG)
     if (MSVC)
         add_compile_options(/Zi /Ob0 /Od)   # Debugging info, no inline expansion, no optimization
     else ()
         add_compile_options(-g)             # Debugging info for GCC/Clang
     endif ()
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_definitions(NGIN_RELEASE)
     if (MSVC)
         add_compile_options(/O2)
@@ -64,60 +63,44 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)
     endif ()
 
-elseif(CMAKE_BUILD_TYPE STREQUAL "Dist")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Dist")
     add_compile_definitions(NGIN_DIST)
     if (MSVC)
         add_compile_options(/O2)
     else ()
         add_compile_options(-O3)
     endif ()
-else()
+else ()
     message(WARNING "Unknown build type: ${CMAKE_BUILD_TYPE}")
-endif()
+endif ()
 
-if(NGIN_STRICT_WARNINGS)
+if (NGIN_STRICT_WARNINGS)
     if (MSVC)
         add_compile_options(/W4)
     else ()
         add_compile_options(-Wall -Wextra -pedantic)
     endif ()
-endif()
+endif ()
 
-if(NOT NGIN_BUILD_SHARED)
+if (NOT NGIN_BUILD_SHARED)
     add_compile_definitions(NGIN_BUILD_STATIC)
-endif()
+endif ()
 
-if(NGIN_ENABLE_EXCEPTIONS)
-    add_compile_definitions(NGIN_ENABLE_EXCEPTIONS)
-endif()
-
-if(NGIN_ENABLE_RTTI)
+if (NGIN_ENABLE_RTTI)
     add_compile_definitions(NGIN_ENABLE_RTTI)
-endif()
+endif ()
 
-if(NGIN_DEFINE_MAIN)
+if (NGIN_DEFINE_MAIN)
     add_compile_definitions(NGIN_DEFINE_MAIN)
-endif()
-
+endif ()
 
 #Add NGIN::Framework target
 add_subdirectory(src)
 
-
-
-
-if (NGIN_BUILD_DOCUMENTATION)
-    add_subdirectory("docs")
-endif ()
-
 if (NGIN_BUILD_EXAMPLES)
-    add_subdirectory("examples")
+    add_subdirectory(examples)
 endif ()
 
-# Check if NGIN should build tests
-if (NGIN_BUILD_TESTS)
-    set(BUILD_TESTING ON CACHE BOOL "" FORCE)
-    include(CTest)
-    enable_testing()
-    add_subdirectory("tests")
-endif ()
+enable_testing()
+include(CTest)
+add_subdirectory(tests)
