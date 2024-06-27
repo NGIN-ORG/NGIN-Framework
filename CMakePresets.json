@@ -41,5 +41,46 @@
         "CMAKE_BUILD_TYPE": "Release"
       }
     }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-debug",
+      "configurePreset": "debug",
+      "description": "Perform a normal build using the debug configuration",
+      "hidden": false
+    },
+    {
+      "name": "rebuild-debug",
+      "configurePreset": "debug",
+      "description": "Rebuild the entire project using the debug configuration",
+      "hidden": false,
+      "cleanFirst": true
+    },
+    {
+      "name": "build-release",
+      "configurePreset": "release",
+      "description": "Perform a normal build using the release configuration",
+      "hidden": false
+    },
+    {
+      "name": "rebuild-release",
+      "configurePreset": "release",
+      "description": "Rebuild the entire project using the release configuration",
+      "hidden": false,
+      "cleanFirst": true
+    },
+    {
+      "name": "build-dist",
+      "configurePreset": "dist",
+      "description": "Perform a normal build using the dist configuration",
+      "hidden": false
+    },
+    {
+      "name": "rebuild-dist",
+      "configurePreset": "dist",
+      "description": "Rebuild the entire project using the dist configuration",
+      "hidden": false,
+      "cleanFirst": true
+    }
   ]
 }

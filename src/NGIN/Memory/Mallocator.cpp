@@ -10,9 +10,9 @@ namespace NGIN::Memory
 #if defined(NGIN_PLATFORM_WINDOWS)
         return _aligned_malloc(size, alignment);
 #else
-            void* ptr;
-            posix_memalign(&ptr, alignment, size);
-            return ptr;
+        void* ptr;
+        posix_memalign(&ptr, alignment, size);
+        return ptr;
 #endif
     }
 
@@ -21,7 +21,7 @@ namespace NGIN::Memory
 #if defined(NGIN_PLATFORM_WINDOWS)
         _aligned_free(ptr);
 #else
-            free(ptr);
+        free(ptr);
 #endif
     }
 
@@ -35,5 +35,4 @@ namespace NGIN::Memory
     {
         return true;
     }
-};
-
+};// namespace NGIN::Memory

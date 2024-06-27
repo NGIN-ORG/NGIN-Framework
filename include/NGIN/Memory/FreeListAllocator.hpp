@@ -12,7 +12,7 @@ namespace NGIN::Memory
         FreeBlock* next;
     };
 
-    class FreeListAllocator : public IAllocator
+    class NGIN_API FreeListAllocator : public IAllocator
     {
     public:
         FreeListAllocator(Size totalSize = 1024);
@@ -39,4 +39,4 @@ namespace NGIN::Memory
         void* startPtr;
         FreeBlock* firstFreeBlock;
     };
-} // namespace NGIN::Memory
+}// namespace NGIN::Memory

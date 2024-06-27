@@ -1,57 +1,115 @@
 #pragma once
 #include <NGIN/Common/Defines.hpp>
-#include <string>
+#include <NGIN/Types/Primitives.hpp>
 #include <SIMDString.h>
-#include <NGIN/Memory/FallbackAllocator.hpp>
-#include <NGIN/Memory/FreeListAllocator.hpp>
-#include <NGIN/Memory/Mallocator.hpp>
-#include <NGIN/Memory/STLAllocator.hpp>
+#include <cstdlib>
+#include <string>
 
 namespace NGIN
 {
     /// @brief A type alias for the STL complient SIMDString.
-    NGIN_API using String = SIMDString<char, 64>;
+    using String = SIMDString<Char, 48>;
     /// @brief A type alias for a string with 16-bit characters.
-    NGIN_API using String16 = std::basic_string<Char16>;
+    using String16 = std::basic_string<Char16>;
     /// @brief A type alias for a string with 32-bit characters.
-    NGIN_API using String32 = std::basic_string<Char32>;
+    using String32 = std::basic_string<Char32>;
     /// @brief A type alias for a string with the wide character type.
-    NGIN_API using WString = std::basic_string<WChar>;
+    using WString = std::basic_string<WChar>;
 
-    // Forward declaration to handle different types
-    template <typename T>
-    String ToString(const T& value); // For lvalues
-
-    template <typename T>
-    String ToString(T&& value); // For rvalues, leveraging forwarding references
-
-    /// @brief Converts a type const T& to a string.
-    /// Needs to be specialized for custom types.
-    /// Default implementation uses std::to_string.
-    template <typename T>
-    String ToString(const T& value)
+    class Stringifiable
     {
-        return String(std::to_string(value));
-    }
+    public:
+        virtual ~Stringifiable()        = default;
+        virtual String ToString() const = 0;
+        virtual WString ToWString() const
+        {
+            String str = ToString();
+            if (str.empty())
+                return std::wstring();
 
-    /// @brief Converts a type T&& to a string.
-    /// Needs to be specialized for custom types.
-    /// Default implementation uses std::to_string.
-    template <typename T>
+            size_t chars_needed = std::mbstowcs(nullptr, str.c_str(), 0);
+            if (chars_needed == (size_t) -1)
+            {
+                throw std::runtime_error("Error converting string to wstring");
+            }
+
+            std::wstring wstr(chars_needed, 0);
+            std::mbstowcs(&wstr[0], str.c_str(), chars_needed);
+
+            return wstr;
+        }
+    };
+
+    // Concept to check if std::to_string is applicable
+    template<typename T>
+    concept ToStringable = requires(T x) {
+        {
+            std::to_string(x)
+        } -> std::convertible_to<std::string>;
+    };
+
+    template<typename T>
+    concept ToWStringable = requires(T x) {
+        {
+            std::to_wstring(x)
+        } -> std::convertible_to<std::wstring>;
+    };
+
+    // Concept to check if the type is derived from Stringifiable
+    template<typename T>
+    concept IsStringifiable = std::is_base_of_v<Stringifiable, std::decay_t<T>>;
+
+
+    template<typename T>
     String ToString(T&& value)
     {
-        return String(std::to_string(std::forward<T>(value)));
+        if constexpr (IsStringifiable<T>)
+        {
+            return std::forward<T>(value).ToString();
+        }
+        else if constexpr (ToStringable<T>)
+        {
+            return String(std::to_string(std::forward<T>(value)));
+        }
+        else
+        {
+            static_assert(false, "No suitable ToString implementation for this type");
+            return "";
+        }
     }
 
-    template <>
-    inline String ToString<String>(const String& value)
+    // Specialization for std::string to directly return the string
+    template<>
+    inline String ToString<std::string>(std::string&& value)
     {
-        return value; // Direct return for lvalues
+        return String(std::forward<std::string>(value));
     }
 
-    template <>
-    inline String ToString<String>(String&& value)
+
+    template<typename T>
+    WString ToWString(T&& value)
     {
-        return std::move(value); // Efficient move for rvalues
+        if constexpr (IsStringifiable<T>)
+        {
+            return std::forward<T>(value).ToWString();
+        }
+        else if constexpr (ToWStringable<T>)
+        {
+            return String(std::to_wstring(std::forward<T>(value)));
+        }
+        else
+        {
+            static_assert(false, "No suitable ToString implementation for this type");
+            return "";
+        }
     }
-} // namespace NGIN
+
+    // Specialization for std::string to directly return the string
+    template<>
+    inline WString ToWString<std::wstring>(std::wstring&& value)
+    {
+        return WString(std::forward<std::wstring>(value));
+    }
+
+
+}// namespace NGIN

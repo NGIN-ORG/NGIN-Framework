@@ -11,14 +11,12 @@ namespace NGIN::Memory
     /// This allocator is designed to be used as a general purpose allocator, and is not intended to be used for high performance or specialized use cases.
     /// Can also work as a fallback allocator if a more specialized allocator fails to allocate memory.
     /// @note This allocator cannot be reset, as there is no way to track the memory that has been allocated.
-    class Mallocator : public IAllocator
+    class NGIN_API Mallocator : public IAllocator
     {
     public:
-        Mallocator() = default;
+        Mallocator() {}
 
-        Mallocator(Size totalSize = 1024)
-        {
-        }
+        explicit Mallocator(Size totalSize) {}
 
         ~Mallocator() override = default;
 
@@ -40,4 +38,4 @@ namespace NGIN::Memory
         /// @return Always returns true.
         [[nodiscard]] bool Owns(const void* ptr) override;
     };
-} // namespace NGIN::Memory
+}// namespace NGIN::Memory

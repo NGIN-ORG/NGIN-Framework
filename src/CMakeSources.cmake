@@ -6,7 +6,7 @@ set(NGIN_REFLECTION_SRC_FILES
 )
 
 set(NGIN_IO_SRC_FILES
-
+        "NGIN/IO/Path.cpp"
 )
 
 set(NGIN_MEMORY_SRC_FILES
@@ -50,6 +50,11 @@ set(NGIN_SERIALIZATION_SRC_FILES
         "NGIN/Serialization/JSON/JSONParser.cpp"
         "NGIN/Serialization/XML/XMLLexer.cpp"
 )
+if(WIN32)
+set(NGIN_PLATFORM_SRC_FILES
+    "NGIN/IO/Platform/Win32/FileSystem.cpp"
+)
+endif()
 
 # Combine all module file lists
 set(NGIN_ALL_SRC_FILES
@@ -65,6 +70,7 @@ set(NGIN_ALL_SRC_FILES
         ${NGIN_LOGGING_SRC_FILES}
         ${NGIN_MATH_SRC_FILES}
         ${NGIN_SERIALIZATION_SRC_FILES}
+        ${NGIN_PLATFORM_SRC_FILES}
         # Add other module file lists here...
 )
 

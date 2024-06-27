@@ -1,5 +1,14 @@
+include(${CMAKE_SOURCE_DIR}/CMakeUtils.cmake)
 
-# Define test sources
+FETCH_LIBRARY(
+        NAME ut
+        GIT_REPOSITORY "https://github.com/NGIN-ORG/ut"
+        GIT_TAG "master"
+        OPTIONS
+        "BOOST_UT_DISABLE_MODULE ON"
+        "BOOST_UT_BUILD_EXAMPLES OFF"
+        "BOOST_UT_BUILD_TESTS OFF"
+)
 
 add_executable(NGIN_TESTS
         "main.cpp"
@@ -7,7 +16,7 @@ add_executable(NGIN_TESTS
         "NGIN/Meta/FunctionTraits.cpp"
         "NGIN/Meta/TypeInfo.cpp"
         "NGIN/Serialization/JSON/JSONLexer.cpp"
-)
+ "NGIN/IO/Path.cpp")
 
 
 target_link_libraries(NGIN_TESTS PRIVATE Boost::ut NGIN::NGIN)

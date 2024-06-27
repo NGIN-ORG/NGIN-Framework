@@ -1,6 +1,8 @@
-#include <NGIN/Memory/FreeListAllocator.hpp>
 #include <NGIN/Memory/Alignment.hpp>
-#include  <limits>
+#include <NGIN/Memory/FreeListAllocator.hpp>
+#include <stdexcept>
+
+#include <limits>
 
 namespace NGIN::Memory
 {
@@ -14,6 +16,8 @@ namespace NGIN::Memory
         posix_memalign(&alignedMemory, alignof(std::max_align_t), totalSize);
         startPtr = alignedMemory;
 #endif
+        if (startPtr == nullptr)
+            throw std::runtime_error("Could not allocate memory!");
         this->totalSize      = totalSize;
         firstFreeBlock       = static_cast<FreeBlock*>(startPtr);
         firstFreeBlock->size = totalSize;
@@ -79,22 +83,17 @@ namespace NGIN::Memory
 
             // Updating the linked list
             if (previousBlock != nullptr)
-            {
                 previousBlock->next = newBlock;
-            } else
-            {
+            else
                 firstFreeBlock = newBlock;
-            }
-        } else
+        }
+        else
         {
             // No splitting, remove the block from the free list
             if (previousBlock != nullptr)
-            {
                 previousBlock->next = freeBlock->next;
-            } else
-            {
+            else
                 firstFreeBlock = freeBlock->next;
-            }
         }
 
         // The return pointer is the start of the allocated block, aligned
@@ -150,4 +149,4 @@ namespace NGIN::Memory
     }
 
 
-}
+}// namespace NGIN::Memory

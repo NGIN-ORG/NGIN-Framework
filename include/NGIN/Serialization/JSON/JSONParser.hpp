@@ -1,9 +1,9 @@
 #pragma once
-#include <NGIN/Serialization/JSON/JSONLexer.hpp>
 #include <NGIN/Containers/UnorderedMap.hpp>
 #include <NGIN/Containers/Vector.hpp>
-#include <variant>
+#include <NGIN/Serialization/JSON/JSONLexer.hpp>
 #include <type_traits>
+#include <variant>
 
 namespace NGIN::Serialization
 {
@@ -35,19 +35,19 @@ namespace NGIN::Serialization
         Vector<std::pair<String, JSONValue>> map;
     };
 
-    NGIN_API struct JSONArray
+    struct JSONArray
     {
         Vector<JSONValue> values;
     };
 
-    NGIN_API struct JSONValue
+    struct JSONValue
     {
     public:
-        JSONValue() = default;
-        JSONValue(const JSONValue&) = default;
-        JSONValue(JSONValue&&) = default;
+        JSONValue()                            = default;
+        JSONValue(const JSONValue&)            = default;
+        JSONValue(JSONValue&&)                 = default;
         JSONValue& operator=(const JSONValue&) = default;
-        JSONValue& operator=(JSONValue&&) = default;
+        JSONValue& operator=(JSONValue&&)      = default;
 
         explicit JSONValue(JSONString&& val);
         explicit JSONValue(JSONObject&& val);
@@ -70,9 +70,9 @@ namespace NGIN::Serialization
             INVALID
         };
 
-        template <typename T>
+        template<typename T>
             requires std::is_same_v<T, JSONString> || std::is_same_v<T, JSONObject> || std::is_same_v<T, JSONArray> ||
-            std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
+                     std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
         T& Get()
         {
             if (type == Type::INVALID)
@@ -80,9 +80,9 @@ namespace NGIN::Serialization
             return std::get<T>(value);
         }
 
-        template <typename T>
+        template<typename T>
             requires std::is_same_v<T, JSONString> || std::is_same_v<T, JSONObject> || std::is_same_v<T, JSONArray> ||
-            std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
+                     std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
         const T& Get() const
         {
             if (type == Type::INVALID)
@@ -90,9 +90,9 @@ namespace NGIN::Serialization
             return std::get<T>(value);
         }
 
-        template <typename T>
+        template<typename T>
             requires std::is_same_v<T, JSONString> || std::is_same_v<T, JSONObject> || std::is_same_v<T, JSONArray> ||
-            std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
+                     std::is_same_v<T, JSONNumber> || std::is_same_v<T, JSONBoolean> || std::is_same_v<T, JSONNull>
         void Set(T&& val)
         {
             value = std::forward<T>(val);
@@ -122,11 +122,11 @@ namespace NGIN::Serialization
 
     private:
         VariantType value = nullptr;
-        Type type = Type::INVALID;
+        Type type         = Type::INVALID;
     };
 
 
-    NGIN_API class JSONParser
+    class NGIN_API JSONParser
     {
     public:
         JSONValue Parse(const String& json);
@@ -141,4 +141,4 @@ namespace NGIN::Serialization
         static JSONBoolean ParseBoolean(JSONToken& token);
         static JSONNull ParseNull(JSONToken& token);
     };
-}
+}// namespace NGIN::Serialization

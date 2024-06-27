@@ -7,7 +7,7 @@
 
 namespace NGIN::Serialization
 {
-    NGIN_API enum class JSONTokenType : UInt8
+    enum class JSONTokenType : UInt8
     {
         INVALID,
         STRING,
@@ -24,7 +24,7 @@ namespace NGIN::Serialization
         END_OF_FILE
     };
 
-    NGIN_API struct JSONToken
+    struct JSONToken
     {
         JSONTokenType type;
         String value;
@@ -56,4 +56,4 @@ namespace NGIN::Serialization
         std::istream& input;
         char currentChar;
     };
-}
+}// namespace NGIN::Serialization

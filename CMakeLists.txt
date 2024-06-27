@@ -16,8 +16,8 @@ message(STATUS "Build NGIN tests: ${NGIN_BUILD_TESTS}")
 option(NGIN_BUILD_EXAMPLES "Build NGIN examples" ON)
 message(STATUS "Build NGIN examples: ${NGIN_BUILD_EXAMPLES}")
 
-option(NGIN_BUILD_SHARED "Build NGIN as a shared library" OFF)
-message(STATUS "Build NGIN as a shared library: ${NGIN_BUILD_SHARED}")
+option(NGIN_SHARED "Link NGIN as a shared library" OFF)
+message(STATUS "Build NGIN as a shared library: ${NGIN_SHARED}")
 
 option(NGIN_BUILD_DOCUMENTATION "Build NGIN documentation" OFF)
 message(STATUS "Build documentation: ${NGIN_BUILD_DOCUMENTATION}")
