@@ -14,6 +14,10 @@ set(NGIN_MEMORY_SRC_FILES
         "NGIN/Memory/Mallocator.cpp"
 )
 
+set(NGIN_ENCODING_SRC_FILES
+        "NGIN/Encoding/Utf8.cpp"
+)
+
 set(NGIN_UTIL_SRC_FILES
 
 )
@@ -50,11 +54,11 @@ set(NGIN_SERIALIZATION_SRC_FILES
         "NGIN/Serialization/JSON/JSONParser.cpp"
         "NGIN/Serialization/XML/XMLLexer.cpp"
 )
-if(WIN32)
-set(NGIN_PLATFORM_SRC_FILES
-    "NGIN/IO/Platform/Win32/FileSystem.cpp"
-)
-endif()
+if (WIN32)
+    set(NGIN_PLATFORM_SRC_FILES
+            "NGIN/IO/Platform/Win32/FileSystem.cpp"
+    )
+endif ()
 
 # Combine all module file lists
 set(NGIN_ALL_SRC_FILES

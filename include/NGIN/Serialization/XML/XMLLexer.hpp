@@ -1,63 +1,63 @@
 #pragma once
 #include <NGIN/Common/Defines.hpp>
+#include <NGIN/Containers/UnorderedMap.hpp>
 #include <NGIN/Types/Primitives.hpp>
 #include <NGIN/Types/String.hpp>
-#include <NGIN/Containers/UnorderedMap.hpp>
 #include <istream>
 #include <sstream>
 
 namespace NGIN::Serialization
 {
-    NGIN_API enum class XMLTokenType : UInt8
+    enum class XMLTokenType : UInt8
     {
         INVALID,
         END_OF_FILE,
 
-        TAG_START, // <
-        TAG_NAME, //TAG
-        TAG_END, // >
-        TAG_CLOSE, // </
-        TAG_START_CLOSE, // />
+        TAG_START,      // <
+        TAG_NAME,       //TAG
+        TAG_END,        // >
+        TAG_CLOSE,      // </
+        TAG_START_CLOSE,// />
 
-        ENTITY_REFERENCE, // &
+        ENTITY_REFERENCE,// &
 
         ATTRIBUTE_NAME,
-        ATTRIBUTE_EQUALS, // =
-        ATTRIBUTE_START_QUOTE, // "
+        ATTRIBUTE_EQUALS,     // =
+        ATTRIBUTE_START_QUOTE,// "
         ATTRIBUTE_END_QUOTE,
         ATTRIBUTE_VALUE,
 
         CDATA_CONTENT,
 
-        COMMENT_START, // <!--
+        COMMENT_START,// <!--
         COMMENT_TEXT,
-        COMMENT_END, // -->
+        COMMENT_END,// -->
 
-        PROCESSING_INSTRUCTION_START, // <?
+        PROCESSING_INSTRUCTION_START,// <?
         PROCESSING_INSTRUCTION_TARGET,
         PROCESSING_INSTRUCTION_CONTENT,
-        PROCESSING_INSTRUCTION_END, // ?>
+        PROCESSING_INSTRUCTION_END,// ?>
 
-        XML_DECLARATION_START, // <?xml
+        XML_DECLARATION_START,// <?xml
         XML_DECLARATION_ATTRIBUTE_NAME,
-        XML_DECLARATION_ATTRIBUTE_EQUALS, // =
+        XML_DECLARATION_ATTRIBUTE_EQUALS,// =
         XML_DECLARATION_ATTRIBUTE_VALUE,
 
 
-        DOCTYPE_START, // <!DOCTYPE
+        DOCTYPE_START,// <!DOCTYPE
         DOCTYPE_CONTENT,
-        DOCTYPE_END, // >
+        DOCTYPE_END,// >
 
         NAMESPACE_DECLARATION
     };
 
-    NGIN_API struct XMLToken
+    struct XMLToken
     {
         XMLTokenType type;
         String value;
     };
 
-    NGIN_API class XMLLexer
+    class XMLLexer
     {
     public:
         XMLLexer(std::istream& input);
@@ -102,4 +102,4 @@ namespace NGIN::Serialization
         char currentChar;
         XMLToken lastToken;
     };
-}
+}// namespace NGIN::Serialization
